@@ -1,0 +1,22 @@
+{
+  "name": "wiremock-inc-skills",
+  "owner": {
+    "name": "WireMock Inc",
+    "email": "info@wiremock.io"
+  },
+  "metadata": {
+    "description": "Agent skills for API simulation and testing with WireMock Cloud",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "api-simulation-builder",
+      "description": "Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/api-simulation-builder"
+      ]
+    }
+  ]
+}
