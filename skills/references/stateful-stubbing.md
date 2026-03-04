@@ -6,7 +6,7 @@ a set of stubs to be imported via import_stubs_to_mock_api:
 * Avoid using generate_stateful_stub_set when converting existing stubs to be stateful. Use this tool when
 starting from a prompt only.
 * Do not call clear_mock_api unless explicitly asked.
-* See stub_creation documentation for general guidelines on how to create stubs.
+* See [Stub Creation Guidelines](stub-creation.md) for general guidelines on how to create stubs.
 * If the mock API is of the rest/openapi type, update the OpenAPI description via the put_openapi tool
 to include all new paths and operations created where WireMock Cloud has not done this automatically
 (which can happen when response templating is enabled for a stub).
@@ -114,21 +114,7 @@ The overlay contains only server-generated fields. Client-supplied fields (`amou
 
 ### Handlebars/JSON brace collisions in SET values
 
-When a Handlebars expression appears at the end of a JSON object on a single line, the closing braces collide — e.g. `{{now format='epoch'}}}` — and Handlebars interprets `}}}` as a triple-stache (raw/unescaped output), corrupting the value and causing the SET to silently fail.
-
-**Always pretty-print JSON in SET value templates** to keep Handlebars `}}` and JSON `}` on separate lines:
-
-**Broken** (single line — `}}}` triggers triple-stache):
-```
-"value": "{\"id\":\"{{id}}\",\"created\":{{now format='epoch'}}}"
-```
-
-**Working** (pretty-printed — braces separated):
-```
-"value": "{\n  \"id\": \"{{id}}\",\n  \"created\": {{now format='epoch'}}\n}"
-```
-
-This applies to all Handlebars expressions at JSON object/array boundaries, not just `{{now}}`.
+Always pretty-print JSON in SET value templates to avoid Handlebars/JSON brace collisions that silently corrupt stored values. See [Response Template Authoring](response-templating.md) for full details and examples.
 
 ## Retrieving state values
 State values can be retrieved in response header, bodies and webhook request bodies via Handlebars,

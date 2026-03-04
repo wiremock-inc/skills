@@ -1,4 +1,4 @@
-# API Simulation Builder - Claude Code Skill
+# Build API Simulation - Claude Code Skill
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that generates complete API simulations in [WireMock Cloud](https://www.wiremock.io/) for any REST API.
 
@@ -51,38 +51,18 @@ Or add it manually to your MCP config (`~/.claude/mcp.json` or project-level):
 
 [Node.js](https://nodejs.org/) v18 or later is required for the MCP servers.
 
-## Installation
-
-Clone this repository (or download it), then copy the skill into your Claude Code skills directory.
-
-**For personal use (available in all projects):**
-
-```bash
-git clone git@github.com:wiremock-inc/make-simulation-skill.git
-mkdir -p ~/.claude/skills
-cp -r make-simulation-skill ~/.claude/skills/api-simulation-builder
-```
-
-**For a specific project:**
-
-```bash
-git clone git@github.com:wiremock-inc/make-simulation-skill.git
-mkdir -p /path/to/your/project/.claude/skills
-cp -r make-simulation-skill /path/to/your/project/.claude/skills/api-simulation-builder
-```
-
 ## Usage
 
 In a Claude Code session, invoke the skill with:
 
 ```
-/api-simulation-builder <api-name>
+/build-api-simulation <api-name>
 ```
 
 For example:
 
 ```
-/api-simulation-builder Stripe Payments
+/build-api-simulation Stripe Payments
 ```
 
 The skill will prompt you for additional information:
@@ -95,11 +75,11 @@ The skill will prompt you for additional information:
 
 ```
 .
-├── SKILL.md              # Skill definition and instructions
-└── references/           # Bundled reference documentation
+├── SKILL.md                    # Skill definition and instructions
+└── ../references/              # Shared reference documentation
     ├── stub-creation.md
     ├── stateful-stubbing.md
-    ├── api-crawling.md
     ├── data-driven-stubbing.md
-    └── validating-and-fixing.md
+    ├── validating-and-fixing.md
+    └── response-templating.md
 ```

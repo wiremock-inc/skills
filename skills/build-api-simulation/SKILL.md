@@ -1,9 +1,9 @@
 ---
-name: api-simulation-builder
+name: build-api-simulation
 description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
 argument-hint: "<api-name>"
 allowed-tools:
-  - Read(references/*)
+  - Read(../references/*)
   - mcp__wiremock__who_am_i
   - mcp__wiremock__search_my_mock_apis
   - mcp__wiremock__search_stub_mappings
@@ -30,13 +30,13 @@ If either MCP server is unavailable, stop and inform the user before proceeding.
 
 The following WireMock guidelines are bundled as reference files. Read the relevant files when performing those steps:
 
-- [Stub Creation Guidelines](references/stub-creation.md) - rules for creating and importing stubs
-- [Stateful Stubbing](references/stateful-stubbing.md) - full guide to stateful mocking with the key-value state store, including examples
-- [API Crawling](references/api-crawling.md) - how to crawl and record APIs
-- [Data-Driven Stubbing](references/data-driven-stubbing.md) - converting stubs to use data sources with pagination support
-- [Validating and Fixing Stubs](references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
+- [Stub Creation Guidelines](../references/stub-creation.md) - rules for creating and importing stubs
+- [Stateful Stubbing](../references/stateful-stubbing.md) - full guide to stateful mocking with the key-value state store, including examples
+- [Data-Driven Stubbing](../references/data-driven-stubbing.md) - converting stubs to use data sources with pagination support
+- [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
+- [Response Template Authoring](../references/response-templating.md) - guidelines for Handlebars response templates, brace collision avoidance, and pagination metadata
 
-These references are the same as served by the `lookup_documentation` MCP tool, so there is no need to call `lookup_documentation`.
+These references supersede the `lookup_documentation` MCP tool, so there is no need to call `lookup_documentation`.
 
 All files collected or created should be placed in a suitably named child of the current working directory, with the directory name in lower kebab case.
 
@@ -150,7 +150,7 @@ Follow **Path A** if a sandbox is available, otherwise follow **Path B**.
 #### 5A.4: Verify Against the Mock API
 
 1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
-2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](references/validating-and-fixing.md).
+2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 3. Run the Arazzo workflows against the **mock API's base URL** (not the recorder).
 4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
 5. Repeat until all workflows pass.
@@ -161,7 +161,7 @@ Follow **Path A** if a sandbox is available, otherwise follow **Path B**.
 
 #### 5B.1: Generate Stubs
 
-Read the [Stub Creation Guidelines](references/stub-creation.md) before proceeding.
+Read the [Stub Creation Guidelines](../references/stub-creation.md) before proceeding.
 
 Generate stubs covering ALL operations in the OpenAPI spec and import them using `import_stubs_to_mock_api`.
 
@@ -170,7 +170,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 #### 5B.2: Verify Against the Mock API
 
 1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
-2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](references/validating-and-fixing.md).
+2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 3. Run the Arazzo workflows against the mock API's base URL.
 4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
 5. Repeat until all workflows pass.
@@ -181,7 +181,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 
 **Only perform this step if the user requested stateful mode.**
 
-Read the [Stateful Stubbing](references/stateful-stubbing.md) reference, then retrieve all stubs with `get_stub_mappings`.
+Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference, then retrieve all stubs with `get_stub_mappings`.
 
 Convert the stubs to be stateful following these rules:
 
@@ -234,7 +234,7 @@ Convert the stubs to be stateful following these rules:
 
 ### Verify
 1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic stateful flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
-2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](references/validating-and-fixing.md).
+2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 3. Run the Arazzo workflows against the mock API's base URL.
 4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
 5. Repeat until all workflows pass.
