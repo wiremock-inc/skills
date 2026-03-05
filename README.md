@@ -4,26 +4,26 @@ This repository contains a collection of [agent skills](https://agentskills.io/h
 
 ## Available Skills
 
-| Skill | Command | Description |
-|-------|---------|-------------|
-| Build API Simulation | `/build-api-simulation` | Generate a complete mock API for any REST API — OpenAPI spec, Arazzo test workflows, and WireMock stubs, optionally recorded from a live sandbox |
-| Create Stubs | `/create-stubs` | Create and import WireMock stubs for a mock API |
-| Convert to Stateful | `/convert-to-stateful` | Convert existing stubs to be stateful using the key-value state store |
-| Convert to Data-Driven | `/convert-to-data-driven` | Convert existing stubs to use CSV or database data sources |
-| Validate and Fix Stubs | `/validate-and-fix-stubs` | Validate stubs against the OpenAPI schema and fix any errors |
-| Author Response Templates | `/author-response-templates` | Author and debug Handlebars response templates for WireMock stubs |
+| Skill | Description |
+|-------|-------------|
+| `/build-api-simulation` | Generate a complete mock API for any REST API — OpenAPI spec, Arazzo test workflows, and WireMock stubs, optionally recorded from a live sandbox |
+| Create Stubs | Create and import WireMock stubs for a mock API |
+| Convert to Stateful | Convert existing stubs to be stateful using the key-value state store |
+| Convert to Data-Driven | Convert existing stubs to use CSV or database data sources |
+| Validate and Fix Stubs | Validate stubs against the OpenAPI schema and fix any errors |
+| Author Response Templates | Author and debug Handlebars response templates for WireMock stubs |
+
+`/build-api-simulation` is a user-invocable slash command. The remaining skills are triggered automatically by context when relevant.
 
 ## Installation
 
 ### Claude Code
-To add this skills repository to your Claude Code config, type the following in Claude Code:
+
+Add the marketplace registry, then install the plugin:
 
 ```
 /plugin marketplace add wiremock-inc/skills
-```
-
-Then install the WireMock Cloud plugin (includes all skills):
-
-```
 /plugin install wiremock-cloud@wiremock-inc-skills
 ```
+
+This installs all 6 skills as a single plugin.
