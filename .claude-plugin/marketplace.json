@@ -10,12 +10,17 @@
   },
   "plugins": [
     {
-      "name": "api-simulation-builder",
-      "description": "Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox.",
+      "name": "wiremock-cloud",
+      "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/api-simulation-builder"
+        "./skills/build-api-simulation",
+        "./skills/create-stubs",
+        "./skills/convert-to-stateful",
+        "./skills/convert-to-data-driven",
+        "./skills/validate-and-fix-stubs",
+        "./skills/author-response-templates"
       ]
     }
   ]
