@@ -181,6 +181,51 @@ as this allows the WireMock Cloud UI to insert additional matchers if the user r
 
 **Important:** Only use `require-state` for 404/not-found stubs with `"absent": true`. Do not use `require-state` for positive state matching (i.e. to check that a key exists) — this causes unrecoverable 500 errors. Non-404 stubs (GET, PUT, DELETE for existing resources) should have **no `customMatcher`** at all. The 404 stub at `priority: 2` with `"absent": true` acts as a guard — when the key doesn't exist, it matches first; otherwise it falls through to the default-priority success stub.
 
+## Converting stubs by HTTP method
+
+When converting existing stubs to be stateful, follow these per-method patterns:
+
+### POST (Create) Stubs
+- Generate an ID with `REQUEST_VAR`.
+- Set a `collectionContext` with `REQUEST_VAR`.
+- Store the resource with `SET`, using `{{#jsonMerge request.body}}` (block form) to merge the request body with server-generated fields. The block content (overlay) must contain **only server-generated fields** (`id`, `created`, `status`, `object`, etc.) and fields that need default values not provided by the client. Do NOT include fields that the client sends in the request body — they pass through from `request.body` automatically.
+- Cross-reference the overlay fields against the response schema's `required` list. Ensure every required field is present either in the typical request body or in the overlay. Fields that are required in the response but not typically sent by clients (e.g. `currency` on a refund) must be added to the overlay with a sensible default.
+- Only use `removeNulls=true` if you need to strip a request body field that is being renamed/transformed (see jsonMerge semantics above). Do not use it if the response has legitimately nullable fields.
+- Return the resource from state: `{{state id context=collectionContext}}`.
+- Enable response templating: `"transformers": ["response-template"]`.
+
+### GET (Single Item) Stubs
+- Do NOT add a `customMatcher` or `require-state` — the 404 stub (see below) handles missing resources via priority.
+- Return the item from state.
+
+### GET (List/Collection) Stubs
+- Return all items using `[{{arrayJoin ',' (listState collectionContext)}}]`.
+
+### PUT/PATCH (Update) Stubs
+- Merge updates into existing state with `{{jsonMerge previousValue request.body}}`.
+- Only add `removeNulls=true` if you need to strip renamed/transformed fields.
+
+### DELETE (Single Item) Stubs
+- Use the `DELETE` operation to remove the item from its context.
+
+### DELETE (Collection) Stubs
+- Use `DELETE_CONTEXT` to remove all items.
+
+### 404 Not Found Stubs
+- For **every** endpoint that retrieves or operates on a single resource by ID, create a corresponding 404 stub.
+- Use `require-state` with `"absent": true` to match when the item does NOT exist.
+- Set the 404 stub to lower priority than the success stub (e.g., `"priority": 2`).
+- Base the 404 response body on the 404 schema from the OpenAPI description if one exists. If no schema is defined, use a simple JSON error body consistent with the API's error format.
+
+### Dates and Timestamps
+- For dates that should appear to be in the future or near past, use the `now` Handlebars helper with an appropriate offset instead of static values.
+- Example: `{{now offset='1 day' format='yyyy-MM-dd\'T\'HH:mm:ss\'Z\''}}`.
+
+### Import and Update
+1. Import the new stateful stubs using `import_stubs_to_mock_api`.
+2. Delete the old non-stateful stubs that have been replaced.
+3. Update the OpenAPI via `put_openapi` to include any new paths or operations added during conversion (e.g., delete endpoints, 404 responses) where WireMock Cloud hasn't done this automatically.
+
 ## Example
 
 Below is a full example of a stateful stub set for a simple charges API, implementing the following operations:
