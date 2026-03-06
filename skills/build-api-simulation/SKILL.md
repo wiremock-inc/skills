@@ -90,9 +90,9 @@ Search for an official OpenAPI or Swagger description:
 3. Download the spec if found.
 
 **If an official OpenAPI spec is found or provided:**
-- Do NOT modify it in any way except for its `servers` element.
+- Do NOT modify it in any way except for its `servers` element. Never make any other changes to a downloaded OpenAPI spec without explicit user permission.
 - Validate it for completeness and accuracy.
-- If the OpenAPI is defective or inaccurate, **stop immediately**, explain the issues to the user, and request guidance before continuing.
+- If the OpenAPI appears to have genuine defects (missing schemas, incorrect types, invalid structure, etc.), **report them to the user** and do not attempt to fix them. These are upstream issues that should be raised with the API provider. Ask the user how to proceed — they may choose to accept the defects, provide a corrected spec, or grant permission to patch specific issues.
 
 **If no official OpenAPI spec exists, generate one:**
 - Use **OpenAPI 3.0.3** format (not 3.1). WireMock's response validator does not support OpenAPI 3.1's `type: ['string', 'null']` syntax for nullable fields. Use `nullable: true` instead (e.g. `type: string` with `nullable: true`).
@@ -180,9 +180,31 @@ After converting:
 2. Validate the stubs using [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 3. Run the Arazzo workflows against the mock API's base URL. Fix **stubs only** if any steps fail. Repeat until all pass.
 
+## Final Acceptance Check
+
+Before finishing, verify **all three** of the following criteria are met:
+
+### 1. Full endpoint coverage
+Cross-reference every operation in the OpenAPI spec against the stubs and Arazzo workflows:
+- Every operation must have at least one corresponding stub.
+- Every operation must be exercised by at least one Arazzo workflow step.
+- If any gaps are found, create the missing stubs and/or Arazzo steps before proceeding.
+
+### 2. Final regression run
+Run a clean regression pass to confirm everything works end-to-end:
+1. Reset the request journal.
+2. Run all Arazzo workflows against the mock API's base URL.
+3. Check the request journal for any response validation errors.
+4. If there are failures or validation errors, fix the stubs and repeat until the run is fully clean.
+
+### 3. No unresolved validation errors
+Confirm the request journal shows **zero** response validation errors across all requests made during the final regression run.
+
+Do **not** proceed to Completion until all three criteria pass.
+
 ## Completion
 
-When all steps are complete, report to the user:
+When all steps and the acceptance check are complete, report to the user:
 - The mock API name and its base URL
 - A summary of what was created (number of endpoints, workflows, stubs)
 - Whether stateful mode was enabled
