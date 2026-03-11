@@ -12,6 +12,7 @@ This repository contains a collection of [agent skills](https://agentskills.io/h
 | Convert to Data-Driven | Convert existing stubs to use CSV or database data sources |
 | Validate and Fix Stubs | Validate stubs against the OpenAPI schema and fix any errors |
 | Author Response Templates | Author and debug Handlebars response templates for WireMock stubs |
+| Search WireMock Cloud Docs | Search cached WireMock Cloud documentation for accurate answers about stubs, request matching, response templating, CLI, Runner, and more |
 
 `/build-api-simulation` is a user-invocable slash command. The remaining skills are triggered automatically by context when relevant.
 
@@ -26,4 +27,4 @@ Add the marketplace registry, then install the plugin:
 /plugin install wiremock-cloud@wiremock-inc-skills
 ```
 
-This installs all 6 skills as a single plugin.
+This installs all 7 skills as a single plugin.
