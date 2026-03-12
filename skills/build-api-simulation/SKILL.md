@@ -1,6 +1,7 @@
 ---
 name: build-api-simulation
 description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
+user-invocable: true
 argument-hint: "<api-name>"
 allowed-tools:
   - Read(../references/*)
