@@ -15,6 +15,7 @@
       "source": "./",
       "strict": false,
       "skills": [
+        "./skills/search-wiremock-cloud-docs",
         "./skills/build-api-simulation",
         "./skills/create-stubs",
         "./skills/convert-to-stateful",
