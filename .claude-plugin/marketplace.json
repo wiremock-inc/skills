@@ -21,7 +21,8 @@
         "./skills/convert-to-stateful",
         "./skills/convert-to-data-driven",
         "./skills/validate-and-fix-stubs",
-        "./skills/author-response-templates"
+        "./skills/author-response-templates",
+        "./skills/review-api-simulation"
       ]
     }
   ]
