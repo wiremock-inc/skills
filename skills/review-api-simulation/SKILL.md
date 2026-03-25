@@ -2,7 +2,7 @@
 name: review-api-simulation
 description: Review a mock API simulation built in WireMock Cloud against its source documentation, OpenAPI spec, and Arazzo workflows. Use when the user wants to verify completeness and correctness of an existing mock API.
 user-invocable: true
-argument-hint: "<mock-api-name-or-id>"
+argument-hint: "<path-to-project-folder>"
 allowed-tools:
   - Read(../references/*)
   - mcp__wiremock__who_am_i
@@ -34,56 +34,68 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 
 - [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
 
-## Step 1: Gather Inputs
+## Step 1: Validate Project Folder
 
-The target mock API is: **$ARGUMENTS**
+The project folder path is: **$ARGUMENTS**
 
-If `$ARGUMENTS` is empty, ask the user which mock API to review.
+If `$ARGUMENTS` is empty, ask the user for the path to the project folder.
 
-Use `AskUserQuestion` to collect the remaining configuration:
+1. Verify the project folder exists and contains a `.wiremock/` directory. If it does not, stop and inform the user.
+2. Read `.wiremock/wiremock.yaml` to identify the service name and `cloud_id`.
+3. Locate the Arazzo file at `.wiremock/<service-name>/arazzo.yaml`. If it does not exist, stop and inform the user.
+4. Locate the OpenAPI file at `.wiremock/<service-name>/openapi.yaml`.
+
+## Step 2: Gather Additional Inputs
+
+Use `AskUserQuestion` to collect any additional configuration:
 
 1. **Documentation sources**: Paths or URLs to any API documentation, OpenAPI/Swagger specs, Postman collections, or other reference material. If none are provided, search for them using `WebSearch` and `WebFetch`.
-2. **Arazzo document location**: Path to the project folder containing all of the mock API files (under .wiremock) or the Arazzo workflow document for the mock API.
 
-## Step 2: Find and Configure the Mock API
+## Step 3: Access the Cloud Mock API
 
-1. Locate the mock API using `search_my_mock_apis` with the name or ID provided.
-2. **Enable hard request validation** against the OpenAPI schema using `update_openapi_settings`. This ensures all responses are validated against the spec during review.
-3. **Disable authentication** on the mock API using `update_mock_api_auth_settings` so that the Arazzo workflows can run without auth credentials.
+1. Attempt to access the mock API in WireMock Cloud using the `cloud_id` from `wiremock.yaml` via `search_my_mock_apis`.
+2. **If the mock API is accessible**, use it for the remainder of the review.
+3. **If the mock API cannot be accessed** (e.g. it belongs to another user or has been deleted), create a temporary copy using the WireMock CLI's profiles feature:
+   ```
+   wiremock environments create -p verify
+   ```
+   This will create a new instance of the API in Cloud and a profile YAML file containing the new `cloud_id`. Use this new instance for the remainder of the verification process.
+4. **Enable hard request validation** against the OpenAPI schema using `update_openapi_settings`. This ensures all responses are validated against the spec during review.
+5. **Disable authentication** on the mock API using `update_mock_api_auth_settings` so that the Arazzo workflows can run without auth credentials.
 
-## Step 3: Retrieve Documentation and Specifications
+## Step 4: Retrieve Documentation and Specifications
 
 Gather all available documentation for the API:
 
-1. Fetch the OpenAPI spec from the mock API using `get_openapi`.
+1. Read the OpenAPI spec from `.wiremock/<service-name>/openapi.yaml` and also fetch it from the mock API using `get_openapi`.
 2. Read any documentation files, OpenAPI docs, or Postman collections provided by the user or found via search.
-3. Read the Arazzo workflow document.
+3. Read the Arazzo workflow document from `.wiremock/<service-name>/arazzo.yaml`.
 
-## Step 4: Verify Completeness and Correctness
+## Step 5: Verify Completeness and Correctness
 
 Perform each of the following checks, tracking all issues found:
 
-### 4.1: Documentation vs OpenAPI Coverage
+### 5.1: Documentation vs OpenAPI Coverage
 Compare the API documentation against the OpenAPI spec:
 - Verify that **all endpoints described in the documentation** have corresponding operations in the OpenAPI doc.
 - Note any endpoints present in the documentation but missing from the OpenAPI spec.
 
-### 4.2: OpenAPI vs Stub Coverage
+### 5.2: OpenAPI vs Stub Coverage
 Retrieve all stubs using `search_stub_mappings` and cross-reference against the OpenAPI spec:
 - Verify that **every operation in the OpenAPI doc** has at least one stub associated with it.
 - Note any operations that lack stub coverage.
 
-### 4.3: Undocumented Fields in Stubs
+### 5.3: Undocumented Fields in Stubs
 Cross-reference every stub response body against the OpenAPI doc schemas:
 - Verify that **no stubs contain fields that are not documented** in the OpenAPI spec schemas.
 - Note any stubs returning undocumented fields.
 
-### 4.4: OpenAPI vs Arazzo Coverage
+### 5.4: OpenAPI vs Arazzo Coverage
 Examine the Arazzo workflow document and cross-reference against the OpenAPI spec:
 - Verify that **every endpoint in the OpenAPI doc** is executed in at least one Arazzo workflow step.
 - Note any endpoints that are not exercised by the workflows.
 
-### 4.5: Arazzo Workflow Execution
+### 5.5: Arazzo Workflow Execution
 Run the Arazzo workflows against the mock API to verify they execute successfully:
 
 1. Reset the request journal using `reset_request_journal`.
@@ -91,7 +103,7 @@ Run the Arazzo workflows against the mock API to verify they execute successfull
 3. Check the request journal using `search_request_journal` for any response validation errors.
 4. Note any workflow failures or validation errors.
 
-## Step 5: Output Report
+## Step 6: Output Report
 
 Produce a detailed report covering the results of all checks. The report should include:
 
