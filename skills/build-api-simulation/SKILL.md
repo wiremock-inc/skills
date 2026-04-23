@@ -1,21 +1,6 @@
 ---
 name: build-api-simulation
 description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
-user-invocable: true
-argument-hint: "<api-name>"
-allowed-tools:
-  - Read(references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__get_mock_api_settings
-  - mcp__wiremock__get_recording_status
-  - mcp__wiremock__pull
-  - mcp__wiremock__list_data_sources
-  - mcp__wiremock__get_data_source
-  - mcp__wiremock__get_data_source_data
-  - mcp__wiremock__make_http_request
 ---
 
 ## Prerequisites

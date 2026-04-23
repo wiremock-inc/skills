@@ -1,18 +1,6 @@
 ---
 name: validate-and-fix-stubs
-user-invocable: false
 description: Validate WireMock stubs against the OpenAPI schema and fix any errors. Use when the user wants to check that mock API responses conform to the API specification.
-argument-hint: "<mock-api-name-or-id>"
-allowed-tools:
-  - Read(references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__update_stub_mapping
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__reset_request_journal
-  - mcp__wiremock__make_http_request
-  - mcp__wiremock__look_up_documentation
 ---
 
 ## Prerequisites

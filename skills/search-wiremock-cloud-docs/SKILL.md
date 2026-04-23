@@ -2,9 +2,6 @@
 name: search-wiremock-cloud-docs
 description: |
   Search WireMock Cloud documentation for accurate, up-to-date answers. Use this skill whenever someone asks about WireMock Cloud — including stubs/mocks, request matching, response templating, proxying, record/playback, fault simulation, stateful scenarios, WireMock CLI, WireMock Runner, GraphQL/gRPC mocking, OpenAPI integration, data sources, OAuth2 mocking, CI/CD deployment, MCP tools, or teams/collaboration. This skill reads from local reference docs rather than relying on general knowledge, so answers reflect the actual WireMock Cloud API and CLI syntax.
-argument-hint: "<search-topic-in-docs>"
-model: haiku
-allowed-tools: Bash, Read, Grep, Glob
 ---
 
 # WireMock Cloud Skill

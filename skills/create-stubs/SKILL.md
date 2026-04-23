@@ -1,19 +1,6 @@
 ---
 name: create-stubs
-user-invocable: false
 description: Create and import WireMock stubs for a mock API. Use when the user wants to add new stub mappings to a WireMock Cloud mock API.
-argument-hint: "<mock-api-name-or-id>"
-allowed-tools:
-  - Read(references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__import_stubs_to_mock_api
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__reset_request_journal
-  - mcp__wiremock__make_http_request
-  - mcp__wiremock__look_up_documentation
-  - mcp__wiremock__pull
 ---
 
 ## Prerequisites

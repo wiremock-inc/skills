@@ -1,21 +1,6 @@
 ---
 name: author-response-templates
-user-invocable: false
 description: Author and debug Handlebars response templates for WireMock stubs. Use when the user needs help writing or fixing response templates with formatJson, arrayJoin, state helpers, pagination, or brace collision issues.
-argument-hint: "<mock-api-name-or-id>"
-allowed-tools:
-  - Read(references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__update_stub_mapping
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__reset_request_journal
-  - mcp__wiremock__make_http_request
-  - mcp__wiremock__list_data_sources
-  - mcp__wiremock__get_data_source
-  - mcp__wiremock__get_data_source_data
-  - mcp__wiremock__look_up_documentation
 ---
 
 ## Prerequisites

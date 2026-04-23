@@ -1,20 +1,6 @@
 ---
 name: review-api-simulation
 description: Review a mock API simulation built in WireMock Cloud against its source documentation and OpenAPI spec. Use when the user wants to verify completeness and correctness of an existing mock API.
-user-invocable: true
-argument-hint: "<path-to-project-folder>"
-allowed-tools:
-  - Read(references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__reset_request_journal
-  - mcp__wiremock__get_mock_api_settings
-  - mcp__wiremock__make_http_request
-  - mcp__wiremock__get_openapi
-  - mcp__wiremock__update_openapi_settings
-  - mcp__wiremock__update_mock_api_auth_settings
 ---
 
 ## Prerequisites

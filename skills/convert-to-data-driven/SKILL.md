@@ -1,27 +1,6 @@
 ---
 name: convert-to-data-driven
-user-invocable: false
 description: Convert existing WireMock stubs to use CSV or database data sources. Use when the user wants mock API responses driven by external data with optional pagination support.
-argument-hint: "<mock-api-name-or-id>"
-allowed-tools:
-  - Read(references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__update_stub_mapping
-  - mcp__wiremock__import_stubs_to_mock_api
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__reset_request_journal
-  - mcp__wiremock__make_http_request
-  - mcp__wiremock__list_data_sources
-  - mcp__wiremock__get_data_source
-  - mcp__wiremock__get_data_source_data
-  - mcp__wiremock__create_data_source
-  - mcp__wiremock__update_data_source
-  - mcp__wiremock__update_data_source_data
-  - mcp__wiremock__delete_data_source
-  - mcp__wiremock__pull
-  - mcp__wiremock__look_up_documentation
 ---
 
 ## Prerequisites
