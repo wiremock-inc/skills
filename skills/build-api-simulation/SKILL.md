@@ -1,6 +1,6 @@
 ---
 name: build-api-simulation
-description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
+description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
 user-invocable: true
 argument-hint: "<api-name>"
 allowed-tools:
@@ -15,16 +15,15 @@ allowed-tools:
   - mcp__wiremock__list_data_sources
   - mcp__wiremock__get_data_source
   - mcp__wiremock__get_data_source_data
-  - mcp__arazzo-runner__run_workflow
+  - mcp__wiremock__make_http_request
 ---
 
 ## Prerequisites
 
-This skill requires the following MCP servers to be configured and running:
+This skill requires the following MCP server to be configured and running:
 - **WireMock Cloud MCP** - provides tools for managing mock APIs, stubs, recordings, and OpenAPI documents
-- **Arazzo Runner MCP** (`@wiremock/arazzo-runner`) - provides the `run_workflow` tool for executing Arazzo workflow specifications
 
-If either MCP server is unavailable, stop and inform the user before proceeding.
+If the MCP server is unavailable, stop and inform the user before proceeding.
 
 ## Reference Documentation
 
@@ -65,11 +64,10 @@ All generated files must follow the WireMock Runner layout inside the chosen pro
     └── <service-name>/            # Lower-kebab-case, derived from the API name
         ├── mappings/
         │   └── stub-mappings.json # All stub mappings
-        ├── openapi.yaml           # OpenAPI description
-        └── arazzo.yaml            # Arazzo test workflows (when generated)
+        └── openapi.yaml           # OpenAPI description
 ```
 
-Create the `.wiremock/wiremock.yaml` file early (in Step 4 after creating the mock API) with this structure:
+Create the `.wiremock/wiremock.yaml` file early (in Step 3 after creating the mock API) with this structure:
 
 ```yaml
 services:
@@ -80,7 +78,7 @@ services:
     cloud_id: <mock-api-id>
 ```
 
-Update `cloud_id` with the actual mock API ID once it has been created. All subsequent file paths in the skill (OpenAPI, Arazzo, stubs) refer to this layout.
+Update `cloud_id` with the actual mock API ID once it has been created. All subsequent file paths in the skill (OpenAPI, stubs) refer to this layout.
 
 ## Step 2: Find or Generate the OpenAPI Description
 
@@ -105,22 +103,7 @@ Search for an official OpenAPI or Swagger description:
 
 Save the OpenAPI description to `.wiremock/<service-name>/openapi.yaml` inside the project folder.
 
-## Step 3: Generate Arazzo Test Workflows
-
-Generate an Arazzo 1.0.1+ document covering the API's functionality:
-
-- Create one workflow per functional grouping (e.g., user management, billing, orders).
-- Each workflow should chain related operations in a realistic sequence (e.g., create -> get -> update -> list -> delete).
-- Reference the OpenAPI document via `sourceDescriptions`.
-- Extract outputs from responses and pass them as inputs to subsequent steps (e.g., capture an ID from a create response and use it in subsequent get/update/delete steps).
-- Include `successCriteria` on every step to validate status codes and key response fields.
-- Where a step involves fetching data that was created in a previous step, the `successCriteria` should include checks that
-specific items of data created were returned.
-- Use realistic example data in request bodies that is consistent with the OpenAPI schemas.
-
-Save the Arazzo document to `.wiremock/<service-name>/arazzo.yaml` inside the project folder.
-
-## Step 4: Create and Configure the Mock API
+## Step 3: Create and Configure the Mock API
 
 1. **Create the mock API** using `create_mock_api` with an appropriate name derived from the API being mocked.
 
@@ -136,9 +119,7 @@ Save the Arazzo document to `.wiremock/<service-name>/arazzo.yaml` inside the pr
 
 5. **Upload the OpenAPI description** to the mock API using `put_openapi`.
 
-6. **Update the Arazzo document** so that its `sourceDescriptions` URL points to the uploaded OpenAPI and the workflow base URL targets the mock API.
-
-## Step 5: Populate and Verify the Mock API
+## Step 4: Populate and Verify the Mock API
 
 Follow **Path A** if a sandbox is available, otherwise follow **Path B**.
 
@@ -146,13 +127,13 @@ Follow **Path A** if a sandbox is available, otherwise follow **Path B**.
 
 ### Path A: Sandbox Available
 
-Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.md) to set up authentication, record stubs via the Arazzo workflows, and verify them against the mock API.
+Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.md) to set up authentication, record stubs by exercising the sandbox, and verify them against the mock API.
 
 ---
 
 ### Path B: No Sandbox Available
 
-#### 5B.1: Generate Stubs
+#### 4B.1: Generate Stubs
 
 Read the [Stub Creation Guidelines](../references/stub-creation.md) before proceeding.
 
@@ -160,17 +141,18 @@ Generate stubs covering ALL operations in the OpenAPI spec and import them using
 
 Cross-reference every response body against its schema's `required` fields. Ensure ALL required fields are present in the response. Fields that aren't typically sent by the client but are required in the response (e.g. `currency` on a refund) must be included with sensible defaults.
 
-#### 5B.2: Verify Against the Mock API
+#### 4B.2: Verify Against the Mock API
 
 1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
 2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
-3. Run the Arazzo workflows against the mock API's base URL.
-4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
-5. Repeat until all workflows pass.
+3. Send a test request for every operation in the OpenAPI spec against the mock API's base URL using `make_http_request`. Use realistic example data in request bodies that is consistent with the OpenAPI schemas. Where an operation depends on data created by a previous operation (e.g. a GET that retrieves a resource created by a POST), chain the requests and pass the identifier from the first response into the subsequent requests.
+4. Check the request journal for any response validation errors using `search_request_journal`.
+5. If any responses fail validation, fix **stubs only**. Do NOT change the OpenAPI description.
+6. Repeat until all requests succeed and the request journal shows zero validation errors.
 
 ---
 
-## Step 6: Stateful Conversion
+## Step 5: Stateful Conversion
 
 **Only perform this step if the user requested stateful mode.**
 
@@ -179,22 +161,22 @@ Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (incl
 After converting:
 1. **Smoke test first.** Manually test one create + retrieve cycle to verify the stateful flow works.
 2. Validate the stubs using [Validating and Fixing Stubs](../references/validating-and-fixing.md).
-3. Run the Arazzo workflows against the mock API's base URL. Fix **stubs only** if any steps fail. Repeat until all pass.
+3. Send test requests covering every operation against the mock API's base URL (see Step 4B.2 step 3) and check the request journal for response validation errors. Fix **stubs only** if anything fails. Repeat until all requests succeed.
 
 ## Final Acceptance Check
 
 Before finishing, verify **all three** of the following criteria are met:
 
 ### 1. Full endpoint coverage
-Cross-reference every operation in the OpenAPI spec against the stubs and Arazzo workflows:
+Cross-reference every operation in the OpenAPI spec against the stubs:
 - Every operation must have at least one corresponding stub.
-- Every operation must be exercised by at least one Arazzo workflow step.
-- If any gaps are found, create the missing stubs and/or Arazzo steps before proceeding.
+- Every operation must be exercised by at least one test request during verification.
+- If any gaps are found, create the missing stubs and/or test requests before proceeding.
 
 ### 2. Final regression run
 Run a clean regression pass to confirm everything works end-to-end:
 1. Reset the request journal.
-2. Run all Arazzo workflows against the mock API's base URL.
+2. Send a request for every operation in the OpenAPI spec against the mock API's base URL.
 3. Check the request journal for any response validation errors.
 4. If there are failures or validation errors, fix the stubs and repeat until the run is fully clean.
 
@@ -207,7 +189,7 @@ Do **not** proceed to Completion until all three criteria pass.
 
 When all steps and the acceptance check are complete, report to the user:
 - The mock API name and its base URL
-- A summary of what was created (number of endpoints, workflows, stubs)
+- A summary of what was created (number of endpoints, stubs)
 - Whether stateful mode was enabled
 - The project folder path and its `.wiremock/` layout
 - A link to the mock API's documentation portal

@@ -5,17 +5,16 @@ A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that gener
 Given an API name and optional sandbox URL, the skill will:
 
 1. Find or generate an OpenAPI description for the API
-2. Generate Arazzo test workflows covering the API's functionality
-3. Create and configure a mock API in WireMock Cloud
-4. Populate the mock with stubs — either recorded from a live sandbox or generated from the OpenAPI spec
-5. Verify the mock by running the Arazzo workflows against it and fixing issues iteratively
-6. Optionally convert the mock to be stateful, so that created resources can be subsequently retrieved, updated, and deleted
+2. Create and configure a mock API in WireMock Cloud
+3. Populate the mock with stubs — either recorded from a live sandbox or generated from the OpenAPI spec
+4. Verify the mock by sending a request for every operation in the OpenAPI spec and checking responses for validation errors, fixing issues iteratively
+5. Optionally convert the mock to be stateful, so that created resources can be subsequently retrieved, updated, and deleted
 
 ## Prerequisites
 
-### MCP Servers
+### MCP Server
 
-This skill requires two MCP servers to be configured in your Claude Code settings:
+This skill requires the WireMock Cloud MCP server to be configured in your Claude Code settings.
 
 #### WireMock Cloud MCP
 
@@ -23,33 +22,9 @@ Provides tools for managing mock APIs, stubs, recordings, and OpenAPI documents.
 
 Follow the [WireMock MCP installation guide](https://docs.wiremock.io/ai-mcp/installation) to install the WireMock CLI, log in to your WireMock Cloud account, and configure the MCP server for Claude Code.
 
-#### Arazzo Runner MCP
-
-Provides the `run_workflow` tool for executing [Arazzo](https://spec.openapis.org/arazzo/latest.html) workflow specifications against APIs.
-
-Install via the Claude Code CLI:
-
-```bash
-claude mcp add --transport stdio arazzo-runner -- npx @wiremock/arazzo-runner mcp
-```
-
-Or add it manually to your MCP config (`~/.claude/mcp.json` or project-level):
-
-```json
-{
-  "mcpServers": {
-    "arazzo-runner": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["@wiremock/arazzo-runner", "mcp"]
-    }
-  }
-}
-```
-
 ### Node.js
 
-[Node.js](https://nodejs.org/) v18 or later is required for the MCP servers.
+[Node.js](https://nodejs.org/) v18 or later is required for the MCP server.
 
 ## Usage
 

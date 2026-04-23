@@ -15,27 +15,25 @@ Follow this process when a live sandbox/test environment is available for record
    - `destination` set to `cloud:<mock_api_id>`
 2. Use `get_recording_status` to find out the proxy port assigned to the recording session.
 
-## Run Arazzo Workflows Through the Recorder
+## Exercise the API Through the Recorder
 
-1. Run the Arazzo workflows using `run_workflow` with:
-   - `arazzoPath`: path to the local Arazzo document
-   - `baseUrls`: override the source's base URL to `http://localhost:<recorder-port>`
-   - `authConfigFiles`: include the path to `auth-config.yaml`
+1. Send a request for every operation in the OpenAPI spec against the recorder at `http://localhost:<recorder-port>`, using the authentication from `auth-config.yaml`. Use realistic example data in request bodies that is consistent with the OpenAPI schemas. Where an operation depends on data created by a previous operation (e.g. a GET that retrieves a resource created by a POST), chain the requests and pass the identifier from the first response into the subsequent requests.
 
-2. **If the run fails:**
+2. **If any request fails:**
    - Stop the recording (cancel it, do not persist the captured stubs).
-   - Examine the run report to identify failures.
-   - Fix the Arazzo workflows and/or request data.
+   - Examine the responses to identify the failure.
+   - Fix the request data (or authentication setup) as needed.
    - Start a new recording session and retry.
-   - Repeat until the entire run succeeds.
+   - Repeat until every operation succeeds.
 
-3. **When the run succeeds:**
+3. **When all requests succeed:**
    - Stop the recording normally so the captured stubs are saved.
 
 ## Verify Against the Mock API
 
-1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
+1. **Smoke test first.** Before the full run, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full sweep.
 2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](validating-and-fixing.md).
-3. Run the Arazzo workflows against the **mock API's base URL** (not the recorder).
-4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
-5. Repeat until all workflows pass.
+3. Send a request for every operation against the **mock API's base URL** (not the recorder) using `make_http_request`.
+4. Check the request journal for response validation errors.
+5. If any requests fail or return validation errors, fix **stubs only**. Do NOT change the OpenAPI description.
+6. Repeat until all requests succeed and the request journal shows zero validation errors.
