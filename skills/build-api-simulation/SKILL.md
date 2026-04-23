@@ -4,7 +4,7 @@ description: Generate a complete mock API in WireMock Cloud for any REST API. Cr
 user-invocable: true
 argument-hint: "<api-name>"
 allowed-tools:
-  - Read(../references/*)
+  - Read(references/*)
   - mcp__wiremock__who_am_i
   - mcp__wiremock__search_my_mock_apis
   - mcp__wiremock__search_stub_mappings
@@ -29,12 +29,12 @@ If the MCP server is unavailable, stop and inform the user before proceeding.
 
 The following WireMock guidelines are bundled as reference files. Read the relevant files when performing those steps:
 
-- [Stub Creation Guidelines](../references/stub-creation.md) - rules for creating and importing stubs
-- [Stateful Stubbing](../references/stateful-stubbing.md) - full guide to stateful mocking with the key-value state store, including examples
-- [Data-Driven Stubbing](../references/data-driven-stubbing.md) - converting stubs to use data sources with pagination support
-- [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
-- [Response Template Authoring](../references/response-templating.md) - guidelines for Handlebars response templates, brace collision avoidance, and pagination metadata
-- [Recording from a Sandbox](../references/recording-from-sandbox.md) - recording stubs from a live sandbox environment
+- [Stub Creation Guidelines](references/stub-creation.md) - rules for creating and importing stubs
+- [Stateful Stubbing](references/stateful-stubbing.md) - full guide to stateful mocking with the key-value state store, including examples
+- [Data-Driven Stubbing](references/data-driven-stubbing.md) - converting stubs to use data sources with pagination support
+- [Validating and Fixing Stubs](references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
+- [Response Template Authoring](references/response-templating.md) - guidelines for Handlebars response templates, brace collision avoidance, and pagination metadata
+- [Recording from a Sandbox](references/recording-from-sandbox.md) - recording stubs from a live sandbox environment
 
 These references supersede the `lookup_documentation` MCP tool - do not call `lookup_documentation`.
 
@@ -127,7 +127,7 @@ Follow **Path A** if a sandbox is available, otherwise follow **Path B**.
 
 ### Path A: Sandbox Available
 
-Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.md) to set up authentication, record stubs by exercising the sandbox, and verify them against the mock API.
+Read and follow [Recording from a Sandbox](references/recording-from-sandbox.md) to set up authentication, record stubs by exercising the sandbox, and verify them against the mock API.
 
 ---
 
@@ -135,7 +135,7 @@ Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.
 
 #### 4B.1: Generate Stubs
 
-Read the [Stub Creation Guidelines](../references/stub-creation.md) before proceeding.
+Read the [Stub Creation Guidelines](references/stub-creation.md) before proceeding.
 
 Generate stubs covering ALL operations in the OpenAPI spec and import them using `import_stubs_to_mock_api`.
 
@@ -144,7 +144,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 #### 4B.2: Verify Against the Mock API
 
 1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
-2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
+2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](references/validating-and-fixing.md).
 3. Send a test request for every operation in the OpenAPI spec against the mock API's base URL using `make_http_request`. Use realistic example data in request bodies that is consistent with the OpenAPI schemas. Where an operation depends on data created by a previous operation (e.g. a GET that retrieves a resource created by a POST), chain the requests and pass the identifier from the first response into the subsequent requests.
 4. Check the request journal for any response validation errors using `search_request_journal`.
 5. If any responses fail validation, fix **stubs only**. Do NOT change the OpenAPI description.
@@ -156,11 +156,11 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 
 **Only perform this step if the user requested stateful mode.**
 
-Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `get_stub_mappings` and convert them following the patterns in the reference.
+Read the [Stateful Stubbing](references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `get_stub_mappings` and convert them following the patterns in the reference.
 
 After converting:
 1. **Smoke test first.** Manually test one create + retrieve cycle to verify the stateful flow works.
-2. Validate the stubs using [Validating and Fixing Stubs](../references/validating-and-fixing.md).
+2. Validate the stubs using [Validating and Fixing Stubs](references/validating-and-fixing.md).
 3. Send test requests covering every operation against the mock API's base URL (see Step 4B.2 step 3) and check the request journal for response validation errors. Fix **stubs only** if anything fails. Repeat until all requests succeed.
 
 ## Final Acceptance Check

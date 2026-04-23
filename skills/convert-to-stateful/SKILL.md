@@ -4,7 +4,7 @@ user-invocable: false
 description: Convert existing WireMock stubs to be stateful using the key-value state store. Use when the user wants mock API resources to persist across requests (create, retrieve, update, delete).
 argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
-  - Read(../references/*)
+  - Read(references/*)
   - mcp__wiremock__who_am_i
   - mcp__wiremock__search_my_mock_apis
   - mcp__wiremock__search_stub_mappings
@@ -27,10 +27,10 @@ This skill requires the **WireMock Cloud MCP** server to be configured and runni
 
 Read these references before converting stubs:
 
-- [Stateful Stubbing](../references/stateful-stubbing.md) - full guide to stateful mocking with the key-value state store, including examples
-- [Stub Creation Guidelines](../references/stub-creation.md) - rules for creating and importing stubs
-- [Response Template Authoring](../references/response-templating.md) - guidelines for Handlebars response templates and brace collision avoidance
-- [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs and fixing errors
+- [Stateful Stubbing](references/stateful-stubbing.md) - full guide to stateful mocking with the key-value state store, including examples
+- [Stub Creation Guidelines](references/stub-creation.md) - rules for creating and importing stubs
+- [Response Template Authoring](references/response-templating.md) - guidelines for Handlebars response templates and brace collision avoidance
+- [Validating and Fixing Stubs](references/validating-and-fixing.md) - process for validating stubs and fixing errors
 
 ## Instructions
 
@@ -39,7 +39,7 @@ The target mock API is: **$ARGUMENTS**
 If `$ARGUMENTS` is empty, ask the user which mock API to convert.
 
 1. Identify the target mock API using `search_my_mock_apis`.
-2. Read the [Stateful Stubbing](../references/stateful-stubbing.md) and [Response Template Authoring](../references/response-templating.md) references.
+2. Read the [Stateful Stubbing](references/stateful-stubbing.md) and [Response Template Authoring](references/response-templating.md) references.
 3. Pull the existing stubs using `pull` and review them.
 4. Ask the user which resource collections to make stateful (or all of them).
 5. Convert stubs to be stateful following the patterns in the stateful-stubbing reference:
@@ -48,5 +48,5 @@ If `$ARGUMENTS` is empty, ask the user which mock API to convert.
    - Create 404 not-found stubs with `require-state` and `"absent": true`
    - Use `jsonMerge` for creating and updating resources
 6. Import the new stateful stubs and delete the old non-stateful versions.
-7. Validate using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
+7. Validate using the process in [Validating and Fixing Stubs](references/validating-and-fixing.md).
 8. Smoke test by creating and retrieving a resource to confirm the stateful flow works.

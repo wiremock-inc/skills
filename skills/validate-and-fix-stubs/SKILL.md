@@ -4,7 +4,7 @@ user-invocable: false
 description: Validate WireMock stubs against the OpenAPI schema and fix any errors. Use when the user wants to check that mock API responses conform to the API specification.
 argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
-  - Read(../references/*)
+  - Read(references/*)
   - mcp__wiremock__who_am_i
   - mcp__wiremock__search_my_mock_apis
   - mcp__wiremock__search_stub_mappings
@@ -23,7 +23,7 @@ This skill requires the **WireMock Cloud MCP** server to be configured and runni
 
 Read this reference before validating:
 
-- [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
+- [Validating and Fixing Stubs](references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
 
 ## Instructions
 
@@ -32,7 +32,7 @@ The target mock API is: **$ARGUMENTS**
 If `$ARGUMENTS` is empty, ask the user which mock API to validate.
 
 1. Identify the target mock API using `search_my_mock_apis`.
-2. Read the [Validating and Fixing Stubs](../references/validating-and-fixing.md) reference.
+2. Read the [Validating and Fixing Stubs](references/validating-and-fixing.md) reference.
 3. Fetch the stub mappings using `search_stub_mappings`.
 4. For each stub:
    1. Reset the request journal using `reset_request_journal`.

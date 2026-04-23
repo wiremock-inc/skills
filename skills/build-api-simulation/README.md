@@ -51,10 +51,11 @@ The skill will prompt you for additional information:
 ```
 .
 ├── SKILL.md                    # Skill definition and instructions
-└── ../references/              # Shared reference documentation
+└── references/                 # Bundled reference documentation
     ├── stub-creation.md
     ├── stateful-stubbing.md
     ├── data-driven-stubbing.md
     ├── validating-and-fixing.md
-    └── response-templating.md
+    ├── response-templating.md
+    └── recording-from-sandbox.md
 ```

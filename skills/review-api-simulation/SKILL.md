@@ -4,7 +4,7 @@ description: Review a mock API simulation built in WireMock Cloud against its so
 user-invocable: true
 argument-hint: "<path-to-project-folder>"
 allowed-tools:
-  - Read(../references/*)
+  - Read(references/*)
   - mcp__wiremock__who_am_i
   - mcp__wiremock__search_my_mock_apis
   - mcp__wiremock__search_stub_mappings
@@ -27,7 +27,7 @@ If the WireMock Cloud MCP server is unavailable, stop and inform the user before
 
 The following WireMock guidelines are bundled as reference files. Read the relevant files when performing those steps:
 
-- [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
+- [Validating and Fixing Stubs](references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
 
 ## Step 1: Validate Project Folder
 

@@ -4,7 +4,7 @@ user-invocable: false
 description: Create and import WireMock stubs for a mock API. Use when the user wants to add new stub mappings to a WireMock Cloud mock API.
 argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
-  - Read(../references/*)
+  - Read(references/*)
   - mcp__wiremock__who_am_i
   - mcp__wiremock__search_my_mock_apis
   - mcp__wiremock__search_stub_mappings
@@ -24,8 +24,8 @@ This skill requires the **WireMock Cloud MCP** server to be configured and runni
 
 Read these references before creating stubs:
 
-- [Stub Creation Guidelines](../references/stub-creation.md) - rules for creating and importing stubs
-- [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs and fixing errors
+- [Stub Creation Guidelines](references/stub-creation.md) - rules for creating and importing stubs
+- [Validating and Fixing Stubs](references/validating-and-fixing.md) - process for validating stubs and fixing errors
 
 ## Instructions
 
@@ -34,9 +34,9 @@ The target mock API is: **$ARGUMENTS**
 If `$ARGUMENTS` is empty, ask the user which mock API to create stubs for.
 
 1. Identify the target mock API using `search_my_mock_apis`.
-2. Read the [Stub Creation Guidelines](../references/stub-creation.md).
+2. Read the [Stub Creation Guidelines](references/stub-creation.md).
 3. Gather requirements from the user about what stubs to create (endpoints, methods, response data, scenarios).
 4. If an OpenAPI description is available for the mock API, pull it using `pull` and use it to ensure responses conform to schemas.
 5. Create the stubs and import them using `import_stubs_to_mock_api`.
-6. Validate the imported stubs using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
+6. Validate the imported stubs using the process in [Validating and Fixing Stubs](references/validating-and-fixing.md).
 7. Report the created stubs to the user.
