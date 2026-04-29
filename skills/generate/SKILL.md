@@ -1,5 +1,5 @@
 ---
-name: build-api-simulation
+name: generate
 description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
 ---
 

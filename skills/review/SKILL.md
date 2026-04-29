@@ -1,5 +1,5 @@
 ---
-name: review-api-simulation
+name: review
 description: Review a mock API simulation built in WireMock Cloud against its source documentation and OpenAPI spec. Use when the user wants to verify completeness and correctness of an existing mock API.
 ---
 

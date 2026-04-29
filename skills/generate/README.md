@@ -1,4 +1,4 @@
-# Build API Simulation - Claude Code Skill
+# Generate API Simulation - Claude Code Skill
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that generates complete API simulations in [WireMock Cloud](https://www.wiremock.io/) for any REST API.
 
@@ -31,13 +31,13 @@ Follow the [WireMock MCP installation guide](https://docs.wiremock.io/ai-mcp/ins
 In a Claude Code session, invoke the skill with:
 
 ```
-/build-api-simulation <api-name>
+/generate <api-name>
 ```
 
 For example:
 
 ```
-/build-api-simulation Stripe Payments
+/generate Stripe Payments
 ```
 
 The skill will prompt you for additional information:
