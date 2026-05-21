@@ -31,12 +31,11 @@ If `$ARGUMENTS` is empty, ask the user for the API name.
 
 Use `AskUserQuestion` to collect the remaining configuration:
 
-1. **Project folder**: Where should the project files be placed? Default: `./<api-name-in-lower-kebab-case>` (e.g. `./stripe-payments`).
-2. **Sandbox**: Is a sandbox/test environment available for this API? If yes, what is its base URL?
-3. **Authenticators**: Paths to any existing authenticator files enabling authentication against the sandbox from the previous step.
-4. **Info locations**: URLs or file paths for any existing OpenAPI/Swagger specs, API documentation pages, or other reference material about the API.
-5. **Stateful**: Should the mock API be stateful (maintaining state across requests so that e.g. a created resource can be subsequently retrieved)?
-6. **Other directives**: Any other guidance e.g. only include specific endpoints within the API, create stubs for specific data scenarios.
+1. **Sandbox**: Is a sandbox/test environment available for this API? If yes, what is its base URL?
+2. **Authenticators**: Any existing authentication info enabling authentication against the sandbox from the previous step.
+3. **Info locations**: URLs for any existing OpenAPI/Swagger specs, API documentation pages, or other reference material about the API.
+4. **Stateful**: Should the mock API be stateful (maintaining state across requests so that e.g. a created resource can be subsequently retrieved)?
+5. **Other directives**: Any other guidance e.g. only include specific endpoints within the API, create stubs for specific data scenarios.
 
 ## Project Folder Layout
 
@@ -176,5 +175,4 @@ When all steps and the acceptance check are complete, report to the user:
 - The mock API name and its base URL
 - A summary of what was created (number of endpoints, stubs)
 - Whether stateful mode was enabled
-- The project folder path and its `.wiremock/` layout
 - A link to the mock API's documentation portal
