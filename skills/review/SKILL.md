@@ -19,8 +19,6 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 
 The project folder path is: **$ARGUMENTS**
 
-If `$ARGUMENTS` is empty, ask the user for the path to the project folder.
-
 1. Verify the project folder exists and contains a `.wiremock/` directory. If it does not, stop and inform the user.
 2. Read `.wiremock/wiremock.yaml` to identify the service name and `cloud_id`.
 3. Locate the OpenAPI file at `.wiremock/<service-name>/openapi.yaml`. If it does not exist, stop and inform the user.
@@ -29,7 +27,7 @@ If `$ARGUMENTS` is empty, ask the user for the path to the project folder.
 
 Use `AskUserQuestion` to collect any additional configuration:
 
-1. **Documentation sources**: Paths or URLs to any API documentation, OpenAPI/Swagger specs, Postman collections, or other reference material. If none are provided, search for them using `WebSearch` and `WebFetch`.
+1. **Documentation sources**: URLs to any API documentation, OpenAPI/Swagger specs, Postman collections, or other reference material. If none are provided, search for them using `WebSearch` and `WebFetch`.
 
 ## Step 3: Access the Cloud Mock API
 
