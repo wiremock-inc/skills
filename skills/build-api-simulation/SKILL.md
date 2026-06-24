@@ -134,7 +134,7 @@ Save the Arazzo document to `.wiremock/<service-name>/arazzo.yaml` inside the pr
 
 4. **Update the OpenAPI `servers` element** to point to the mock API's base URL.
 
-5. **Upload the OpenAPI description** to the mock API using `put_openapi`.
+5. **Upload the OpenAPI description** to the mock API using `push`.
 
 6. **Update the Arazzo document** so that its `sourceDescriptions` URL points to the uploaded OpenAPI and the workflow base URL targets the mock API.
 
@@ -174,7 +174,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 
 **Only perform this step if the user requested stateful mode.**
 
-Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `get_stub_mappings` and convert them following the patterns in the reference.
+Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `search_stub_mappings` and convert them following the patterns in the reference.
 
 After converting:
 1. **Smoke test first.** Manually test one create + retrieve cycle to verify the stateful flow works.

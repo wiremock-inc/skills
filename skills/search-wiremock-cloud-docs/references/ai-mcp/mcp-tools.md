@@ -24,29 +24,19 @@ User ID and username information
 
 ## Mock API Management
 
-### `list_my_mock_apis`
-
-Lists all mock APIs in WireMock Cloud that you have access to
-
-**Input**
-
-None
-
-**Output**
-
-List of mock APIs with their IDs and names
-
 ### `search_my_mock_apis`
 
 Searches for mock APIs by text query
 
 **Input**
 
-`query` (string): The search query
+`query` (string, optional): The search query. If not provided, all mock APIs are returned.
+`page` (integer, optional): Page number for pagination (1-based). If not specified, returns the first page.
+`limit` (integer, optional): Maximum number of stubs to return per page. If not specified, returns all mock APIs.
 
 **Output**
 
-List of matching mock APIs
+List of matching mock APIs with their IDs and names
 
 ### `create_mock_api`
 
@@ -69,6 +59,18 @@ Deletes a mock API by its ID
 **Input**
 
 `mockApiId` (string): The ID of the mock API to delete
+
+**Output**
+
+Confirmation message
+
+### `reset_state`
+
+Resets all scenario and dynamic states in the specified mock API
+
+**Input**
+
+`mockApiId` (string): The ID of the mock API to reset state for
 
 **Output**
 
@@ -101,13 +103,17 @@ Imports a list of stubs to a specific mock API
 
 Confirmation message
 
-### `get_stub_mappings`
+### `search_stub_mappings`
 
-Fetches stub mappings for a given Mock API. Supports pagination to avoid token limits when dealing with large numbers of stubs.
+Fetches stub mappings for a given Mock API. Supports pagination and filtering to avoid token limits when dealing with large numbers of stubs.
 
 **Input**
 
 `mockApiId` (string): The ID of the mock API
+`name` (string, optional): Regex pattern to match against the stub mapping name
+`method` (string, optional): Regex pattern to match against the HTTP method (e.g. \"GET\", \"POST|PUT\")
+`url` (string, optional): Regex pattern to match against the request URL pattern (e.g. \"/api/.*\", \"/users/\\d+\")
+`responseStatus` (integer, optional): Match stubs with this exact response HTTP status code (e.g. 200, 404)
 `page` (integer, optional): Page number for pagination (1-based). If not specified, returns all stubs.
 `limit` (integer, optional): Maximum number of stubs to return per page. If not specified, returns all stubs.
 
@@ -144,65 +150,50 @@ Confirmation message
 
 ## API Specifications
 
-### `get_openapi`
+### `push`
 
-Fetches the OpenAPI document for a mock API
-
-**Input**
-
-`mockApiId` (string): The ID of the mock API to fetch the OpenAPI document from
-
-**Output**
-
-OpenAPI document content
-
-### `put_openapi`
-
-Pushes an OpenAPI document to a mock API
+Pushes a stub-mapping file, OpenAPI specification, GraphQL schema, or gRPC descriptor file to a mock API
 
 **Input**
 
-`mockApiId` (string): The ID of the mock API to push the OpenAPI document to
-`openApiDocument` (string): The OpenAPI document content in YAML or JSON format
+`type` (string): the type of document to push to the mock API (one of 'stub_mappings', 'openapi_description', 'graphql_schema', 'grpc_descriptor')
+`mockApiId` (string): The ID of the mock API to push the document to
+`filePath` (string): The local file path to read the data from
 
 **Output**
 
 Confirmation message
 
-### `get_graphql`
+### pull
 
-Fetches the GraphQL schema document for a mock API
-
-**Input**
-
-`mockApiId` (string): The ID of the mock API to fetch the GraphQL schema from
-
-**Output**
-
-GraphQL schema document content
-
-### `put_graphql`
-
-Pushes a GraphQL schema document to a mock API
+Fetches stub mappings, OpenAPI specification, GraphQL schema, or gRPC descriptor for a given Mock API
 
 **Input**
 
-`mockApiId` (string): The ID of the mock API to push the GraphQL schema to
-`graphQLDocument` (string): The GraphQL schema document content
+`type` (string): the type of document to pull from the mock API (one of 'stub_mappings', 'openapi_description', 'graphql_schema', 'grpc_descriptor')
+`mockApiId` (string): The ID of the mock API to pull data from
+`filePath` (string): The local file path to write the pulled data to
 
 **Output**
 
-Confirmation message
+The pulled document's content.
 
 ## Request Journal
 
-### `get_request_journal`
+### `search_request_journal`
 
-Fetches the request journal for a mock API
+Fetches the request journal for a mock API. Supports filtering to avoid token limits when dealing with large numbers of events.
 
 **Input**
 
 `mockApiId` (string): The ID of the mock API to fetch the request journal from
+`method` (string, optional): Regex pattern to match against the HTTP method (e.g. \"GET\", \"POST|PUT\")
+`url` (string, optional): Regex pattern to match against the request URL path (e.g. \"/api/.*\", \"/users/\\d+\")
+`headerName` (string, optional): Case-insensitive header name to match. Must be used together with headerValuePattern.
+`headerValuePattern` (string, optional): Regex pattern to match against the value of the header specified by headerName. Requires `headerName`.
+`bodyPattern` (string, optional): Regex pattern to match against the raw request body string
+`bodyJsonPath` (string, optional): JSONPath expression to evaluate against the request body. Matches if the path resolves to a non-empty result. Can be combined with `bodyJsonPathValuePattern` to match extracted values.
+`bodyJsonPathValuePattern` (string, optional): Regex pattern to match against the value(s) extracted by `bodyJsonPath`. Requires `bodyJsonPath`.
 
 **Output**
 
@@ -317,18 +308,16 @@ CSV data content
 Creates a new data source in WireMock Cloud. Supports both CSV and DATABASE data source types.
 
 For CSV data sources, you must provide:
-
-* name: Display name for the data source
-* type: "CSV"
-* columnsMetadata: Array of column definitions with name and type information
-* rows: Array of data rows, where each row is an array of string values
+- name: Display name for the data source
+- type: "CSV"
+- columnsMetadata: Array of column definitions with name and type information
+- rows: Array of data rows, where each row is an array of string values
 
 For DATABASE data sources, you must provide:
-
-* name: Display name for the data source
-* type: "DATABASE"
-* databaseConnection: ID of the database connection to use
-* tableName: Name of the table or view to retrieve data from
+- name: Display name for the data source
+- type: "DATABASE"
+- databaseConnection: ID of the database connection to use
+- tableName: Name of the table or view to retrieve data from
 
 **Input**
 
@@ -410,3 +399,30 @@ Look up documentation articles to help with WireMock usage and best practices. R
 
 Documentation article content
 
+## Settings
+
+### `get_mock_api_settings`
+
+Fetches the specified type of settings from the given mock API
+
+**Input**
+
+`mockApiId` (string): The ID of the mock API to fetch settings from
+`settingsType` (string): The type of settings to retrieve. Determines which settings endpoint is called. (one of 'chaos', 'openapi', 'state', 'delayDistribution', 'rateLimits')
+
+**Output**
+
+The requested settings
+
+### `update_mock_api_settings`
+
+Updates the specified type of settings for the given mock API
+
+**Input**
+
+`mockApiId` (string): The ID of the mock API to fetch settings from
+`settings` (object): The settings values to update. Must include a 'type' field (one of 'chaos', 'openapi', 'state', 'delayDistribution', 'rateLimits') to indicate which settings to update.
+
+**Output**
+
+The updated settings

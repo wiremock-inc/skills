@@ -12,8 +12,8 @@ allowed-tools:
   - mcp__wiremock__reset_request_journal
   - mcp__wiremock__get_mock_api_settings
   - mcp__wiremock__make_http_request
-  - mcp__wiremock__get_openapi
-  - mcp__wiremock__update_openapi_settings
+  - mcp__wiremock__pull
+  - mcp__wiremock__update_mock_api_settings
   - mcp__wiremock__update_mock_api_auth_settings
   - mcp__arazzo-runner__run_workflow
 ---
@@ -67,7 +67,7 @@ Use `AskUserQuestion` to collect any additional configuration:
 
 Gather all available documentation for the API:
 
-1. Read the OpenAPI spec from `.wiremock/<service-name>/openapi.yaml` and also fetch it from the mock API using `get_openapi`.
+1. Read the OpenAPI spec from `.wiremock/<service-name>/openapi.yaml` and also fetch it from the mock API using `pull`.
 2. Read any documentation files, OpenAPI docs, or Postman collections provided by the user or found via search.
 3. Read the Arazzo workflow document from `.wiremock/<service-name>/arazzo.yaml`.
 

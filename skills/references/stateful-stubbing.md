@@ -224,7 +224,7 @@ When converting existing stubs to be stateful, follow these per-method patterns:
 ### Import and Update
 1. Import the new stateful stubs using `import_stubs_to_mock_api`.
 2. Delete the old non-stateful stubs that have been replaced.
-3. Update the OpenAPI via `put_openapi` to include any new paths or operations added during conversion (e.g., delete endpoints, 404 responses) where WireMock Cloud hasn't done this automatically.
+3. Update the OpenAPI via `push` to include any new paths or operations added during conversion (e.g., delete endpoints, 404 responses) where WireMock Cloud hasn't done this automatically.
 
 ## Example
 
