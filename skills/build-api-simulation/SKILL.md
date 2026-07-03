@@ -63,8 +63,7 @@ All generated files must follow the WireMock Runner layout inside the chosen pro
 └── .wiremock/
     ├── wiremock.yaml              # Runner config with cloud_id
     └── <service-name>/            # Lower-kebab-case, derived from the API name
-        ├── mappings/
-        │   └── stub-mappings.json # All stub mappings
+        ├── stub-mappings.yaml     # All stub mappings (can be JSON format)
         ├── openapi.yaml           # OpenAPI description
         └── arazzo.yaml            # Arazzo test workflows (when generated)
 ```
