@@ -34,7 +34,7 @@ Follow this process when a live sandbox/test environment is available for record
 
 ## Verify Against the Mock API
 
-1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
+1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API with `curl` via `Bash` (there is no MCP tool for making arbitrary HTTP requests) to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
 2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](validating-and-fixing.md).
 3. Run the Arazzo workflows against the **mock API's base URL** (not the recorder).
 4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.

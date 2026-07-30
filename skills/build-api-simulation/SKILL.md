@@ -5,16 +5,23 @@ user-invocable: true
 argument-hint: "<api-name>"
 allowed-tools:
   - Read(../references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__get_mock_api_settings
-  - mcp__wiremock__get_recording_status
-  - mcp__wiremock__pull
-  - mcp__wiremock__list_data_sources
-  - mcp__wiremock__get_data_source
-  - mcp__wiremock__get_data_source_data
+  - Bash(curl:*)
+  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
+  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
+  - mcp__plugin_wiremock-cloud_wiremock__create_mock_api
+  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
+  - mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api
+  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
+  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
+  - mcp__plugin_wiremock-cloud_wiremock__get_mock_api_settings
+  - mcp__plugin_wiremock-cloud_wiremock__update_mock_api_settings
+  - mcp__plugin_wiremock-cloud_wiremock__get_recording_status
+  - mcp__plugin_wiremock-cloud_wiremock__create_upload
+  - mcp__plugin_wiremock-cloud_wiremock__push
+  - mcp__plugin_wiremock-cloud_wiremock__pull
+  - mcp__plugin_wiremock-cloud_wiremock__list_data_sources
+  - mcp__plugin_wiremock-cloud_wiremock__get_data_source
+  - mcp__plugin_wiremock-cloud_wiremock__get_data_source_data
   - mcp__arazzo-runner__run_workflow
 ---
 
@@ -36,8 +43,9 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 - [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
 - [Response Template Authoring](../references/response-templating.md) - guidelines for Handlebars response templates, brace collision avoidance, and pagination metadata
 - [Recording from a Sandbox](../references/recording-from-sandbox.md) - recording stubs from a live sandbox environment
+- [Transferring Files To and From a Mock API](../references/file-transfer.md) - the upload/download flow used by `push` and `pull`
 
-These references supersede the `lookup_documentation` MCP tool - do not call `lookup_documentation`.
+These references supersede the `look_up_documentation` MCP tool - do not call `look_up_documentation`.
 
 ## Step 1: Gather Inputs
 
@@ -125,15 +133,15 @@ Save the Arazzo document to `.wiremock/<service-name>/arazzo.yaml` inside the pr
 
 2. **Create `.wiremock/wiremock.yaml`** inside the project folder with the mock API's ID as `cloud_id` (see Project Folder Layout above).
 
-3. **Disable OpenAPI generation in both directions** via the WireMock Cloud admin API (use `make_http_request`). This must be done BEFORE uploading the OpenAPI spec or importing any stubs:
-   - Disable automatic stub generation from the OpenAPI spec (enabled by default on new mock APIs).
-   - Disable automatic OpenAPI generation from stubs.
-   - Enable hard request validation against the OpenAPI schema.
-   - Enable the API documentation portal.
+3. **Disable OpenAPI generation in both directions** using `update_mock_api_settings` with `settingsType: "openapi"`. This must be done BEFORE uploading the OpenAPI spec or importing any stubs:
+   - Set `generateStubsFromOpenApi: false` (automatic stub generation from the OpenAPI spec is enabled by default on new mock APIs).
+   - Set `generateOpenApiFromStubs: false` (automatic OpenAPI generation from stubs).
+   - Set `validationMode: "hard"` to enable hard request validation against the OpenAPI schema.
+   - Set `portalEnabled: true` to enable the API documentation portal.
 
 4. **Update the OpenAPI `servers` element** to point to the mock API's base URL.
 
-5. **Upload the OpenAPI description** to the mock API using `push`.
+5. **Upload the OpenAPI description** to the mock API. See [Transferring Files To and From a Mock API](../references/file-transfer.md) for the `create_upload` → `curl` → `push` flow (`type: "openapi_description"`).
 
 6. **Update the Arazzo document** so that its `sourceDescriptions` URL points to the uploaded OpenAPI and the workflow base URL targets the mock API.
 
@@ -161,7 +169,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 
 #### 5B.2: Verify Against the Mock API
 
-1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
+1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API with `curl` via `Bash` (there is no MCP tool for making arbitrary HTTP requests) to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
 2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 3. Run the Arazzo workflows against the mock API's base URL.
 4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
@@ -176,7 +184,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `search_stub_mappings` and convert them following the patterns in the reference.
 
 After converting:
-1. **Smoke test first.** Manually test one create + retrieve cycle to verify the stateful flow works.
+1. **Smoke test first.** Manually test one create + retrieve cycle with `curl` via `Bash` to verify the stateful flow works.
 2. Validate the stubs using [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 3. Run the Arazzo workflows against the mock API's base URL. Fix **stubs only** if any steps fail. Repeat until all pass.
 

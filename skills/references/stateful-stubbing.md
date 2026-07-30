@@ -7,8 +7,9 @@ a set of stubs to be imported via import_stubs_to_mock_api:
 starting from a prompt only.
 * Do not call clear_mock_api unless explicitly asked.
 * See [Stub Creation Guidelines](stub-creation.md) for general guidelines on how to create stubs.
-* If the mock API is of the rest/openapi type, update the OpenAPI description via the put_openapi tool
-to include all new paths and operations created where WireMock Cloud has not done this automatically
+* If the mock API is of the rest/openapi type, update the OpenAPI description (see
+[Transferring Files To and From a Mock API](file-transfer.md) for the `push` upload flow) to include
+all new paths and operations created where WireMock Cloud has not done this automatically
 (which can happen when response templating is enabled for a stub).
 These should include schemas and examples for requests and responses.
 
@@ -224,7 +225,9 @@ When converting existing stubs to be stateful, follow these per-method patterns:
 ### Import and Update
 1. Import the new stateful stubs using `import_stubs_to_mock_api`.
 2. Delete the old non-stateful stubs that have been replaced.
-3. Update the OpenAPI via `push` to include any new paths or operations added during conversion (e.g., delete endpoints, 404 responses) where WireMock Cloud hasn't done this automatically.
+3. Update the OpenAPI (see [Transferring Files To and From a Mock API](file-transfer.md)) to include
+any new paths or operations added during conversion (e.g., delete endpoints, 404 responses) where
+WireMock Cloud hasn't done this automatically.
 
 ## Example
 

@@ -5,16 +5,15 @@ user-invocable: true
 argument-hint: "<path-to-project-folder>"
 allowed-tools:
   - Read(../references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__reset_request_journal
-  - mcp__wiremock__get_mock_api_settings
-  - mcp__wiremock__make_http_request
-  - mcp__wiremock__pull
-  - mcp__wiremock__update_mock_api_settings
-  - mcp__wiremock__update_mock_api_auth_settings
+  - Bash(curl:*)
+  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
+  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
+  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
+  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
+  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
+  - mcp__plugin_wiremock-cloud_wiremock__get_mock_api_settings
+  - mcp__plugin_wiremock-cloud_wiremock__pull
+  - mcp__plugin_wiremock-cloud_wiremock__update_mock_api_settings
   - mcp__arazzo-runner__run_workflow
 ---
 
@@ -33,6 +32,7 @@ If the Arazzo Runner MCP server is unavailable, use `npx @wiremock/arazzo-runner
 The following WireMock guidelines are bundled as reference files. Read the relevant files when performing those steps:
 
 - [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
+- [Transferring Files To and From a Mock API](../references/file-transfer.md) - the download flow used by `pull`
 
 ## Step 1: Validate Project Folder
 
@@ -60,14 +60,14 @@ Use `AskUserQuestion` to collect any additional configuration:
    wiremock environments create -p verify
    ```
    This will create a new instance of the API in Cloud and a profile YAML file containing the new `cloud_id`. Use this new instance for the remainder of the verification process.
-4. **Enable hard request validation** against the OpenAPI schema using `update_openapi_settings`. This ensures all responses are validated against the spec during review.
-5. **Disable authentication** on the mock API using `update_mock_api_auth_settings` so that the Arazzo workflows can run without auth credentials.
+4. **Enable hard request validation** against the OpenAPI schema using `update_mock_api_settings` with `settingsType: "openapi"` and `validationMode: "hard"`. This ensures all responses are validated against the spec during review.
+5. **Authentication:** there is no MCP tool to disable authentication on a mock API. If the mock API has authentication enabled, either ask the user to disable it via the WireMock Cloud dashboard before proceeding, or supply working credentials via the Arazzo workflows' `authConfigFiles` so the run isn't blocked by auth failures.
 
 ## Step 4: Retrieve Documentation and Specifications
 
 Gather all available documentation for the API:
 
-1. Read the OpenAPI spec from `.wiremock/<service-name>/openapi.yaml` and also fetch it from the mock API using `pull`.
+1. Read the OpenAPI spec from `.wiremock/<service-name>/openapi.yaml` and also fetch it from the mock API using `pull` (see [Transferring Files To and From a Mock API](../references/file-transfer.md) for the `pull` → `curl` flow).
 2. Read any documentation files, OpenAPI docs, or Postman collections provided by the user or found via search.
 3. Read the Arazzo workflow document from `.wiremock/<service-name>/arazzo.yaml`.
 

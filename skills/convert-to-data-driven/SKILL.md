@@ -5,23 +5,23 @@ description: Convert existing WireMock stubs to use CSV or database data sources
 argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
-  - mcp__wiremock__who_am_i
-  - mcp__wiremock__search_my_mock_apis
-  - mcp__wiremock__search_stub_mappings
-  - mcp__wiremock__update_stub_mapping
-  - mcp__wiremock__import_stubs_to_mock_api
-  - mcp__wiremock__search_request_journal
-  - mcp__wiremock__reset_request_journal
-  - mcp__wiremock__make_http_request
-  - mcp__wiremock__list_data_sources
-  - mcp__wiremock__get_data_source
-  - mcp__wiremock__get_data_source_data
-  - mcp__wiremock__create_data_source
-  - mcp__wiremock__update_data_source
-  - mcp__wiremock__update_data_source_data
-  - mcp__wiremock__delete_data_source
-  - mcp__wiremock__pull
-  - mcp__wiremock__look_up_documentation
+  - Bash(curl:*)
+  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
+  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
+  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
+  - mcp__plugin_wiremock-cloud_wiremock__update_stub_mapping
+  - mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api
+  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
+  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
+  - mcp__plugin_wiremock-cloud_wiremock__list_data_sources
+  - mcp__plugin_wiremock-cloud_wiremock__get_data_source
+  - mcp__plugin_wiremock-cloud_wiremock__get_data_source_data
+  - mcp__plugin_wiremock-cloud_wiremock__create_data_source
+  - mcp__plugin_wiremock-cloud_wiremock__update_data_source
+  - mcp__plugin_wiremock-cloud_wiremock__create_upload
+  - mcp__plugin_wiremock-cloud_wiremock__update_data_source_data
+  - mcp__plugin_wiremock-cloud_wiremock__delete_data_source
+  - mcp__plugin_wiremock-cloud_wiremock__look_up_documentation
 ---
 
 ## Prerequisites
@@ -36,6 +36,7 @@ Read these references before converting stubs:
 - [Stub Creation Guidelines](../references/stub-creation.md) - rules for creating and importing stubs
 - [Response Template Authoring](../references/response-templating.md) - guidelines for Handlebars response templates, formatting, and pagination metadata
 - [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs and fixing errors
+- [Transferring Files To and From a Mock API](../references/file-transfer.md) - the upload flow used by `update_data_source_data` if replacing a data source's contents from a local file
 
 ## Instructions
 
