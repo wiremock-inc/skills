@@ -1,7 +1,7 @@
 # Making stubs stateful
 
 If asked to convert a collection of stubs to be stateful, follow these guidelines in order to generate
-a set of stubs to be imported via import_stubs_to_mock_api:
+a set of stubs to be imported via the `push` flow (see "Import and Update" below):
 
 * Avoid using generate_stateful_stub_set when converting existing stubs to be stateful. Use this tool when
 starting from a prompt only.
@@ -223,7 +223,10 @@ When converting existing stubs to be stateful, follow these per-method patterns:
 - Example: `{{now offset='1 day' format='yyyy-MM-dd\'T\'HH:mm:ss\'Z\''}}`.
 
 ### Import and Update
-1. Import the new stateful stubs using `import_stubs_to_mock_api`.
+1. Save the new stateful stub mappings to a local file (root key `mappings`) and import them using the
+`push` flow (`type: "stub_mappings"`, see [Transferring Files To and From a Mock API](file-transfer.md))
+rather than `import_stubs_to_mock_api` — `push` takes a real file, which avoids hand-escaping the
+Handlebars templates in state-change stubs into a JSON string parameter.
 2. Delete the old non-stateful stubs that have been replaced.
 3. Update the OpenAPI (see [Transferring Files To and From a Mock API](file-transfer.md)) to include
 any new paths or operations added during conversion (e.g., delete endpoints, 404 responses) where

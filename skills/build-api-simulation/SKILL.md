@@ -6,11 +6,14 @@ argument-hint: "<api-name>"
 allowed-tools:
   - Read(../references/*)
   - Bash(curl:*)
+  - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py:*)
+  - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py:*)
+  - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_stub_mappings.py:*)
   - mcp__plugin_wiremock-cloud_wiremock__who_am_i
   - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
   - mcp__plugin_wiremock-cloud_wiremock__create_mock_api
   - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
-  - mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api
+  - mcp__plugin_wiremock-cloud_wiremock__delete_stub_mapping
   - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
   - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
   - mcp__plugin_wiremock-cloud_wiremock__get_mock_api_settings
@@ -112,6 +115,8 @@ Search for an official OpenAPI or Swagger description:
 
 Save the OpenAPI description to `.wiremock/<service-name>/openapi.yaml` inside the project folder.
 
+Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py <path>` and reviewing the printed path count and operationIds.
+
 ## Step 3: Generate Arazzo Test Workflows
 
 Generate an Arazzo 1.0.1+ document covering the API's functionality:
@@ -126,6 +131,8 @@ specific items of data created were returned.
 - Use realistic example data in request bodies that is consistent with the OpenAPI schemas.
 
 Save the Arazzo document to `.wiremock/<service-name>/arazzo.yaml` inside the project folder.
+
+Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py <path>` and reviewing the printed workflowIds and step IDs.
 
 ## Step 4: Create and Configure the Mock API
 
@@ -163,17 +170,20 @@ Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.
 
 Read the [Stub Creation Guidelines](../references/stub-creation.md) before proceeding.
 
-Generate stubs covering ALL operations in the OpenAPI spec and import them using `import_stubs_to_mock_api`.
+Generate stubs covering ALL operations in the OpenAPI spec and save them to `.wiremock/<service-name>/stub-mappings.yaml` (root key `mappings`).
 
 Cross-reference every response body against its schema's `required` fields. Ensure ALL required fields are present in the response. Fields that aren't typically sent by the client but are required in the response (e.g. `currency` on a refund) must be included with sensible defaults.
 
+Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_stub_mappings.py <path>` and reviewing the printed mapping count and method/path/status summary.
+
+Import the stubs using the `create_upload` → `curl` → `push` flow (`type: "stub_mappings"`) described in [Transferring Files To and From a Mock API](../references/file-transfer.md). Do NOT use `import_stubs_to_mock_api` — `push` takes a real file, which avoids hand-escaping JSON into a string parameter.
+
 #### 5B.2: Verify Against the Mock API
 
-1. **Smoke test first.** Before running the full suite, manually test one create + retrieve cycle against the mock API with `curl` via `Bash` (there is no MCP tool for making arbitrary HTTP requests) to verify the basic flow works and passes OpenAPI validation. This gives fast feedback before the slower full suite.
-2. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
-3. Run the Arazzo workflows against the mock API's base URL.
-4. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
-5. Repeat until all workflows pass.
+1. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
+2. Run the Arazzo workflows against the mock API's base URL.
+3. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
+4. Repeat until all workflows pass.
 
 ---
 
@@ -184,9 +194,8 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `search_stub_mappings` and convert them following the patterns in the reference.
 
 After converting:
-1. **Smoke test first.** Manually test one create + retrieve cycle with `curl` via `Bash` to verify the stateful flow works.
-2. Validate the stubs using [Validating and Fixing Stubs](../references/validating-and-fixing.md).
-3. Run the Arazzo workflows against the mock API's base URL. Fix **stubs only** if any steps fail. Repeat until all pass.
+1. Validate the stubs using [Validating and Fixing Stubs](../references/validating-and-fixing.md).
+2. Run the Arazzo workflows against the mock API's base URL. Fix **stubs only** if any steps fail. Repeat until all pass.
 
 ## Final Acceptance Check
 
