@@ -17,14 +17,14 @@ Follow this process when a live sandbox/test environment is available for record
 
 ## Run Arazzo Workflows Through the Recorder
 
-1. Run the Arazzo workflows using `run_workflow` with:
-   - `arazzoPath`: path to the local Arazzo document
-   - `baseUrls`: override the source's base URL to `http://localhost:<recorder-port>`
-   - `authConfigFiles`: include the path to `auth-config.yaml`
+1. Run the Arazzo workflows via the CLI (see Running Arazzo Workflows in the SKILL.md), overriding the source's base URL to point at the recorder:
+   ```
+   npx @wiremock/arazzo-runner run <arazzo-path> -b <source-name>=http://localhost:<recorder-port> -a auth-config.yaml -r <report-path> --no-interactive
+   ```
 
 2. **If the run fails:**
    - Stop the recording (cancel it, do not persist the captured stubs).
-   - Examine the run report to identify failures.
+   - Examine the report file to identify failures.
    - Fix the Arazzo workflows and/or request data.
    - Start a new recording session and retry.
    - Repeat until the entire run succeeds.
@@ -35,6 +35,6 @@ Follow this process when a live sandbox/test environment is available for record
 ## Verify Against the Mock API
 
 1. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](validating-and-fixing.md).
-2. Run the Arazzo workflows against the **mock API's base URL** (not the recorder).
+2. Run the Arazzo workflows via the CLI against the **mock API's base URL** (not the recorder).
 3. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
 4. Repeat until all workflows pass.

@@ -25,16 +25,17 @@ allowed-tools:
   - mcp__plugin_wiremock-cloud_wiremock__list_data_sources
   - mcp__plugin_wiremock-cloud_wiremock__get_data_source
   - mcp__plugin_wiremock-cloud_wiremock__get_data_source_data
-  - mcp__arazzo-runner__run_workflow
+  - Bash(npx @wiremock/arazzo-runner:*)
 ---
 
 ## Prerequisites
 
-This skill requires the following MCP servers to be configured and running:
+This skill requires the following MCP server to be configured and running:
 - **WireMock Cloud MCP** - provides tools for managing mock APIs, stubs, recordings, and OpenAPI documents
-- **Arazzo Runner MCP** (`@wiremock/arazzo-runner`) - provides the `run_workflow` tool for executing Arazzo workflow specifications
 
-If either MCP server is unavailable, stop and inform the user before proceeding.
+If the WireMock Cloud MCP server is unavailable, stop and inform the user before proceeding.
+
+Arazzo workflows are executed via the `@wiremock/arazzo-runner` CLI (invoked with `npx`), not an MCP tool. Node.js v18+ must be installed. See [Running Arazzo Workflows](#running-arazzo-workflows) below.
 
 ## Reference Documentation
 
@@ -49,6 +50,19 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 - [Transferring Files To and From a Mock API](../references/file-transfer.md) - the upload/download flow used by `push` and `pull`
 
 These references supersede the `look_up_documentation` MCP tool - do not call `look_up_documentation`.
+
+## Running Arazzo Workflows
+
+Whenever this skill says to "run the Arazzo workflows", invoke the CLI directly:
+
+```
+npx @wiremock/arazzo-runner run <arazzo-path> -b <source-name>=<base-url> [-a <auth-config-file>]... -r <report-path> --no-interactive
+```
+
+- `<source-name>` must match a name in the Arazzo document's `sourceDescriptions`. Pass `-b` once per source if there are multiple.
+- Pass `-a` once per authenticator config file needed (omit if the API is unauthenticated).
+- Always pass `--no-interactive` so the run never blocks waiting for input.
+- Always pass `-r <report-path>` (e.g. `.wiremock/<service-name>/arazzo-report.yaml`) and read that report afterwards to check for step failures or response validation errors.
 
 ## Step 1: Gather Inputs
 
@@ -181,7 +195,7 @@ Import the stubs using the `create_upload` → `curl` → `push` flow (`type: "s
 #### 5B.2: Verify Against the Mock API
 
 1. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
-2. Run the Arazzo workflows against the mock API's base URL.
+2. Run the Arazzo workflows (see [Running Arazzo Workflows](#running-arazzo-workflows)) against the mock API's base URL.
 3. If any steps fail, fix **stubs only**. Do NOT change the Arazzo workflows or OpenAPI description.
 4. Repeat until all workflows pass.
 
@@ -195,7 +209,7 @@ Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (incl
 
 After converting:
 1. Validate the stubs using [Validating and Fixing Stubs](../references/validating-and-fixing.md).
-2. Run the Arazzo workflows against the mock API's base URL. Fix **stubs only** if any steps fail. Repeat until all pass.
+2. Run the Arazzo workflows (see [Running Arazzo Workflows](#running-arazzo-workflows)) against the mock API's base URL. Fix **stubs only** if any steps fail. Repeat until all pass.
 
 ## Final Acceptance Check
 
@@ -210,7 +224,7 @@ Cross-reference every operation in the OpenAPI spec against the stubs and Arazzo
 ### 2. Final regression run
 Run a clean regression pass to confirm everything works end-to-end:
 1. Reset the request journal.
-2. Run all Arazzo workflows against the mock API's base URL.
+2. Run all Arazzo workflows (see [Running Arazzo Workflows](#running-arazzo-workflows)) against the mock API's base URL.
 3. Check the request journal for any response validation errors.
 4. If there are failures or validation errors, fix the stubs and repeat until the run is fully clean.
 

@@ -13,9 +13,9 @@ Given an API name and optional sandbox URL, the skill will:
 
 ## Prerequisites
 
-### MCP Servers
+### MCP Server
 
-This skill requires two MCP servers to be configured in your Claude Code settings:
+This skill requires the following MCP server to be configured in your Claude Code settings:
 
 #### WireMock Cloud MCP
 
@@ -23,33 +23,13 @@ Provides tools for managing mock APIs, stubs, recordings, and OpenAPI documents.
 
 Follow the [WireMock MCP installation guide](https://docs.wiremock.io/ai-mcp/installation) to install the WireMock CLI, log in to your WireMock Cloud account, and configure the MCP server for Claude Code.
 
-#### Arazzo Runner MCP
+### Arazzo Runner CLI
 
-Provides the `run_workflow` tool for executing [Arazzo](https://spec.openapis.org/arazzo/latest.html) workflow specifications against APIs.
-
-Install via the Claude Code CLI:
-
-```bash
-claude mcp add --transport stdio arazzo-runner -- npx @wiremock/arazzo-runner mcp
-```
-
-Or add it manually to your MCP config (`~/.claude/mcp.json` or project-level):
-
-```json
-{
-  "mcpServers": {
-    "arazzo-runner": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["@wiremock/arazzo-runner", "mcp"]
-    }
-  }
-}
-```
+[Arazzo](https://spec.openapis.org/arazzo/latest.html) workflows are executed via the `@wiremock/arazzo-runner` CLI (run with `npx @wiremock/arazzo-runner run ...`), not an MCP tool. No separate installation step is required — `npx` fetches it on first use.
 
 ### Node.js
 
-[Node.js](https://nodejs.org/) v18 or later is required for the MCP servers.
+[Node.js](https://nodejs.org/) v18 or later is required for the MCP server and the Arazzo Runner CLI.
 
 ## Usage
 

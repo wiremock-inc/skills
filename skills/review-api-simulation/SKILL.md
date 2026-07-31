@@ -14,18 +14,17 @@ allowed-tools:
   - mcp__plugin_wiremock-cloud_wiremock__get_mock_api_settings
   - mcp__plugin_wiremock-cloud_wiremock__pull
   - mcp__plugin_wiremock-cloud_wiremock__update_mock_api_settings
-  - mcp__arazzo-runner__run_workflow
+  - Bash(npx @wiremock/arazzo-runner:*)
 ---
 
 ## Prerequisites
 
-This skill requires the following MCP servers to be configured and running:
+This skill requires the following MCP server to be configured and running:
 - **WireMock Cloud MCP** - provides tools for managing mock APIs, stubs, recordings, and OpenAPI documents
-- **Arazzo Runner MCP** (`@wiremock/arazzo-runner`) - provides the `run_workflow` tool for executing Arazzo workflow specifications
 
 If the WireMock Cloud MCP server is unavailable, stop and inform the user before proceeding.
 
-If the Arazzo Runner MCP server is unavailable, use `npx @wiremock/arazzo-runner` via the command line instead. Run `npx @wiremock/arazzo-runner -h` to see available options.
+Arazzo workflows are executed via the `@wiremock/arazzo-runner` CLI (invoked with `npx`), not an MCP tool. Node.js v18+ must be installed. See [Running Arazzo Workflows](#running-arazzo-workflows) below.
 
 ## Reference Documentation
 
@@ -33,6 +32,19 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 
 - [Validating and Fixing Stubs](../references/validating-and-fixing.md) - process for validating stubs against the OpenAPI schema and fixing errors
 - [Transferring Files To and From a Mock API](../references/file-transfer.md) - the download flow used by `pull`
+
+## Running Arazzo Workflows
+
+Whenever this skill says to "run the Arazzo workflows", invoke the CLI directly:
+
+```
+npx @wiremock/arazzo-runner run <arazzo-path> -b <source-name>=<base-url> [-a <auth-config-file>]... -r <report-path> --no-interactive
+```
+
+- `<source-name>` must match a name in the Arazzo document's `sourceDescriptions`. Pass `-b` once per source if there are multiple.
+- Pass `-a` once per authenticator config file needed (omit if the API is unauthenticated).
+- Always pass `--no-interactive` so the run never blocks waiting for input.
+- Always pass `-r <report-path>` (e.g. `.wiremock/<service-name>/arazzo-report.yaml`) and read that report afterwards to check for step failures or response validation errors.
 
 ## Step 1: Validate Project Folder
 
@@ -61,7 +73,7 @@ Use `AskUserQuestion` to collect any additional configuration:
    ```
    This will create a new instance of the API in Cloud and a profile YAML file containing the new `cloud_id`. Use this new instance for the remainder of the verification process.
 4. **Enable hard request validation** against the OpenAPI schema using `update_mock_api_settings` with `settingsType: "openapi"` and `validationMode: "hard"`. This ensures all responses are validated against the spec during review.
-5. **Authentication:** there is no MCP tool to disable authentication on a mock API. If the mock API has authentication enabled, either ask the user to disable it via the WireMock Cloud dashboard before proceeding, or supply working credentials via the Arazzo workflows' `authConfigFiles` so the run isn't blocked by auth failures.
+5. **Authentication:** there is no MCP tool to disable authentication on a mock API. If the mock API has authentication enabled, either ask the user to disable it via the WireMock Cloud dashboard before proceeding, or supply working credentials via the CLI's `-a` authenticator config flag (see [Running Arazzo Workflows](#running-arazzo-workflows)) so the run isn't blocked by auth failures.
 
 ## Step 4: Retrieve Documentation and Specifications
 
@@ -99,7 +111,7 @@ Examine the Arazzo workflow document and cross-reference against the OpenAPI spe
 Run the Arazzo workflows against the mock API to verify they execute successfully:
 
 1. Reset the request journal using `reset_request_journal`.
-2. Run all Arazzo workflows against the mock API's base URL using `run_workflow`.
+2. Run all Arazzo workflows (see [Running Arazzo Workflows](#running-arazzo-workflows)) against the mock API's base URL.
 3. Check the request journal using `search_request_journal` for any response validation errors.
 4. Note any workflow failures or validation errors.
 
