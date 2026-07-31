@@ -6,9 +6,12 @@ argument-hint: "<api-name>"
 allowed-tools:
   - Read(../references/*)
   - Bash(curl:*)
+  - Bash(head:*)
+  - Bash(npx swagger2openapi:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_stub_mappings.py:*)
+  - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/explore_openapi.py:*)
   - mcp__plugin_wiremock-cloud_wiremock__who_am_i
   - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
   - mcp__plugin_wiremock-cloud_wiremock__create_mock_api
@@ -64,6 +67,22 @@ npx @wiremock/arazzo-runner run <arazzo-path> -b <source-name>=<base-url> [-a <a
 - Always pass `--no-interactive` so the run never blocks waiting for input.
 - Always pass `-r <report-path>` (e.g. `.wiremock/<service-name>/arazzo-report.yaml`) and read that report afterwards to check for step failures or response validation errors.
 
+## Exploring the OpenAPI Document
+
+Whenever you need to understand the API's shape — its title/version/servers, overall size, which tags exist, or which endpoints belong to a tag — use the bundled script instead of writing ad-hoc analysis code:
+
+```
+python3 ${CLAUDE_SKILL_DIR}/scripts/explore_openapi.py <openapi-path> info
+python3 ${CLAUDE_SKILL_DIR}/scripts/explore_openapi.py <openapi-path> stats
+python3 ${CLAUDE_SKILL_DIR}/scripts/explore_openapi.py <openapi-path> tags
+python3 ${CLAUDE_SKILL_DIR}/scripts/explore_openapi.py <openapi-path> endpoints [tag]
+```
+
+- `info` — title, version, spec version, description, servers.
+- `stats` — counts of paths, operations, responses, distinct status codes, tags, and schemas.
+- `tags` — every tag with its operation count.
+- `endpoints [tag]` — method, path, operationId, and summary for every operation, optionally filtered to one tag.
+
 ## Step 1: Gather Inputs
 
 The API name is: **$ARGUMENTS**
@@ -111,13 +130,12 @@ Update `cloud_id` with the actual mock API ID once it has been created. All subs
 Search for an official OpenAPI or Swagger description:
 
 1. Check any info locations provided by the user for OpenAPI/Swagger files.
-2. Use `WebSearch` and `WebFetch` to look for an official OpenAPI spec published by the API provider.
-3. Download the spec if found.
+2. Use `WebSearch` to look for an official OpenAPI or Swagger spec published by the API provider. Do NOT use `WebFetch` to retrieve it — `WebFetch` summarizes and truncates page content, which leaves no complete document to work from and leads to trying to reconstruct or analyze the spec piecemeal.
+3. If a URL to a spec is found, download the **entire** document with `curl` instead, and save it as-is to `.wiremock/<service-name>/openapi.yaml` or `.wiremock/<service-name>/openapi.json` (matching the source format).
 
-**If an official OpenAPI spec is found or provided:**
-- Do NOT modify it in any way except for its `servers` element. Never make any other changes to a downloaded OpenAPI spec without explicit user permission.
-- Validate it for completeness and accuracy.
-- If the OpenAPI appears to have genuine defects (missing schemas, incorrect types, invalid structure, etc.), **report them to the user** and do not attempt to fix them. These are upstream issues that should be raised with the API provider. Ask the user how to proceed — they may choose to accept the defects, provide a corrected spec, or grant permission to patch specific issues.
+**If an official OpenAPI or Swagger spec is found or provided:**
+- Do NOT modify its contents by hand. Never make any changes to a downloaded spec without explicit user permission (the `servers` update in Step 5 is the one standard exception).
+- Do NOT analyze it directly if it's a Swagger 2.0 document — proceed to Step 3 first to convert it, then perform analysis in Step 5 on the converted result. An OpenAPI 3.x document can be analyzed as-is once Step 3 confirms its format.
 
 **If no official OpenAPI spec exists, generate one:**
 - Use **OpenAPI 3.0.3** format (not 3.1). WireMock's response validator does not support OpenAPI 3.1's `type: ['string', 'null']` syntax for nullable fields. Use `nullable: true` instead (e.g. `type: string` with `nullable: true`).
@@ -126,27 +144,24 @@ Search for an official OpenAPI or Swagger description:
 - Include valid, realistic examples for all requests and responses.
 - Use appropriate HTTP methods, status codes, and content types.
 - Define error responses (400, 401, 403, 404, 409, 500 as applicable).
+- Save it to `.wiremock/<service-name>/openapi.yaml` inside the project folder.
+- A freshly generated spec is already OpenAPI 3.0.3, so Step 3 will detect this and skip conversion.
 
-Save the OpenAPI description to `.wiremock/<service-name>/openapi.yaml` inside the project folder.
+## Step 3: Normalize a Swagger Document Locally
 
-Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py <path>` and reviewing the printed path count and operationIds.
+Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so this must happen locally, before anything is uploaded or analyzed.
 
-## Step 3: Generate Arazzo Test Workflows
-
-Generate an Arazzo 1.0.1+ document covering the API's functionality:
-
-- Create one workflow per functional grouping (e.g., user management, billing, orders).
-- Each workflow should chain related operations in a realistic sequence (e.g., create -> get -> update -> list -> delete).
-- Reference the OpenAPI document via `sourceDescriptions`.
-- Extract outputs from responses and pass them as inputs to subsequent steps (e.g., capture an ID from a create response and use it in subsequent get/update/delete steps).
-- Include `successCriteria` on every step to validate status codes and key response fields.
-- Where a step involves fetching data that was created in a previous step, the `successCriteria` should include checks that
-specific items of data created were returned.
-- Use realistic example data in request bodies that is consistent with the OpenAPI schemas.
-
-Save the Arazzo document to `.wiremock/<service-name>/arazzo.yaml` inside the project folder.
-
-Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py <path>` and reviewing the printed workflowIds and step IDs.
+1. Detect the document's format by checking its top-level key:
+   ```
+   head -n 5 <openapi-path>
+   ```
+   If it has a top-level `swagger:` key (Swagger 2.0), continue to step 2. If it has a top-level `openapi:` key (already OpenAPI 3.x), skip straight to Step 4 — do not run `swagger2openapi` on a document that's already OpenAPI.
+2. Convert the Swagger 2.0 document to OpenAPI 3.0.3 with `swagger2openapi`, patching minor errors, writing the result back over the same file:
+   ```
+   npx swagger2openapi <openapi-path> --patch --targetVersion 3.0.3 --outfile <openapi-path>
+   ```
+3. If the command reports fatal/non-patchable errors, treat them as genuine defects in the source spec — report them to the user rather than hand-editing the file.
+4. From this point on, treat the resulting file as authoritative. All subsequent analysis (see [Exploring the OpenAPI Document](#exploring-the-openapi-document)), validation, and Arazzo generation must be based on this converted version, not the original Swagger document.
 
 ## Step 4: Create and Configure the Mock API
 
@@ -160,13 +175,31 @@ Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/vali
    - Set `validationMode: "hard"` to enable hard request validation against the OpenAPI schema.
    - Set `portalEnabled: true` to enable the API documentation portal.
 
-4. **Update the OpenAPI `servers` element** to point to the mock API's base URL.
+## Step 5: Validate and Finalize the OpenAPI Description
 
-5. **Upload the OpenAPI description** to the mock API. See [Transferring Files To and From a Mock API](../references/file-transfer.md) for the `create_upload` → `curl` → `push` flow (`type: "openapi_description"`).
+1. Inspect the normalized OpenAPI description from Step 3 for completeness and accuracy — use [Exploring the OpenAPI Document](#exploring-the-openapi-document) to check coverage instead of writing ad-hoc analysis code.
+2. If it appears to have genuine defects (missing schemas, incorrect types, invalid structure, etc.), **report them to the user** and do not attempt to fix them. These are upstream issues that should be raised with the API provider. Ask the user how to proceed — they may choose to accept the defects, provide a corrected spec, or grant permission to patch specific issues.
+3. Upload this final version to the mock API using the `create_upload` → `curl` → `push` flow described in [Transferring Files To and From a Mock API](../references/file-transfer.md) (`type: "openapi_description"`).
+4. Sanity-check the saved local file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py <path>` and reviewing the printed path count and operationIds.
 
-6. **Update the Arazzo document** so that its `sourceDescriptions` URL points to the uploaded OpenAPI and the workflow base URL targets the mock API.
+## Step 6: Generate Arazzo Test Workflows
 
-## Step 5: Populate and Verify the Mock API
+Generate an Arazzo 1.0.1+ document covering the API's functionality. Use [Exploring the OpenAPI Document](#exploring-the-openapi-document) (`tags` and `endpoints [tag]`) to identify functional groupings and their operations instead of reading the whole spec by hand.
+
+- Create one workflow per functional grouping (e.g., user management, billing, orders).
+- Each workflow should chain related operations in a realistic sequence (e.g., create -> get -> update -> list -> delete).
+- Reference the final OpenAPI document (from Step 5) via `sourceDescriptions`, with the workflow base URL targeting the mock API.
+- Extract outputs from responses and pass them as inputs to subsequent steps (e.g., capture an ID from a create response and use it in subsequent get/update/delete steps).
+- Include `successCriteria` on every step to validate status codes and key response fields.
+- Where a step involves fetching data that was created in a previous step, the `successCriteria` should include checks that
+specific items of data created were returned.
+- Use realistic example data in request bodies that is consistent with the OpenAPI schemas.
+
+Save the Arazzo document to `.wiremock/<service-name>/arazzo.yaml` inside the project folder.
+
+Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py <path>` and reviewing the printed workflowIds and step IDs.
+
+## Step 7: Populate and Verify the Mock API
 
 Follow **Path A** if a sandbox is available, otherwise follow **Path B**.
 
@@ -180,7 +213,7 @@ Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.
 
 ### Path B: No Sandbox Available
 
-#### 5B.1: Generate Stubs
+#### 7B.1: Generate Stubs
 
 Read the [Stub Creation Guidelines](../references/stub-creation.md) before proceeding.
 
@@ -192,7 +225,7 @@ Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/vali
 
 Import the stubs using the `create_upload` → `curl` → `push` flow (`type: "stub_mappings"`) described in [Transferring Files To and From a Mock API](../references/file-transfer.md). Do NOT use `import_stubs_to_mock_api` — `push` takes a real file, which avoids hand-escaping JSON into a string parameter.
 
-#### 5B.2: Verify Against the Mock API
+#### 7B.2: Verify Against the Mock API
 
 1. Validate the stubs against the OpenAPI schema using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 2. Run the Arazzo workflows (see [Running Arazzo Workflows](#running-arazzo-workflows)) against the mock API's base URL.
@@ -201,7 +234,7 @@ Import the stubs using the `create_upload` → `curl` → `push` flow (`type: "s
 
 ---
 
-## Step 6: Stateful Conversion
+## Step 8: Stateful Conversion
 
 **Only perform this step if the user requested stateful mode.**
 
