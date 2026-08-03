@@ -6,23 +6,25 @@ argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
   - Bash(curl:*)
-  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
-  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
-  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
-  - mcp__plugin_wiremock-cloud_wiremock__update_stub_mapping
-  - mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api
-  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__list_data_sources
-  - mcp__plugin_wiremock-cloud_wiremock__get_data_source
-  - mcp__plugin_wiremock-cloud_wiremock__get_data_source_data
-  - mcp__plugin_wiremock-cloud_wiremock__create_data_source
-  - mcp__plugin_wiremock-cloud_wiremock__update_data_source
-  - mcp__plugin_wiremock-cloud_wiremock__create_upload
-  - mcp__plugin_wiremock-cloud_wiremock__update_data_source_data
-  - mcp__plugin_wiremock-cloud_wiremock__delete_data_source
-  - mcp__plugin_wiremock-cloud_wiremock__look_up_documentation
+  - "mcp__plugin_wiremock-cloud_wiremock__create_upload"
+  - "mcp__plugin_wiremock-cloud_wiremock__who_am_i"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings"
+  - "mcp__plugin_wiremock-cloud_wiremock__update_stub_mapping"
+  - "mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__reset_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__list_data_sources"
+  - "mcp__plugin_wiremock-cloud_wiremock__get_data_source"
+  - "mcp__plugin_wiremock-cloud_wiremock__get_data_source_data"
+  - "mcp__plugin_wiremock-cloud_wiremock__create_data_source"
+  - "mcp__plugin_wiremock-cloud_wiremock__update_data_source"
+  - "mcp__plugin_wiremock-cloud_wiremock__update_data_source_data"
+  - "mcp__plugin_wiremock-cloud_wiremock__delete_data_source"
+  - "mcp__plugin_wiremock-cloud_wiremock__look_up_documentation"
 ---
+
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
 
 ## Prerequisites
 

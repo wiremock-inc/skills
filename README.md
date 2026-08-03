@@ -16,15 +16,33 @@ This repository contains a collection of [agent skills](https://agentskills.io/h
 
 `/build-api-simulation` is a user-invocable slash command. The remaining skills are triggered automatically by context when relevant.
 
+Two plugins ship the same 8 skills, differing only in which WireMock Cloud MCP server they talk to:
+
+| Plugin | MCP server |
+|--------|------------|
+| `wiremock-cloud` | Remote, hosted HTTP server (`mcp.wiremock.cloud`). No local install beyond the plugin itself. |
+| `wiremock-cloud-local` | Local, stdio server launched via the WireMock CLI (`wiremock mcp`). Requires `npm i -g @wiremock/cli` and `wiremock login` first. |
+
+Install whichever matches your setup — not both, since they'd both register an MCP server named `wiremock`.
+
 ## Installation
 
 ### Claude Code
 
-Add the marketplace registry, then install the plugin:
+Add the marketplace registry, then install one of the two plugins:
 
 ```
 /plugin marketplace add wiremock-inc/skills
 /plugin install wiremock-cloud@wiremock-inc-skills
 ```
 
-This installs all 7 skills as a single plugin.
+or, for the local MCP server variant:
+
+```
+/plugin marketplace add wiremock-inc/skills
+/plugin install wiremock-cloud-local@wiremock-inc-skills
+```
+
+## Repository structure
+
+Skill content is authored once in `common/skills/` and built into both plugins by `npm run build` (`scripts/build-plugins.js`), which resolves `{{WIREMOCK_TOOL_PREFIX}}` tokens and `# @variant:remote` / `# @variant:local` blocks per variant. The generated output — root `skills/` + `.mcp.json` (the `wiremock-cloud` plugin) and `local/skills/` + `local/.mcp.json` (the `wiremock-cloud-local` plugin) — is committed to the repo; edit `common/skills/` and re-run the build rather than editing the generated files directly.

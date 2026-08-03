@@ -6,15 +6,17 @@ argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
   - Bash(curl:*)
-  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
-  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
-  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
-  - mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api
-  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__look_up_documentation
-  - mcp__plugin_wiremock-cloud_wiremock__pull
+  - "mcp__plugin_wiremock-cloud_wiremock__who_am_i"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings"
+  - "mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__reset_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__look_up_documentation"
+  - "mcp__plugin_wiremock-cloud_wiremock__pull"
 ---
+
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
 
 ## Prerequisites
 
@@ -37,7 +39,7 @@ If `$ARGUMENTS` is empty, ask the user which mock API to create stubs for.
 1. Identify the target mock API using `search_my_mock_apis`.
 2. Read the [Stub Creation Guidelines](../references/stub-creation.md).
 3. Gather requirements from the user about what stubs to create (endpoints, methods, response data, scenarios).
-4. If an OpenAPI description is available for the mock API, pull it (see [Transferring Files To and From a Mock API](../references/file-transfer.md) for the `pull` → `curl` flow) and use it to ensure responses conform to schemas.
+4. If an OpenAPI description is available for the mock API, pull it (see [Transferring Files To and From a Mock API](../references/file-transfer.md) for how `pull` works) and use it to ensure responses conform to schemas.
 5. Create the stubs and import them using `import_stubs_to_mock_api`.
 6. Validate the imported stubs using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
 7. Report the created stubs to the user.

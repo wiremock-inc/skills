@@ -1,3 +1,5 @@
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
+
 # Transferring Files To and From a Mock API
 
 The WireMock Cloud MCP server is remote — it cannot read or write files on your machine directly.

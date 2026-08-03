@@ -1,3 +1,5 @@
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
+
 # Build API Simulation - Claude Code Skill
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that generates complete API simulations in [WireMock Cloud](https://www.wiremock.io/) for any REST API.
@@ -21,7 +23,7 @@ This skill requires the following MCP server to be configured in your Claude Cod
 
 Provides tools for managing mock APIs, stubs, recordings, and OpenAPI documents.
 
-Follow the [WireMock MCP installation guide](https://docs.wiremock.io/ai-mcp/installation) to install the WireMock CLI, log in to your WireMock Cloud account, and configure the MCP server for Claude Code.
+No manual setup is needed beyond installing this plugin — a `.mcp.json` bundled with the plugin configures the WireMock Cloud MCP server automatically. The first tool call that needs it will prompt you to sign in to your WireMock Cloud account in the browser.
 
 ### Arazzo Runner CLI
 
@@ -29,7 +31,8 @@ Follow the [WireMock MCP installation guide](https://docs.wiremock.io/ai-mcp/ins
 
 ### Node.js
 
-[Node.js](https://nodejs.org/) v18 or later is required for the MCP server and the Arazzo Runner CLI.
+[Node.js](https://nodejs.org/) v18 or later is required for the Arazzo Runner CLI.
+
 
 ## Usage
 

@@ -6,14 +6,16 @@ argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
   - Bash(curl:*)
-  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
-  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
-  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
-  - mcp__plugin_wiremock-cloud_wiremock__update_stub_mapping
-  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__look_up_documentation
+  - "mcp__plugin_wiremock-cloud_wiremock__who_am_i"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings"
+  - "mcp__plugin_wiremock-cloud_wiremock__update_stub_mapping"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__reset_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__look_up_documentation"
 ---
+
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
 
 ## Prerequisites
 
@@ -36,7 +38,8 @@ If `$ARGUMENTS` is empty, ask the user which mock API to validate.
 3. Fetch the stub mappings using `search_stub_mappings`.
 4. For each stub:
    1. Reset the request journal using `reset_request_journal`.
-   2. Make a test request for the stub with `curl` via `Bash` (there is no MCP tool for making arbitrary HTTP requests).
+   2. Make a test request for the stub.
+      Use `curl` via `Bash` — there is no MCP tool for making arbitrary HTTP requests.
    3. Check the request journal using `search_request_journal` for validation errors.
    4. If there are response validation errors, fix the stub using `update_stub_mapping` and repeat from step 4.1.
 5. Repeat until all stubs have 0 validation errors.

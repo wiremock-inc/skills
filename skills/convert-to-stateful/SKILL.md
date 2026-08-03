@@ -6,18 +6,20 @@ argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
   - Bash(curl:*)
-  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
-  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
-  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
-  - mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api
-  - mcp__plugin_wiremock-cloud_wiremock__update_stub_mapping
-  - mcp__plugin_wiremock-cloud_wiremock__delete_stub_mapping
-  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__create_upload
-  - mcp__plugin_wiremock-cloud_wiremock__push
-  - mcp__plugin_wiremock-cloud_wiremock__look_up_documentation
+  - "mcp__plugin_wiremock-cloud_wiremock__create_upload"
+  - "mcp__plugin_wiremock-cloud_wiremock__who_am_i"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings"
+  - "mcp__plugin_wiremock-cloud_wiremock__import_stubs_to_mock_api"
+  - "mcp__plugin_wiremock-cloud_wiremock__update_stub_mapping"
+  - "mcp__plugin_wiremock-cloud_wiremock__delete_stub_mapping"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__reset_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__push"
+  - "mcp__plugin_wiremock-cloud_wiremock__look_up_documentation"
 ---
+
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
 
 ## Prerequisites
 
@@ -50,4 +52,5 @@ If `$ARGUMENTS` is empty, ask the user which mock API to convert.
    - Use `jsonMerge` for creating and updating resources
 6. Import the new stateful stubs and delete the old non-stateful versions.
 7. Validate using the process in [Validating and Fixing Stubs](../references/validating-and-fixing.md).
-8. Smoke test by creating and retrieving a resource with `curl` via `Bash` (there is no MCP tool for making arbitrary HTTP requests) to confirm the stateful flow works.
+8. Smoke test by creating and retrieving a resource to confirm the stateful flow works.
+   Use `curl` via `Bash` — there is no MCP tool for making arbitrary HTTP requests.

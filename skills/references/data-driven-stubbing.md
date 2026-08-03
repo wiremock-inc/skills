@@ -1,3 +1,5 @@
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
+
 # Making stubs data-driven
 
 If asked to convert a collection of stubs to be data-driven i.e. to use data from a data source,
@@ -203,6 +205,7 @@ The response body would then need to include pagination metadata and links e.g.
 See [Response Template Authoring](response-templating.md) for guidelines on formatting output with `{{#formatJson}}`, avoiding triple-brace parse errors, the `{{replace}}` helper caveat, and pagination metadata computation.
 
 ## Testing
-Make test requests with `curl` via `Bash` (there is no MCP tool for making arbitrary HTTP requests).
+Make test requests.
+Use `curl` via `Bash` — there is no MCP tool for making arbitrary HTTP requests.
 Check that the stub ID returned in the `Matched-Stub-Id` response header matches the stub we
 expected to match. If these differ, it probably indicates a false positive.

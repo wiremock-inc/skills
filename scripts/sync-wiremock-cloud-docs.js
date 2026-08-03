@@ -22,7 +22,7 @@ const {
 
 const LLMS_TXT_URL = 'https://docs.wiremock.io/llms.txt';
 const BASE_URL = 'https://docs.wiremock.io/';
-const SKILL_DIR = path.join(__dirname, '..', 'skills', 'search-wiremock-cloud-docs');
+const SKILL_DIR = path.join(__dirname, '..', 'common', 'skills', 'search-wiremock-cloud-docs');
 const DOCS_DIR = path.join(SKILL_DIR, 'references');
 
 // Concurrency limit for parallel downloads

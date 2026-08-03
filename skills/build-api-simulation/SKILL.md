@@ -12,24 +12,26 @@ allowed-tools:
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_stub_mappings.py:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/explore_openapi.py:*)
-  - mcp__plugin_wiremock-cloud_wiremock__who_am_i
-  - mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis
-  - mcp__plugin_wiremock-cloud_wiremock__create_mock_api
-  - mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings
-  - mcp__plugin_wiremock-cloud_wiremock__delete_stub_mapping
-  - mcp__plugin_wiremock-cloud_wiremock__search_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__reset_request_journal
-  - mcp__plugin_wiremock-cloud_wiremock__get_mock_api_settings
-  - mcp__plugin_wiremock-cloud_wiremock__update_mock_api_settings
-  - mcp__plugin_wiremock-cloud_wiremock__get_recording_status
-  - mcp__plugin_wiremock-cloud_wiremock__create_upload
-  - mcp__plugin_wiremock-cloud_wiremock__push
-  - mcp__plugin_wiremock-cloud_wiremock__pull
-  - mcp__plugin_wiremock-cloud_wiremock__list_data_sources
-  - mcp__plugin_wiremock-cloud_wiremock__get_data_source
-  - mcp__plugin_wiremock-cloud_wiremock__get_data_source_data
+  - "mcp__plugin_wiremock-cloud_wiremock__who_am_i"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis"
+  - "mcp__plugin_wiremock-cloud_wiremock__create_mock_api"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings"
+  - "mcp__plugin_wiremock-cloud_wiremock__delete_stub_mapping"
+  - "mcp__plugin_wiremock-cloud_wiremock__search_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__reset_request_journal"
+  - "mcp__plugin_wiremock-cloud_wiremock__get_mock_api_settings"
+  - "mcp__plugin_wiremock-cloud_wiremock__update_mock_api_settings"
+  - "mcp__plugin_wiremock-cloud_wiremock__get_recording_status"
+  - "mcp__plugin_wiremock-cloud_wiremock__create_upload"
+  - "mcp__plugin_wiremock-cloud_wiremock__push"
+  - "mcp__plugin_wiremock-cloud_wiremock__pull"
+  - "mcp__plugin_wiremock-cloud_wiremock__list_data_sources"
+  - "mcp__plugin_wiremock-cloud_wiremock__get_data_source"
+  - "mcp__plugin_wiremock-cloud_wiremock__get_data_source_data"
   - Bash(npx @wiremock/arazzo-runner:*)
 ---
+
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
 
 ## Prerequisites
 
@@ -179,7 +181,7 @@ Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so 
 
 1. Inspect the normalized OpenAPI description from Step 3 for completeness and accuracy — use [Exploring the OpenAPI Document](#exploring-the-openapi-document) to check coverage instead of writing ad-hoc analysis code.
 2. If it appears to have genuine defects (missing schemas, incorrect types, invalid structure, etc.), **report them to the user** and do not attempt to fix them. These are upstream issues that should be raised with the API provider. Ask the user how to proceed — they may choose to accept the defects, provide a corrected spec, or grant permission to patch specific issues.
-3. Upload this final version to the mock API using the `create_upload` → `curl` → `push` flow described in [Transferring Files To and From a Mock API](../references/file-transfer.md) (`type: "openapi_description"`).
+3. Upload this final version to the mock API using `push` (`type: "openapi_description"`) as described in [Transferring Files To and From a Mock API](../references/file-transfer.md).
 4. Sanity-check the saved local file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py <path>` and reviewing the printed path count and operationIds.
 
 ## Step 6: Generate Arazzo Test Workflows
@@ -223,7 +225,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 
 Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_stub_mappings.py <path>` and reviewing the printed mapping count and method/path/status summary.
 
-Import the stubs using the `create_upload` → `curl` → `push` flow (`type: "stub_mappings"`) described in [Transferring Files To and From a Mock API](../references/file-transfer.md). Do NOT use `import_stubs_to_mock_api` — `push` takes a real file, which avoids hand-escaping JSON into a string parameter.
+Import the stubs using `push` (`type: "stub_mappings"`) as described in [Transferring Files To and From a Mock API](../references/file-transfer.md). Do NOT use `import_stubs_to_mock_api` — `push` takes a real file, which avoids hand-escaping JSON into a string parameter.
 
 #### 7B.2: Verify Against the Mock API
 
