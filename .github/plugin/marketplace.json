@@ -1,0 +1,25 @@
+{
+  "name": "wiremock-inc-skills",
+  "owner": {
+    "name": "WireMock Inc",
+    "email": "info@wiremock.io"
+  },
+  "metadata": {
+    "description": "Agent skills for API simulation and testing with WireMock Cloud",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "wiremock-cloud",
+      "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
+      "version": "1.0.0",
+      "source": "./copilot"
+    },
+    {
+      "name": "wiremock-cloud-local",
+      "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud, using a local WireMock CLI-based MCP server.",
+      "version": "1.0.0",
+      "source": "./copilot-local"
+    }
+  ]
+}

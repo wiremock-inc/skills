@@ -1,5 +1,0 @@
-{
-  "pluginName": "wiremock-cloud",
-  "toolPrefix": "mcp__plugin_wiremock-cloud_wiremock__",
-  "outputRoot": "."
-}

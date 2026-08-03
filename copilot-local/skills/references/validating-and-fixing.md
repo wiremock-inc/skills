@@ -1,0 +1,14 @@
+<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
+
+# Validating and fixing stub mappings
+
+If asked to validate and fix stub mappings, follow these steps:
+1. Fetch the stub mappings from the mock API using the `search_stub_mappings` tool.
+2. For each stub do the following:
+   1. Reset the request journal using `reset_request_journal`
+   2. Make a test request for the stub mapping against the mock API's base URL.
+      Use the `make_http_request` tool.
+   3. Get the request journal using `search_request_journal`.
+   4. If there are any response validation errors, fix the stub mapping and repeat from step 2.1.
+
+It is important to repeat the process until there are 0 validation errors reported.
