@@ -4,6 +4,7 @@
 
 When creating, updating or importing stubs, follow these guidelines:
 
+Prefer `import_stubs_to_mock_api` over `push` for adding stubs to a mock API — import is additive, while push removes and replaces all of the mock API's existing stubs. Only use `push` when a whole-document replacement is actually intended.
 If importing use WireMock's multiple stub JSON format with a root key of "mappings".
 Unless otherwise instructed by the user, make all responses static - do not use any Handlebars template expressions.
 Do not add request header matchers for authentication or content type.

@@ -225,7 +225,7 @@ Cross-reference every response body against its schema's `required` fields. Ensu
 
 Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/validate_stub_mappings.py <path>` and reviewing the printed mapping count and method/path/status summary.
 
-Import the stubs using `push` (`type: "stub_mappings"`) as described in [Transferring Files To and From a Mock API](../references/file-transfer.md). Do NOT use `import_stubs_to_mock_api` — `push` takes a real file, which avoids hand-escaping JSON into a string parameter.
+Import the stubs using `push` (`type: "stub_mappings"`) as described in [Transferring Files To and From a Mock API](../references/file-transfer.md), not `import_stubs_to_mock_api` — this is a rare case where `push`'s replace-all behavior is fine, since this is the initial stub set for a newly built mock API, and `push` takes a real file, avoiding hand-escaping a large stub set into a JSON string parameter.
 
 #### 7B.2: Verify Against the Mock API
 
