@@ -3,8 +3,6 @@
 If asked to convert a collection of stubs to be stateful, follow these guidelines in order to generate
 a set of stubs to be imported via the `push` flow (see "Import and Update" below):
 
-* Avoid using generate_stateful_stub_set when converting existing stubs to be stateful. Use this tool when
-starting from a prompt only.
 * Do not call clear_mock_api unless explicitly asked.
 * See [Stub Creation Guidelines](stub-creation.md) for general guidelines on how to create stubs.
 * If the mock API is of the rest/openapi type, update the OpenAPI description (see
