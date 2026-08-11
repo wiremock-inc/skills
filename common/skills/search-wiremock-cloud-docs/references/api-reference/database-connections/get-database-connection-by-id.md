@@ -4,11 +4,13 @@
 
 # Get database connection by ID
 
+> Retrieve the configuration of a single database connection.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/database-connections/{databaseConnectionId}
+````yaml /api-reference/openapi.yaml get /v1/database-connections/{databaseConnectionId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,7 @@ paths:
       tags:
         - Database connections
       summary: Get database connection by ID
+      description: Retrieve the configuration of a single database connection.
       operationId: getDatabaseConnectionById
       responses:
         '200':

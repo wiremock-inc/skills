@@ -17,7 +17,7 @@ interface.
 
 You can install the WireMock CLI using npm:
 
-```shell  theme={null}
+```shell theme={null}
 npm install --global @wiremock/cli
 ```
 
@@ -25,19 +25,19 @@ npm install --global @wiremock/cli
 
 A list of available commands can be found as follows:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock -h
 ```
 
 For any given command, additional help can be found as follows:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock <command> -h
 ```
 
 e.g.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record -h
 ```
 
@@ -46,7 +46,7 @@ wiremock record -h
 Most commands provided by the WireMock CLI take options that control how the command is executed.
 For example, the `record-many` command can take a `--request-log-level` option like so:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --request-log-level=full
 ```
 
@@ -73,28 +73,28 @@ the option itself.
 Note that all dashes (`-`) are replaced by underscores (`_`).
 For example,
 
-```shell  theme={null}
+```shell theme={null}
 WMC_RECORD_MANY_REQUEST_LOG_LEVEL=full wiremock record-many
 ```
 
 is equivalent to
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --request-log-level=full
 ```
 
 Options for nested subcommands, such as `wiremock mock-apis list`, delimit their subcommand names with underscores
 (`_`), like so:
 
-```shell  theme={null}
+```shell theme={null}
 WMC_MOCK_APIS_LIST_OUTPUT=json wiremock mock-apis list
 ```
 
-Flag options, such as the `--watch` option of `wiremock push open-api`, can be specified via a boolean value.
+Flag options, such as the `--watch` option of `wiremock open-api push`, can be specified via a boolean value.
 For example,
 
-```shell  theme={null}
-WMC_PUSH_OPEN_API_WATCH=true wiremock push open-api
+```shell theme={null}
+WMC_OPEN_API_PUSH_WATCH=true wiremock open-api push
 ```
 
 #### Values file
@@ -104,14 +104,14 @@ Option values must be provided as nested fields within their respective subcomma
 Note that all dashes (`-`) are replaced by underscores (`_`).
 For example, consider the following values file:
 
-```yaml  theme={null}
+```yaml theme={null}
 record_many:
   request_log_level: full
 ```
 
 Running `wiremock record-many` with this values file is equivalent to
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --request-log-level=full
 ```
 
@@ -126,18 +126,18 @@ This path can be overridden by setting the environment variable `WMC_VALUES_CONF
 
 Options for nested subcommands, such as `wiremock mock-apis list`, are nested like so:
 
-```yaml  theme={null}
+```yaml theme={null}
 mock_apis:
   list:
     output: json
 ```
 
-Flag options, such as the `--watch` option of `wiremock push open-api`, can be specified via a boolean value.
+Flag options, such as the `--watch` option of `wiremock open-api push`, can be specified via a boolean value.
 For example,
 
-```yaml  theme={null}
-push:
-  open_api:
+```yaml theme={null}
+open_api:
+  push:
     watch: true
 ```
 
@@ -152,7 +152,7 @@ turn take precedence over those specified in the values file.
 The WireMock CLI includes a command completion feature that enables you to use the `Tab` key to complete a partially entered command, argument or option.
 To set up this feature for your shell, run the following command
 
-```shell  theme={null}
+```shell theme={null}
 wiremock completion init
 ```
 
@@ -166,7 +166,7 @@ Currently supported shells are [bash](https://www.gnu.org/software/bash/), [zsh]
 
 Most commands require you to have authenticated with WireMock Cloud. You can achieve this by running:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock login
 ```
 
@@ -182,7 +182,7 @@ and following the instructions.
 
 Running
 
-```shell  theme={null}
+```shell theme={null}
 wiremock whoami
 ```
 
@@ -192,7 +192,7 @@ will either report the currently logged in user and exit successfully, or fail r
 
 Running
 
-```shell  theme={null}
+```shell theme={null}
 wiremock logout
 ```
 
@@ -223,4 +223,3 @@ See detailed documentation at [Multi-domain recording using the WireMock CLI](/c
 Runs an MCP server for use with AI tools. Intended to be called from the AI tool's MCP configuration rather than directly in the terminal.
 
 See detailed documentation at [WireMock Cloud AI](/ai-mcp/installation/)
-

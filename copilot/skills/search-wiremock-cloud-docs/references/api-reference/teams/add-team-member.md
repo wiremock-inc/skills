@@ -6,11 +6,13 @@
 
 # Add team member
 
+> Add a user to a team.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/teams/{teamId}/members
+````yaml /api-reference/openapi.yaml post /v1/teams/{teamId}/members
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -102,6 +104,7 @@ paths:
       tags:
         - Teams
       summary: Add team member
+      description: Add a user to a team.
       operationId: addTeamMember
       requestBody:
         content:

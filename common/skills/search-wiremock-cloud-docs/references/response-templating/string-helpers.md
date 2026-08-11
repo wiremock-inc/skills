@@ -4,7 +4,7 @@
 
 # Response Templating - String Helpers
 
-> Working with strings
+> Extract, transform and manipulate strings in response templates, including regex extraction and case conversion.
 
 WireMock Cloud provides a set of string manipulation helpers.
 
@@ -14,15 +14,35 @@ The `regexExtract` helper supports extraction of values matching a regular expre
 
 A single value can be extracted like this:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{regexExtract request.body '[A-Z]+'}}"
 ```
 
 Regex groups can be used to extract multiple parts into an object for later use (the last parameter is a variable name to which the object will be assigned):
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{regexExtract request.body '([a-z]+)-([A-Z]+)-([0-9]+)' 'parts'}}
 {{parts.0}},{{parts.1}},{{parts.2}}
+```
+
+Optionally, a default value can be specified for when there is no match. When the regex does not match and no default is specified, an error will be thrown instead.
+
+```handlebars theme={null}
+{{regexExtract 'abc' '[0-9]+' default='my default value'}}
+```
+
+## Regular expression replace
+
+The `regexReplace` helper replaces all matches of a regular expression in a string with a replacement value.
+
+```handlebars theme={null}
+{{regexReplace 'a1b2c3' '[0-9]' '-'}} // a-b-c-
+```
+
+Capture groups in the pattern can be referenced in the replacement using `$1`, `$2` etc:
+
+```handlebars theme={null}
+{{regexReplace 'user@host' '(\w+)@(\w+)' '$2:$1'}} // host:user
 ```
 
 ## String transformation helpers
@@ -31,7 +51,7 @@ Regex groups can be used to extract multiple parts into an object for later use 
 
 Use the `trim` helper to remove whitespace from the start and end of the input:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{trim request.headers.X-Padded-Header}} // Inline
 
 {{#trim}}                                // Block
@@ -48,7 +68,7 @@ Truncated strings will end with a translatable ellipsis sequence ("...").
 
 For instance the following template:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{abbreviate 'Mocking APIs helps you develop faster' 21 }} // Mocking APIs helps...
 ```
 
@@ -56,13 +76,13 @@ For instance the following template:
 
 `capitalize` will make the first letter of each word in the passed string a capital e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{capitalize 'mock my stuff'}} // Mock My Stuff
 ```
 
 `capitalizeFirst` will capitalise the first character of the value passed e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{capitalizeFirst 'mock my stuff'}} // Mock my stuff
 ```
 
@@ -70,7 +90,7 @@ For instance the following template:
 
 `center` centers the value in a field of a given width e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{center 'hello' size=21}}
 ```
 
@@ -82,7 +102,7 @@ will output:
 
 You can also specify the padding character e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{center 'hello' size=21 pad='#'}}
 ```
 
@@ -96,7 +116,7 @@ will output:
 
 `cut` removes all instances of the parameter from the given string.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{cut 'mocking, stubbing, faults' ','}} // mocking stubbing faults
 ```
 
@@ -104,7 +124,7 @@ will output:
 
 `defaultIfEmpty` outputs the passed value if it is not empty, or the default otherwise e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{defaultIfEmpty 'my value' 'default'}} // my value
 
 {{defaultIfEmpty '' 'default'}}         // default
@@ -115,13 +135,13 @@ will output:
 `join` takes a set of parameters or a collection and builds a single string, with
 each item separated by the specified parameter.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{join 'Mark' 'Rob' 'Dan' ', '}} // Mark, Rob, Dan
 ```
 
 You can optionally specify a prefix and suffix:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{join 'Mark' 'Rob' 'Dan' ', ' prefix='[' suffix=']'}} // [Mark, Rob, Dan]
 ```
 
@@ -129,14 +149,14 @@ You can optionally specify a prefix and suffix:
 
 `ljust` left-aligns the value in a field of a given width, optionally taking a padding character.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ljust 'things' size=20}}         // 'things              '
 {{ljust 'things' size=20 pad='#'}} // 'things##############'
 ```
 
 `rjust` right-aligns the value in the same manner
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{rjust 'things' size=20}}         // '              things'
 {{rjust 'things' size=20 pad='#'}} // '##############things'
 ```
@@ -145,7 +165,7 @@ You can optionally specify a prefix and suffix:
 
 `lower` and `upper` convert the value to all lowercase and all uppercase:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{lower 'WireMock Cloud'}} // wiremock cloud
 {{upper 'WireMock Cloud'}} // WIREMOCK CLOUD
 ```
@@ -154,7 +174,7 @@ You can optionally specify a prefix and suffix:
 
 `replace` replaces all occurrences of the specified substring with the replacement value.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{replace 'the wrong way' 'wrong' 'right' }} // the right way
 ```
 
@@ -163,15 +183,30 @@ You can optionally specify a prefix and suffix:
 `slugify` converts to lowercase, removes non-word characters (alphanumerics and
 underscores) and converts spaces to hyphens. Also strips leading and trailing whitespace.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{slugify 'Mock my APIs'}} // mock-my-apis
+```
+
+### Split
+
+`split` divides a string into a list of substrings using the given delimiter. The
+delimiter is treated as a literal string, not a regular expression.
+
+```handlebars theme={null}
+{{split 'a,b,c' ','}} // ['a', 'b', 'c']
+```
+
+The result can be used with other helpers that accept collections, such as `arrayJoin`:
+
+```handlebars theme={null}
+{{arrayJoin '|' (split 'a,b,c' ',')}} // a|b|c
 ```
 
 ### Strip tags
 
 `stripTags` strips all \[X]HTML tags.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{stripTags '<greeting>hi</greeting>'}} // hi
 ```
 
@@ -180,7 +215,7 @@ underscores) and converts spaces to hyphens. Also strips leading and trailing wh
 `substring` outputs the portion of a string value between two indices. If only
 one index is specified the substring between this point and the end will be returned.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{substring 'one two' 4}}   // two
 {{substring 'one two' 0 3}} // one
 ```
@@ -189,7 +224,7 @@ one index is specified the substring between this point and the end will be retu
 
 `wordWrap` wraps words at specified line length.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{wordWrap 'one two three' 4}}
 ```
 
@@ -206,7 +241,7 @@ three
 `yesno` maps values for true, false and optionally null, to the strings "yes",
 "no", "maybe".
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{yesno true}}   // yes
 {{yesno false}}  // no
 {{yesno null}}   // maybe
@@ -214,9 +249,8 @@ three
 
 You can also specify different strings to represent each state:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{yesno true yes='aye'}}    // aye
 {{yesno false no='nay'}}    // nay
 {{yesno null maybe='meh'}}  // meh
 ```
-

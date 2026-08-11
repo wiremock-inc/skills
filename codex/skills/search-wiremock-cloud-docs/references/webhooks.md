@@ -50,4 +50,3 @@ mock API's request log page.
 Webhooks are fired asynchronously, outside the lifetime of the request that triggered them, so may not have completed by
 the time the triggering request has completed.
 There is also no guarantee of the order that webhooks will be fired if multiple webhooks are configured on a stub.
-

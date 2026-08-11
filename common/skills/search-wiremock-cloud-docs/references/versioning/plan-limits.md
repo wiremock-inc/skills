@@ -19,4 +19,3 @@ to discuss an enterprise plan for your organisation.
 
 If an account/organisation is downgraded to a plan that causes their version changes to exceed the new plan's
 limits, the exceeding changes will be deleted down to the limits of their new plan.
-

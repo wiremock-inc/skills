@@ -21,7 +21,7 @@ The configuration file conforms to the JSON Schema specification available at:
 
 ## Root structure
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   # Global configuration (optional)
 services:
@@ -34,7 +34,7 @@ The `global` section contains configuration that applies to all services by defa
 
 ### Global HTTPS settings
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate:
@@ -47,7 +47,7 @@ When a global certificate is configured, all services with an `https` section wi
 
 The `services` section is a map of service names to their configurations. Service names are user-defined identifiers.
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   my-service-name:
     # Service configuration
@@ -67,7 +67,7 @@ The type of mock API.
 * **Required:** Yes
 * **Valid values:** `REST`, `Unstructured`, `gRPC`, `GraphQL` (case insensitive)
 
-```yaml  theme={null}
+```yaml theme={null}
 type: REST
 ```
 
@@ -78,7 +78,7 @@ Human-readable name for the service.
 * **Type:** `string`
 * **Required:** Yes
 
-```yaml  theme={null}
+```yaml theme={null}
 name: "Invoicing API"
 ```
 
@@ -90,7 +90,7 @@ HTTP port number for the service.
 * **Required:** Yes (or `https` must be provided)
 * **Valid range:** 1-65535
 
-```yaml  theme={null}
+```yaml theme={null}
 port: 8080
 ```
 
@@ -103,7 +103,7 @@ Optional description of the service.
 * **Type:** `string`
 * **Required:** No
 
-```yaml  theme={null}
+```yaml theme={null}
 description: "Mock API for the invoicing system"
 ```
 
@@ -115,7 +115,7 @@ WireMock Cloud mock API ID for syncing with cloud.
 * **Required:** No
 * **Pattern:** 4-15 lowercase alphanumeric characters
 
-```yaml  theme={null}
+```yaml theme={null}
 cloud_id: abc123xyz
 ```
 
@@ -128,7 +128,7 @@ Path to the directory containing stub mappings, files, and API specifications. T
 * **Type:** `string`
 * **Required:** No
 
-```yaml  theme={null}
+```yaml theme={null}
 path: ./my-service
 ```
 
@@ -144,7 +144,7 @@ OpenAPI-specific configuration for validation.
 * **Type:** `object`
 * **Required:** No
 
-```yaml  theme={null}
+```yaml theme={null}
 open_api:
   validation_mode: soft
 ```
@@ -166,7 +166,7 @@ HTTPS configuration for the service. See the [TLS/HTTPS Configuration](#tlshttps
 * **Type:** `object`
 * **Required:** No (but either `port` or `https` must be provided)
 
-```yaml  theme={null}
+```yaml theme={null}
 https:
   port: 8443
   certificate:
@@ -180,7 +180,7 @@ Map of original service URLs for recording and proxying.
 * **Type:** `object`
 * **Required:** No
 
-```yaml  theme={null}
+```yaml theme={null}
 originals:
   default: https://api.example.com
   staging: https://staging-api.example.com
@@ -194,7 +194,7 @@ Services can be configured to run over HTTPS using TLS certificates. TLS can be 
 
 ### HTTPS service configuration
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   my-service:
     type: REST
@@ -218,7 +218,7 @@ Certificates can be configured in three ways:
 
 A PEM-encoded file containing both the RSA private key and X509 certificate.
 
-```yaml  theme={null}
+```yaml theme={null}
 certificate:
   pem: /path/to/certificate.pem
 ```
@@ -244,7 +244,7 @@ dHhXPaefkEhrsUbnXGYRfwQhf4SzdYCMCJno7KKsNn6RLIo=
 
 A keystore file (PKCS12 or JKS format) containing the private key and certificate.
 
-```yaml  theme={null}
+```yaml theme={null}
 certificate:
   keystore: /path/to/keystore.p12
   password: very_secret
@@ -261,7 +261,7 @@ certificate:
 
 When a global keystore is configured, individual services can reference specific certificates by alias:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate:
@@ -299,7 +299,7 @@ See [Managing Environments](/cli/environments) for more information about using 
 
 ## Complete example
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate:
@@ -355,4 +355,3 @@ services:
 
 * [Running mock APIs locally](/cli/local-playback)
 * [Recording configuration](/cli/recording-configuration)
-

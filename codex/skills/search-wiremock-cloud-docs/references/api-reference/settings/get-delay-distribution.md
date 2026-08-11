@@ -6,11 +6,13 @@
 
 # Get delay distribution
 
+> Retrieve the response delay distribution configured for a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/delayDistribution
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/delayDistribution
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Settings
       summary: Get delay distribution
+      description: Retrieve the response delay distribution configured for a mock API.
       operationId: getDelayDistribution
       responses:
         '200':

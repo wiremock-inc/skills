@@ -6,11 +6,13 @@
 
 # Get the change to an entity between one version and another
 
+> Retrieve the change to a single entity between two versions of a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/changes/{entityType}/{entityId}
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/changes/{entityType}/{entityId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -95,6 +97,9 @@ paths:
       tags:
         - Mock API versioning
       summary: Get the change to an entity between one version and another
+      description: >-
+        Retrieve the change to a single entity between two versions of a mock
+        API.
       operationId: getMockApiVersionHistoryChange
       responses:
         '200':

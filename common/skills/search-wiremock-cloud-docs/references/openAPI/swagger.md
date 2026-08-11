@@ -27,7 +27,7 @@ responses to be available in your mock API.
 
 For instance, given the following Open API path element:
 
-```yaml  theme={null}
+```yaml theme={null}
 /people/{id}:
     description: People by ID
     parameters:
@@ -92,7 +92,7 @@ However, you can override this behaviour and specify which data generation strat
 WireMock Cloud uses [Faker](https://github.com/DiUS/java-faker) to generate example data, and
 you can specify the specific faker to use by adding an `x-faker` attribute to your schema element e.g.
 
-```yaml  theme={null}
+```yaml theme={null}
 schema:
   type: string
   x-faker: name.first_name
@@ -133,4 +133,3 @@ can be used, plus there are some additional rules supplied by WireMock Cloud. Th
 * `avatar.image`
 
 <Note>Only required query parameters will be included in the stubs' request criteria. Non-required query parameters will be excluded, meaning that any or no value will be accepted.</Note>
-

@@ -198,7 +198,7 @@ A number of HTTP elements (query parameters, form fields, headers, cookies) can 
 
 Given a request URL like `/multi-query?things=1&things=2&things=3`, you can extract query data in several ways:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{request.query.things}}       // Returns: 1
 {{request.query.things.0}}     // Returns: 1
 {{request.query.things.first}} // Returns: 1
@@ -215,7 +215,7 @@ The non-indexed form returns the wrapper type (not a String), which will fail co
 
 **Correct:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if (eq request.query.status.0 "active")}}
   Status is active
 {{/if}}
@@ -223,7 +223,7 @@ The non-indexed form returns the wrapper type (not a String), which will fail co
 
 **Incorrect:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if (eq request.query.status "active")}}
   This will not work as expected
 {{/if}}
@@ -234,4 +234,3 @@ The non-indexed form returns the wrapper type (not a String), which will fail co
 In [webhook](/webhooks) templates, the triggering request is available as `originalRequest` instead of `request`. This distinguishes it from any request data being constructed for the webhook itself.
 
 **Example:** `{{originalRequest.headers.X-Correlation-Id}}`
-

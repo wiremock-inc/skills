@@ -56,4 +56,3 @@ From here, a key's name can be updated, and the key can be shared with others in
 <img src="https://mintcdn.com/wiremockinc/m5hvbZSijetQGAV3/images/screenshots/keys/key-share-button.png?fit=max&auto=format&n=m5hvbZSijetQGAV3&q=85&s=d30d06b2922d78c4ede4d2d13ad8eddd" alt="Key share button" width="50%" data-path="images/screenshots/keys/key-share-button.png" />
 
 <img src="https://mintcdn.com/wiremockinc/m5hvbZSijetQGAV3/images/screenshots/keys/key-acl-widget.png?fit=max&auto=format&n=m5hvbZSijetQGAV3&q=85&s=0f840ebf9bd1e12e4be20246094eed31" alt="Sharing a key" width="50%" data-path="images/screenshots/keys/key-acl-widget.png" />
-

@@ -115,7 +115,7 @@ This data can be referenced in the response template via the `data.items` proper
 This property is a list of all the rows returned by the data source query.
 For example, to render a JSON array of the name of each returned row, the following response template could be used:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 [
   {{~#arrayJoin ',' data.items as |item|~}}
     {
@@ -134,4 +134,3 @@ Field names containing whitespace or starting with a digit must be surrounded by
 For example, a column with the name "first name" would be referenced like so: `{{ data.items.0.[first name] }}'`.
 
 Supplying an empty query will provide the entirety of the data source to the template model.
-

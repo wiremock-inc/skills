@@ -12,7 +12,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/requests/unmatched
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/requests/unmatched
 openapi: 3.1.0
 info:
   title: WireMock Cloud

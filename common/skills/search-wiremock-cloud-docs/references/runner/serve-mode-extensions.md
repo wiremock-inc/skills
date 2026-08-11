@@ -96,7 +96,7 @@ com.example.RequestCountingAdminApiExtensionFactory
 
 These files can be compiled to a jar file using the following commands:
 
-```shell  theme={null}
+```shell theme={null}
 javac -d . -cp <WIREMOCK_CORE_CLASSPATH_FILES...> RequestCountingAdminApiExtensionFactory.java
 jar cf request-counting.jar com META-INF
 ```
@@ -110,14 +110,98 @@ Examples of extension projects that use Gradle and Maven build tools are [the Wi
 
 Once you have your jar file, place it in an `extensions` directory inside your `.wiremock` directory.
 Now start up the Runner in `serve` mode and make some requests to your services.
-Each service should now expose a custom admin API endpoint at `GET /__admin/request-count` that returns the number of requests that service has received.
+Each service should now expose a custom admin API endpoint at `GET /__admin/request-count`
 
-```shell  theme={null}
-curl http://localhost:8080/things/1
-curl http://localhost:8080/things/2
-curl http://localhost:8080/things/3
+<CodeGroup dropdown>
+  ```shell theme={null}
+  curl http://localhost:8080/things/1
+  curl http://localhost:8080/things/2
+  curl http://localhost:8080/things/3
 
-curl http://localhost:8080/__admin/request-count
+  curl http://localhost:8080/__admin/request-count
+  ```
+
+  ```java theme={null}
+  Unirest.get("http://localhost:8080/things/1");
+  Unirest.get("http://localhost:8080/things/2");
+  Unirest.get("http://localhost:8080/things/3");
+
+  HttpResponse<String> count = Unirest.get("http://localhost:8080/__admin/request-count").asString();
+  ```
+
+  ```javascript theme={null}
+  await fetch('http://localhost:8080/things/1');
+  await fetch('http://localhost:8080/things/2');
+  await fetch('http://localhost:8080/things/3');
+
+  fetch('http://localhost:8080/__admin/request-count')
+    .then(res => res.text())
+    .then(text => console.log(text));
+  ```
+
+  ```python theme={null}
+  import requests
+
+  requests.get('http://localhost:8080/things/1')
+  requests.get('http://localhost:8080/things/2')
+  requests.get('http://localhost:8080/things/3')
+
+  response = requests.get('http://localhost:8080/__admin/request-count')
+  print(response.text)
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  Net::HTTP.get_response(URI('http://localhost:8080/things/1'))
+  Net::HTTP.get_response(URI('http://localhost:8080/things/2'))
+  Net::HTTP.get_response(URI('http://localhost:8080/things/3'))
+
+  response = Net::HTTP.get_response(URI('http://localhost:8080/__admin/request-count'))
+  puts response.body
+  ```
+
+  ```php theme={null}
+  <?php
+  $baseUrl = 'http://localhost:8080';
+  foreach (['/things/1', '/things/2', '/things/3'] as $url) {
+      $curl = curl_init($url);
+      curl_setopt_array($curl, [CURLOPT_RETURNTRANSFER => true,]);
+      curl_exec($curl);
+  }
+
+  $count = curl_init('http://localhost:8080/__admin/request-count');
+  curl_setopt_array($count, [CURLOPT_RETURNTRANSFER => true]);
+
+  $response = curl_exec($count);
+
+  echo $response;
+  ```
+
+  ```go theme={null}
+  import (
+      "fmt"
+      "io"
+      "net/http"
+  )
+
+  for _, path := range []string{"/things/1", "/things/2", "/things/3"} {
+      resp, _ := http.Get("http://localhost:8080" + path)
+      resp.Body.Close()
+  }
+
+  resp, _ := http.Get("http://localhost:8080/__admin/request-count")
+  defer resp.Body.Close()
+
+  body, _ := io.ReadAll(resp.Body)
+  fmt.Println(string(body))
+  ```
+</CodeGroup>
+
+that returns the number of requests that service has received:
+
+```
 3
 ```
 
@@ -126,4 +210,3 @@ curl http://localhost:8080/__admin/request-count
 Note that extension classes are loaded in an isolated fashion, meaning they do not have access to any classes not explicitly supplied in the `extensions` directory, with the exception of the WireMock core classes.
 Thus, if your extensions depend on [Jackson](https://github.com/FasterXML/jackson) for example, the appropriate Jackson jars must be supplied in the `extensions` directory.
 If WireMock core classes are supplied in the `extensions` directory, these will be ignored in favour of the WireMock core classes supplied by the Runner.
-

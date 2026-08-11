@@ -50,7 +50,7 @@ Response statuses can be configured to any valid gRPC status.
 Response bodies must return valid JSON that conforms to the gRPC method's response message.
 For example, given a descriptor set file that was generated from the following proto file:
 
-```protobuf  theme={null}
+```protobuf theme={null}
 syntax = "proto3";
 
 service BookingService {
@@ -74,7 +74,7 @@ message Participant {
 
 The stub response body for the `booking` method would look something like the following:
 
-```json  theme={null}
+```json theme={null}
 {
   "id": "123",
   "created": "2024-08-13T10:12:00",
@@ -122,7 +122,6 @@ To generate a descriptor set file from your proto file, simply add the `--descri
 command.
 For example,
 
-```bash  theme={null}
+```bash theme={null}
 protoc --descriptor_set_out my-api.dsc MyApi.proto
 ```
-

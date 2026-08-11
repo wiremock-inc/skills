@@ -4,11 +4,13 @@
 
 # Get a team by ID
 
+> Retrieve a single team's details by ID.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/teams/{teamId}
+````yaml /api-reference/openapi.yaml get /v1/teams/{teamId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,7 @@ paths:
       tags:
         - Teams
       summary: Get a team by ID
+      description: Retrieve a single team's details by ID.
       operationId: getTeamById
       responses:
         '200':

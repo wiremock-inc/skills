@@ -36,4 +36,3 @@ If you need to find the user's ID first you can do so via [get users in an organ
 
 Removing a user from the organisastion won't delete their user account completely but will move them to a new organisation
 containing only themselves which is subscribed to the Individual (free) plan.
-

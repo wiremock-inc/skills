@@ -20,9 +20,52 @@ Then hit the Record button, enter `http://ip-api.com` as the target URL and hit 
 
 Now make a request to your mock API (substituting `my-mock-api` for your own sub domain name):
 
-```bash  theme={null}
-$ curl -v http://my-mock-api.wiremockapi.cloud/json
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl -v http://my-mock-api.wiremockapi.cloud/json
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("http://my-mock-api.wiremockapi.cloud/json").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('http://my-mock-api.wiremockapi.cloud/json').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('http://my-mock-api.wiremockapi.cloud/json')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://my-mock-api.wiremockapi.cloud/json')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('http://my-mock-api.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("http://my-mock-api.wiremockapi.cloud/json")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 This request will be proxied through WireMock Cloud, so that a `GET` request will be made to `http://ip-api.com/json` and the result captured.
 
@@ -40,4 +83,3 @@ then the `equalToJson` operator will be used. If XML, the `equalToXml` operator 
 For obvious reasons, WireMock Cloud cannot record by proxying to an endpoint that is not accessible via the internet.
 Nor can it record from an endpoint that requires authentication via mutual TLS. However, this can be achieved using
 the WireMock CLI. See [Recording using the WireMock CLI](/cli/recording/).
-

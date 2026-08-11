@@ -10,7 +10,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/{entityCollection}/{entityId}/acl/{subjectType}/{subjectEntityId}
+````yaml /api-reference/openapi.yaml delete /v1/{entityCollection}/{entityId}/acl/{subjectType}/{subjectEntityId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud

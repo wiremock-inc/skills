@@ -20,7 +20,7 @@ of the kind found in many programming languages.
 As with most implementations of if, the simples form is to take an action only if
 the condition is true:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if showDetails}}
   <div id="details">...</div>
 {{/if}}
@@ -28,7 +28,7 @@ the condition is true:
 
 An else clause can be used:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if showDetails}}
   <div id="details">...</div>
 {{else}}
@@ -38,7 +38,7 @@ An else clause can be used:
 
 And any number of else if clauses can also be added:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if showVariantA}}
   <div id="var-a">...</div>
 {{else if showVariantB}}
@@ -52,7 +52,7 @@ And any number of else if clauses can also be added:
 
 Finally, you can take an action if a condition is false using `unless`:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#unless hideDetails}}
   <div id="details">...</div>
 {{/unless}}
@@ -67,7 +67,7 @@ other values, and for this we have a set of helpers implementing common comparis
 For instance if you needed to check that a variable equalled a particular string
 you would use the `eq` helper:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#eq name 'Dan'}}
   <div id="dan">...</div>
 {{/eq}}
@@ -75,7 +75,7 @@ you would use the `eq` helper:
 
 You can nest comparison helpers inside the `if` helper:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if (eq name 'Dan')}}
   <div id="dan">...</div>
 {{/if}}
@@ -83,7 +83,7 @@ You can nest comparison helpers inside the `if` helper:
 
 You can also use comparison helpers with `else`:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#eq name 'Dan'}}
   <div id="dan">...</div>
 {{else eq name 'Mark'}}
@@ -97,55 +97,55 @@ The following comparison helpers are available:
 
 `eq` - equal
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#eq name 'Jeff'}}...{{/eq}}
 ```
 
 `neq` - not equal
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#neq name 'Jeff'}}...{{/neq}}
 ```
 
 `gt` - greater than
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#gt itemCount 3}}...{{/gt}}
 ```
 
 `gte` - greater than or equal to
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#gte itemCount 3}}...{{/gte}}
 ```
 
 `lt` - less than
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#lt itemCount 3}}...{{/lt}}
 ```
 
 `lte` - less than or equal
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#lte itemCount 3}}...{{/lte}}
 ```
 
 `and` - logical AND
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#and (lt itemCount 10) (gt itemCount 5)}}...{{/and}}
 ```
 
 `or` - logical OR
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#or (eq itemCount 1) (eq itemCount 2)}}...{{/or}}
 ```
 
 `not` - logical NOT
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#not (eq itemCount 1)}}...{{/not}}
 ```
 
@@ -153,7 +153,7 @@ The following comparison helpers are available:
 
 You can loop over collections of data using the `each` helper.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#each request.query.things as |thing|}}
   thing: {{{thing}}}
 {{/each}}
@@ -176,7 +176,7 @@ provided to the scope inside the `each` block.
 For instance, if you wanted to output a list of JSON objects, separated with
 commas and avoiding an extraneous comma at the end:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#each (jsonPath request.body '$.things') as |thing|}}
   {{#if @last}}
     { "thing": {{{thing}}} }
@@ -191,7 +191,7 @@ commas and avoiding an extraneous comma at the end:
 The `each` helper also creates an `@index` variable in its scope which you can use
 to get at the (zero-indexed) element counter:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#each (jsonPath request.body '$.things') as |thing|}}
   {{@index}}: {{thing}}
 {{/each}}
@@ -206,14 +206,14 @@ contains the string passed in the second.
 
 It can be used as parameter to the `if` helper:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if (contains 'abcde' 'abc')}}YES{{/if}}
 {{#if (contains (array 'a' 'b' 'c') 'a')}}YES{{/if}}
 ```
 
 Or as a block element on its own:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#contains 'abcde' 'abc'}}YES{{/contains}}
 {{#contains (array 'a' 'b' 'c') 'a'}}YES{{/contains}}
 ```
@@ -225,13 +225,12 @@ regular expression passed in the second:
 
 Like the `contains` helper it can be used as parameter to the `if` helper:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if (matches '123' '[0-9]+')}}YES{{/if}}
 ```
 
 Or as a block element on its own:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#matches '123' '[0-9]+'}}YES{{/matches}}
 ```
-

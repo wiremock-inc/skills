@@ -6,11 +6,13 @@
 
 # Get the contents of a entity at a given version
 
+> Retrieve the full contents of a single entity as it existed at a given version.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/blob/{entityType}/{entityId}
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/blob/{entityType}/{entityId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -92,6 +94,9 @@ paths:
       tags:
         - Mock API versioning
       summary: Get the contents of a entity at a given version
+      description: >-
+        Retrieve the full contents of a single entity as it existed at a given
+        version.
       operationId: getEntityContentsAtVersionHistoryCommit
       responses:
         '200':

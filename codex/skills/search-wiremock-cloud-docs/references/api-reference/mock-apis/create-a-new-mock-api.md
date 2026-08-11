@@ -6,11 +6,13 @@
 
 # Create a new mock API
 
+> Create a new mock API to start simulating an endpoint or service.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis
+````yaml /api-reference/openapi.yaml post /v1/mock-apis
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Mock APIs
       summary: Create a new mock API
+      description: Create a new mock API to start simulating an endpoint or service.
       operationId: createMockApi
       requestBody:
         content:

@@ -4,11 +4,13 @@
 
 # Delete data source by ID
 
+> Permanently remove a data source. Mock APIs that reference it will no longer be able to template responses from it.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/data-sources/{dataSourceId}
+````yaml /api-reference/openapi.yaml delete /v1/data-sources/{dataSourceId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,9 @@ paths:
       tags:
         - Data sources
       summary: Delete data source by ID
+      description: >-
+        Permanently remove a data source. Mock APIs that reference it will no
+        longer be able to template responses from it.
       operationId: deleteDataSource
       responses:
         '204':

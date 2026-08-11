@@ -19,10 +19,11 @@ changes.
 
 ## Usage
 
-Both pull and push commands accept a document type as the first argument and a Mock API ID as the second:
+Both pull and push commands are run against a document type noun (`open-api` or `graphql`), and take a Mock API ID as
+their argument:
 
-```shell  theme={null}
-wiremock <pull|push> <document-type> <mock-api-id>
+```shell theme={null}
+wiremock <document-type> <pull|push> <mock-api-id>
 ```
 
 where `<mock_api_id>` is the ID of the Mock API that should receive the recorded stubs. At present you can get that
@@ -30,8 +31,8 @@ value by browsing into a Mock API at [https://app.wiremock.cloud](https://app.wi
 `https://app.wiremock.cloud/mock-apis/zwg1l/stubs/1e0d7dc0-06a0-49a2-81a7-f5d6a40bfa3d`, the ID is `zwg1l` so you
 should pull its OpenAPI as so:
 
-```shell  theme={null}
-wiremock pull open-api zwg1l
+```shell theme={null}
+wiremock open-api pull zwg1l
 ```
 
 At present, valid document types are `open-api` and `graphql`. The Mock API should be of the appropriate type (defined
@@ -40,16 +41,15 @@ at Mock API creation time).
 All the commands have an optional `-f` or `--file` option, specifying the file to either save the document to (for pull)
 or send as the document (for push):
 
-```shell  theme={null}
-wiremock pull open-api zwg1l --file /tmp/zwg1l-open-api.yaml
-wiremock push open-api zwg1l --file /tmp/zwg1l-open-api.yaml
+```shell theme={null}
+wiremock open-api pull zwg1l --file /tmp/zwg1l-open-api.yaml
+wiremock open-api push zwg1l --file /tmp/zwg1l-open-api.yaml
 ```
 
 If omitted, the document is printed to stdout (for pull) or read from stdin (for push).
 
 ### Watching
 
-The `push` commands have an additional `-w` / `--watch` which require the file to be defined with `-f` / `--file`.
+The `push` commands (e.g. `open-api push`, `graphql push`) have an additional `-w` / `--watch` which require the file to be defined with `-f` / `--file`.
 
 It will leave the CLI running and automatically push the file whenever it is saved.
-

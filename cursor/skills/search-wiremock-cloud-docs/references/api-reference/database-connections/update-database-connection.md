@@ -6,11 +6,13 @@
 
 # Update database connection
 
+> Partially update a database connection's configuration, such as its host, port or credentials.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml patch /v1/database-connections/{databaseConnectionId}
+````yaml /api-reference/openapi.yaml patch /v1/database-connections/{databaseConnectionId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -93,6 +95,9 @@ paths:
       tags:
         - Database connections
       summary: Update database connection
+      description: >-
+        Partially update a database connection's configuration, such as its
+        host, port or credentials.
       operationId: updateDatabaseConnection
       requestBody:
         $ref: '#/components/requestBodies/UpdateDatabaseConnectionRequestBody'

@@ -8,7 +8,7 @@
 
 > Returning dynamic responses using Handlebars templates
 
-Some elements of WireMock Cloud stub responses can be configured generated dynamically, via the use of [Handlebars templates](https://github.com/jknack/handlebars.java).
+Some elements of WireMock Cloud stub responses can be configured generated dynamically, via the use of [Handlebars templates](https://github.com/jknack/handlebars.java). This builds on the same templating system documented in [WireMock OSS's response templating docs](https://wiremock.org/docs/response-templating/).
 
 Most commonly this is used in the response body but response header values can also
 be templated. For proxy responses, the target URL can be a template.
@@ -37,7 +37,7 @@ and uses a special tag syntax to denote dynamic elements, referred to as a "help
 Helpers are always delimited by double or triple curly braces (`{` and `}`). In the simplest case a helper can
 simply output the value of a variable in the model:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{myVariable}}        // Top-level model variable
 {{outerVar.innerVar}} // Nested model variable
 ```
@@ -50,14 +50,14 @@ The following helper takes three positional parameters -
 the string in which the replacement should take place, the substring to find and the
 replacement value:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{replace myString 'foo' 'bar'}}
 ```
 
 Named values are of the form `name=value`. The following helper has a single
 positional parameter followed by a parameter named `format`:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{dateFormat myDate format='yyyy-MM-dd'}}
 ```
 
@@ -67,7 +67,7 @@ Sometimes it's necessary to apply a helper to the result of another one. This ca
 be achieved by nesting helpers using bracket syntax. For example, this template
 will truncate the input string, then capitalise the first letter:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{capitalize (substring myString 0 4)}}
 ```
 
@@ -75,7 +75,7 @@ will truncate the input string, then capitalise the first letter:
 
 Blocks can be used to apply processing to an inner piece of content.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if productExists}}
   // do something with the product
 {{else}}
@@ -96,7 +96,7 @@ For instance, suppose we have a data model where the variable `tag` has the valu
 
 The template
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{tag}}
 ```
 
@@ -108,7 +108,7 @@ will output
 
 whereas the template
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{tag}}}
 ```
 
@@ -138,4 +138,3 @@ All of the available helpers are described in detail in these articles:
 * [JSON](./json/)
 * [JSON Web Tokens](./jwt/)
 * [Miscellaneous Helpers](./misc-helpers/)
-

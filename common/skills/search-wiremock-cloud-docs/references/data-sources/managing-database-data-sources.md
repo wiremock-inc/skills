@@ -64,4 +64,3 @@ Once in the data source page, you will be able to:
 * Change the name of the data source
 * Change the database connection used by the data source
 * Change the table name referenced by the data source
-

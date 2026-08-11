@@ -14,7 +14,7 @@
 The CLI offers a convenient way to record stubs from endpoints that are accessible from the computer running the CLI,
 but not accessible from the internet. Run:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://private-endpoint
 ```
 
@@ -23,7 +23,7 @@ stubs, or create a new Mock API.
 
 If you know the ID of the Mock API you want to save to, you can skip the prompt by passing it as an argument:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://private-endpoint --to=cloud:<mock_api_id>
 ```
 
@@ -32,7 +32,7 @@ value by browsing into a Mock API at [https://app.wiremock.cloud](https://app.wi
 `https://app.wiremock.cloud/mock-apis/33eye3l9/stubs/1e0d7dc0-06a0-49a2-81a7-f5d6a40bfa3d`, the ID is `33eye3l9` so you
 should record as so:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://private-endpoint --to=cloud:33eye3l9
 ```
 
@@ -44,7 +44,7 @@ stubs to your Mock API in WireMock Cloud and the CLI will exit.
 
 You can specify the port the server should listen on using `-p` or `--reverse-proxy-port`:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://private-endpoint --to=cloud:33eye3l9 \
   --reverse-proxy-port=8080
 ```
@@ -83,7 +83,7 @@ of the proxy target's domain name and port in the response headers or body with 
 If this is not the behaviour you want when recording, you can turn off hostname rewriting using the `--no-rewrite-origin-hostname`
 flag on the `record` command:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://private-endpoint --no-rewrite-origin-hostname
 ```
 
@@ -91,7 +91,7 @@ wiremock record http://private-endpoint --no-rewrite-origin-hostname
 
 The WireMock CLI accepts a configuration file to control how stubs are recorded:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://private-endpoint --import-config-file=<path>
 ```
 
@@ -106,7 +106,7 @@ certificate in one of two ways:
 
 If you have a file containing a PEM encoded RSA private key and X509 certificate, you can provide it as so:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://mutual-tls-endpoint --to=cloud:33eye3l9 \
   --client-certificate=/path/to/file.pem
 ```
@@ -131,7 +131,7 @@ dHhXPaefkEhrsUbnXGYRfwQhf4SzdYCMCJno7KKsNn6RLIo=
 Keeping a private key in PEM format is a security risk, so we also support supplying your client certificate in a
 password protected PKCS 12 store as so:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://mutual-tls-endpoint --to=cloud:33eye3l9 \
   --client-certificate-store=/path/to/file.pkcs12
 ```
@@ -144,4 +144,3 @@ decrypt both.
 The WireMock CLI `record` command supports running in non-interactive mode, making it ideal for
 CI/CD pipelines and automated environments where user interaction is not possible or desired. See the
 [Non-interactive Recording](/cli/non-interactive-recording) for more details.
-

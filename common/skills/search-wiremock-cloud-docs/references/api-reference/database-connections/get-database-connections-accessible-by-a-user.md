@@ -4,11 +4,13 @@
 
 # Get database connections accessible by a user
 
+> List the database connections a user can access, used to back database-backed data sources.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/users/{userId}/database-connections
+````yaml /api-reference/openapi.yaml get /v1/users/{userId}/database-connections
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,9 @@ paths:
       tags:
         - Database connections
       summary: Get database connections accessible by a user
+      description: >-
+        List the database connections a user can access, used to back
+        database-backed data sources.
       operationId: getDatabaseConnectionsForUser
       parameters:
         - schema:

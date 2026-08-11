@@ -4,11 +4,13 @@
 
 # Get organisation by ID
 
+> Retrieve a single organisation's details by ID.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/organisations/{organisationId}
+````yaml /api-reference/openapi.yaml get /v1/organisations/{organisationId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,7 @@ paths:
       tags:
         - Organisations
       summary: Get organisation by ID
+      description: Retrieve a single organisation's details by ID.
       operationId: getOrganisationById
       responses:
         '200':
@@ -137,12 +140,6 @@ components:
               type: string
             emailAddress:
               type: string
-            defaultMockHost:
-              description: >-
-                The default mock host where newly created mock APIs will be
-                placed.
-              type: string
-              nullable: true
             aclObject:
               description: The ACL object ID of the entity.
               type: string

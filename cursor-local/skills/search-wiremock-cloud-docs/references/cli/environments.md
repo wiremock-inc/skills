@@ -20,13 +20,13 @@ the `--profile` CLI parameter for supported operations.
 
 You can create a new environment using the `environments create` command specifying the profile name.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock environments create --profile staging
 ```
 
 Given a base wiremock environment file (`wiremock.yaml`) containing the following:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     type: REST
@@ -49,7 +49,7 @@ environment profile file will be created alongside the base environment file - `
 The contents of the new environment profile file will contain the same list of services with the `cloud_id` of the
 new mock APIs created in WireMock Cloud:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     cloud_id: <mock-api-id>
@@ -69,7 +69,7 @@ Doing so will read the profile file (`wiremock-<profile-name>.yaml`) and overlay
 
 For example, given the following `wiremock.yaml` file:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     type: REST
@@ -89,7 +89,7 @@ services:
 
 and the following environment `wiremock-staging.yaml` file:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     cloud_id: 6789
@@ -99,14 +99,14 @@ services:
 
 running the command:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --profile staging
 ```
 
 would result in the file `wiremock-staging.yaml` being overlaid onto the main `wiremock.yaml` file and the following
 configuration being used:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     type: REST
@@ -129,7 +129,7 @@ In this instance, any recordings made using the `staging` environment will be im
 ### Pulling Mock APIs from an Environment
 
 The CLI provides the ability to [pull mock APIs from WireMock Cloud](/cli/push-pull-mock-api) into your local environment.
-The pull mock APIs command also supports environments allowing you to specify the profile parameter to pull from a
+The `mock-apis pull` command also supports environments allowing you to specify the profile parameter to pull from a
 specific environment, but the pull command works in a slightly different way when a profile is specified.
 
 When pulling a mock API without specifying a profile, the CLI will pull the mock API from the base environment file and
@@ -145,10 +145,10 @@ This feature supports the ability to manage ongoing changes to sets of mock APIs
 environments and merge requests to control change to mock API configuration in the following way:
 
 1. Your main environment file (`wiremock.yaml`) is checked into source control and defines your `production` environment and mock APIs.
-2. You `pull` your production environment into your local environment using the `pull` command.
+2. You `pull` your production environment into your local environment using the `mock-apis pull` command.
 3. You create a new environment (`development`) using the `environments create` command. This will also create the mock APIs for the new environment.
 4. You make changes to the environment mock APIs using WireMock Cloud or using the CLI `record-many` command and specifying the `development` profile.
-5. When you are happy with the changes, you `pull` the `development` environment into your local environment using the `pull` command specifying the `development` profile.
+5. When you are happy with the changes, you `pull` the `development` environment into your local environment using the `mock-apis pull` command specifying the `development` profile.
    This will update your local environment with the changes from the `development` environment but only overwrite the content of the mock APIs as described above.
 6. You create a merge request to merge the changes from the `development` environment into the `production` environment.
 7. Your team members review the merge request and approve it.
@@ -167,4 +167,3 @@ The following restrictions apply when using environments:
    must be present in the environment profile file as in the base environment file.
 3. Certain information cannot be changed via the environment profile file.  The following attributes cannot be changed:
    * `type`
-

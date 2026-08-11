@@ -12,7 +12,7 @@
 
 You can create a hash of some text using the `hash` helper.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#hash algorithm='sha-256' encoding='hex'}}text to hash{{/hash}}
 ```
 
@@ -39,7 +39,7 @@ Supported algorithm values are:
 
 SHA-256 hex encoding:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#hash algorithm='sha-256' encoding='hex'}}text to hash{{/hash}}
 ```
 
@@ -49,7 +49,7 @@ will output `119e3f0d28cf6a92d29399d5787f90308b6b87670d8c2386ec42cb36e293b5c4`
 
 MD5 base64 encoding:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#hash algorithm='md5' encoding='base64'}}text to hash{{/hash}}
 ```
 
@@ -57,34 +57,38 @@ will output `J3A5Rbm86ssJVG0uEDrTYA==`
 
 ## Signing
 
-You can digitally sign data using the sign helper. This uses the RSA private key\
-configured in your certificate settings to create an `SHA-256` with RSA signature.
+You can digitally sign data using the sign helper.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ sign "text to sign" }}
 ```
 
 The output of the helper is a Base64-encoded signature by default. You can control the
-output encoding using the encoding option. Supported encoding values are `hex` and
+output encoding using the `encoding` option. Supported encoding values are `hex` and
 `base64`.
+
+The signing algorithm is controlled by the `algorithm` option. Supported values are:
+
+* `rsa-sha256` (default) - creates an SHA-256 with RSA signature using the RSA private key configured in your [certificate settings](/api-reference/settings/get-mock-api-certificate-settings)
+* `hmac-sha256` - creates an HMAC-SHA256 signature using the HMAC secret configured in your [certificate settings](/api-reference/settings/get-mock-api-certificate-settings)
 
 The sign helper supports both inline and block forms:
 
 Inline form:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ sign "text to sign" }}
 ```
 
 Block form:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#sign}}text to sign{{/sign}}
 ```
 
 With a variable:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{ sign myVariable }}}
 ```
 
@@ -92,7 +96,7 @@ With a variable:
 
 Sign a string literal with default Base64 encoding:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{ sign "some data" }}}
 ```
 
@@ -100,17 +104,33 @@ will output a Base64-encoded RSA signature, e.g. MEUCIQDz...
 
 Sign with hex encoding:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{ sign "some data" encoding="hex" }}}
 ```
 
 will output a hex-encoded RSA signature.
 
+Sign using HMAC-SHA256:
+
+```handlebars theme={null}
+{{{ sign "some data" algorithm="hmac-sha256" }}}
+```
+
+will output a Base64-encoded HMAC-SHA256 signature.
+
+Sign using HMAC-SHA256 with hex encoding:
+
+```handlebars theme={null}
+{{{ sign "some data" algorithm="hmac-sha256" encoding="hex" }}}
+```
+
+will output a hex-encoded HMAC-SHA256 signature.
+
 The sign helper is particularly useful when constructing signed documents such as SAML
 responses, where you need to sign a computed digest or XML fragment. For example, you
 can combine it with the hash helper to create a signed SAML assertion:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'digest'}}{{#hash algorithm='sha-256' encoding='base64'}}content to
 hash{{/hash}}{{/assign}}
 {{#assign 'signedInfo'}}...{{digest}}...{{/assign}}
@@ -119,11 +139,11 @@ hash{{/hash}}{{/assign}}
 
 ## X.509 Certificate
 
-You can output the X.509 certificate configured in your certificate settings using the
+You can output the X.509 certificate configured in your [certificate settings](/api-reference/settings/get-mock-api-certificate-settings) using the
 `x509Certificate` helper. This is useful when building signed documents like SAML
 responses that need to include the signing certificate.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ x509Certificate }}
 ```
 
@@ -134,7 +154,7 @@ The output format is controlled by the format option. Supported format values ar
 
 Output the certificate in PEM format (default):
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ x509Certificate }}
 ```
 
@@ -148,7 +168,7 @@ MIIBkTCB+wIGAZO...
 
 Output the raw Base64-encoded certificate (without PEM headers):
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ x509Certificate format="base64" }}
 ```
 
@@ -157,7 +177,7 @@ will output just the Base64-encoded certificate bytes, e.g. `MIIBkTCB+wIGAZO...`
 This is useful when embedding the certificate inside an XML document such as a SAML
 response, where PEM headers are not required:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 <X509Certificate>{{ x509Certificate format="base64" }}</X509Certificate>
 ```
 
@@ -168,7 +188,7 @@ the `base64Inflate` helper. This is primarily designed for decoding SAML request
 have been compressed and encoded according to the SAML HTTP-Redirect binding
 specification.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ base64Inflate request.query.SAMLRequest }}
 ```
 
@@ -182,7 +202,7 @@ This is typically a query parameter from the incoming request.
 Given a valid Base64-encoded, DEFLATE-compressed SAML AuthnRequest in the SAMLRequest
 query parameter, this will output the decoded XML, e.g.:
 
-```xml  theme={null}
+```xml theme={null}
 <samlp:AuthnRequest xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"    
                     Destination="https://example-destination.wiremockapi.cloud/login"    
                     ID="_b9ef70230dj5972308i121395cbe9f4a"    
@@ -192,4 +212,3 @@ query parameter, this will output the decoded XML, e.g.:
     <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">urn:auth0:example:connection-id</saml:Issuer>
 </samlp:AuthnRequest>
 ```
-

@@ -26,7 +26,7 @@ Before you begin, ensure you have:
 
 The WireMock Kubernetes Runner demo repository contains all the necessary configuration files and scripts:
 
-```bash  theme={null}
+```bash theme={null}
 git clone https://github.com/wiremock-inc/kubernetes-runner-demo.git
 cd kubernetes-runner-demo
 ```
@@ -35,7 +35,7 @@ cd kubernetes-runner-demo
 
 Run the following script:
 
-```bash  theme={null}
+```bash theme={null}
 ./create-cluster.sh
 ```
 
@@ -48,7 +48,7 @@ If you're using a remote cluster, you can skip this step.
 
 Create a Kubernetes secret with your WireMock Cloud API token:
 
-```bash  theme={null}
+```bash theme={null}
 ./set-secret.sh
 ```
 
@@ -62,7 +62,7 @@ This script retrieves your API token from the WireMock CLI configuration and cre
 
 Run the installation script to deploy WireMock Runner:
 
-```bash  theme={null}
+```bash theme={null}
 ./install-wiremock.sh
 ```
 
@@ -76,7 +76,7 @@ The demo project includes pre-recorded stub mappings under `.wiremock` directory
 
 Verify the deployment:
 
-```bash  theme={null}
+```bash theme={null}
 kubectl get pods -l app=wiremock-runner
 ```
 
@@ -86,13 +86,13 @@ You should see the WireMock Runner pod in a `Running` state.
 
 ### Check pod status
 
-```bash  theme={null}
+```bash theme={null}
 kubectl get pods -l app=wiremock-runner
 ```
 
 ### View logs
 
-```bash  theme={null}
+```bash theme={null}
 kubectl logs -l app=wiremock-runner -f
 ```
 
@@ -108,17 +108,135 @@ kubectl logs -l app=wiremock-runner -f
 
 First, try fetching a list of PayPal invoices from the simulated PayPal Invoicing API:
 
-```bash  theme={null}
-curl 'http://paypal.local.wiremock.cloud/v2/invoicing/invoices?page=1&page_size=10&total_required=true&fields=amount'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl 'http://paypal.local.wiremock.cloud/v2/invoicing/invoices?page=1&page_size=10&total_required=true&fields=amount'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("http://paypal.local.wiremock.cloud/v2/invoicing/invoices?page=1&page_size=10&total_required=true&fields=amount").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('http://paypal.local.wiremock.cloud/v2/invoicing/invoices?page=1&page_size=10&total_required=true&fields=amount')
+    .then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get(
+      'http://paypal.local.wiremock.cloud/v2/invoicing/invoices',
+      params={
+          'page': 1,
+          'page_size': 10,
+          'total_required': 'true',
+          'fields': 'amount'
+      }
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://paypal.local.wiremock.cloud/v2/invoicing/invoices')
+  uri.query = URI.encode_www_form(
+    page: 1,
+    page_size: 10,
+    total_required: 'true',
+    fields: 'amount'
+  )
+
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $query = http_build_query([
+      'page' => 1,
+      'page_size' => 10,
+      'total_required' => 'true',
+      'fields' => 'amount',
+  ]);
+
+  $curl = curl_init('http://paypal.local.wiremock.cloud/v2/invoicing/invoices?' . $query);
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "net/http"
+      "net/url"
+  )
+
+  params := url.Values{
+      "page":           {"1"},
+      "page_size":      {"10"},
+      "total_required": {"true"},
+      "fields":         {"amount"},
+  }
+
+  resp, _ := http.Get("http://paypal.local.wiremock.cloud/v2/invoicing/invoices?" + params.Encode())
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 You should see a fairly large JSON response, containing invoice data.
 
 Now try fetching a list of GitHub users from the simulated GitHub REST API:
 
-```bash  theme={null}
-curl http://github.local.wiremock.cloud/users
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl http://github.local.wiremock.cloud/users
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("http://github.local.wiremock.cloud/users").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('http://github.local.wiremock.cloud/users').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('http://github.local.wiremock.cloud/users')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://github.local.wiremock.cloud/users')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('http://github.local.wiremock.cloud/users');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("http://github.local.wiremock.cloud/users")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 Again, you should see a JSON response, containing a list of user profiles.
 
@@ -126,13 +244,13 @@ Again, you should see a JSON response, containing a list of user profiles.
 
 To remove the WireMock Runner deployment:
 
-```bash  theme={null}
+```bash theme={null}
 ./delete-wiremock.sh
 ```
 
 To delete the KIND cluster (if using a local cluster):
 
-```bash  theme={null}
+```bash theme={null}
 kind delete cluster --name wiremock-demo
 ```
 
@@ -145,4 +263,3 @@ kind delete cluster --name wiremock-demo
 
 * Learn more about [Serve Mode](/runner/serve) configuration options
 * Explore the [Runner Overview](/runner/overview) for other modes
-

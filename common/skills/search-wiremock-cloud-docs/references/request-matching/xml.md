@@ -4,7 +4,7 @@
 
 # Request Matching - Matching XML bodies
 
-> Matching XML
+> Match stub requests against XML request bodies using equalToXml and matchesXPath.
 
 When stubbing API functions that accept XML request bodies we may want to
 return different responses based on the XML sent. WireMock Cloud provides two match types
@@ -31,7 +31,7 @@ For instance, given the following configuration:
 
 The following XML would match:
 
-```xml  theme={null}
+```xml theme={null}
 <things>
   <two id="234" val="2"/>
   <one val="1" id="123" />
@@ -50,7 +50,7 @@ Given the following configuration:
 
 The following XML will match:
 
-```xml  theme={null}
+```xml theme={null}
 <things>
   <one id="123" val="123456789"/>
   <two id="234" val="2"/>
@@ -73,10 +73,9 @@ Given a body match on the XPath expression `/things/thing[@name = 'socks']`.
 
 The following XML will match:
 
-```xml  theme={null}
+```xml theme={null}
 <things>
   <thing name="socks"></thing>
   <thing name="shoes"></thing>
 </things>
 ```
-

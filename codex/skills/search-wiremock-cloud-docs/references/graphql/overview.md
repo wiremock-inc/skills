@@ -32,7 +32,7 @@ the schema text field.
 
 An example of a very simple GraphQL schema for querying user data is provided below:
 
-```graphql  theme={null}
+```graphql theme={null}
 type Query {
     user(id: ID): User
     users: [User]
@@ -144,11 +144,11 @@ when checking if a request's query matches the expected query.
 This means that the ordering of a query's fields, arguments, etc. is irrelevant.
 For example, the two queries below would be considered a semantic match:
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetPosts { posts(limit: 20, offset: 60) { id name } }
 ```
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetPosts { posts(offset: 60, limit: 20) { name id } }
 ```
 
@@ -157,13 +157,13 @@ query GetPosts { posts(offset: 60, limit: 20) { name id } }
 Additionally, schema definitions (SDL) and unused operations are ignored when comparing two queries.
 For example, consider the two queries below:
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetUser { user(id: 123) { id } }
 
 type User { id: ID }
 ```
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetUser { user(id: 123) { id } }
 
 query GetUsers { users { id username } }
@@ -179,7 +179,7 @@ As for the queries, only the query operation that was specified in the request w
 If the supplied operation name for the request was `GetUser`, the two queries would be considered a match, as the only
 part being compared would be
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetUser { user(id: 123) { id } }
 ```
 
@@ -193,11 +193,11 @@ This means that the names of variables and their definitions are irrelevant when
 Only their resolved values, supplied in the request, are relevant.
 For example, consider the following queries:
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetUser { user(id: 123) { id } }
 ```
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetUser($userId: ID) { user(id: $userId) { id } }
 ```
 
@@ -205,13 +205,13 @@ When comparing these two queries, the variable definition (`$userId: ID`) will b
 variable (e.g. `id: $userId`) will be replaced with the value of `$userId` supplied by the request.
 So, if the request's variables looked like
 
-```json  theme={null}
+```json theme={null}
 { "userId": 123 }
 ```
 
 then the second query defined above would resolve to
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetUser { user(id: 123) { id } }
 ```
 
@@ -222,7 +222,7 @@ Therefore, it's possible to specify that a particular value in a query is irrele
 that value in both the expected query and request query.
 For example, the following query will always match itself, regardless of what the `$userId` variable resolves to.
 
-```graphql  theme={null}
+```graphql theme={null}
 query GetUser($userId: ID) { user(id: $userId) { id } }
 ```
 
@@ -266,4 +266,3 @@ As well as additional GraphQL specific matchers and template helpers.
 
 If you have feedback or questions on our GraphQL functionality as it evolves, we'd love to hear from you.
 Please [get in touch](mailto:support@wiremock.io).
-

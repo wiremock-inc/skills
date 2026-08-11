@@ -75,14 +75,14 @@ See [Recording Stubs](./recording-stubs/) for details.
 
 #### Importing from WireMock OSS
 
-WireMock Cloud uses WireMock OSS as its underlying engine, so mock APIs created within WireMock
+WireMock Cloud uses [WireMock OSS](https://wiremock.org/) as its underlying engine, so mock APIs created within WireMock
 can be directly imported into WireMock Cloud (and vice versa).
 
 This can be useful when you need to record APIs that are only accessible inside your
 organisation or from a private network, or if you have existing projects utilising
 WireMock that you'd like to host in the cloud.
 
-See [import and export](./import-export/) for details.
+See [import and export](/import-export/overview/) for details.
 
 ### Next Steps
 
@@ -90,5 +90,6 @@ After creating your first API, we recommend diving into the [WireMock Cloud Acad
 
 You can also hit **command+K** to use our AI-powered documentation search and ask any question you want (example: *"How do I add a data source?"*).
 
-You can also [contact us](mailto:support@wiremock.io) anytime you want to ask a question!
+While working in the web UI, press **Shift + ?** to see the [keyboard shortcuts](/keyboard-shortcuts) available on the current screen.
 
+You can also [contact us](mailto:support@wiremock.io) anytime you want to ask a question!

@@ -6,11 +6,13 @@
 
 # Update data source
 
+> Replace a data source's configuration, such as its name or connection details.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/data-sources/{dataSourceId}
+````yaml /api-reference/openapi.yaml put /v1/data-sources/{dataSourceId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -93,6 +95,9 @@ paths:
       tags:
         - Data sources
       summary: Update data source
+      description: >-
+        Replace a data source's configuration, such as its name or connection
+        details.
       operationId: updateDataSource
       requestBody:
         $ref: '#/components/requestBodies/CreateDataSourceRequestBody'

@@ -4,11 +4,13 @@
 
 # Delete organisation member user
 
+> Remove a user from an organisation.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/organisations/{organisationId}/members/{userId}
+````yaml /api-reference/openapi.yaml delete /v1/organisations/{organisationId}/members/{userId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -96,6 +98,7 @@ paths:
       tags:
         - Organisations
       summary: Delete organisation member user
+      description: Remove a user from an organisation.
       operationId: deleteOrganisationMemberUser
       responses:
         '204':

@@ -22,13 +22,56 @@ You can start your own copy of this example Mock API from a template just by cli
 
 Let's start by seeing what is in a shopping basket. Make a request to any basket:
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 You should see a response that looks like this:
 
-```json  theme={null}
+```json theme={null}
 {
   "items" : [ ],
   "total" : 0
@@ -37,33 +80,232 @@ You should see a response that looks like this:
 
 You'll get the same thing if you request this:
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/2/items'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/2/items'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/2/items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/2/items').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/2/items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/2/items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/2/items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/2/items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 ### Add some items to some baskets & retrieve those baskets
 
 Let's add some items to some baskets. First let's add a couple of items to the basket with id `1`:
 
-```bash  theme={null}
-curl -v -X POST \
-  -d '{ "id": "1", "item": "Socks", "quantity": 5 }' \
-  'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
-  
-curl -v -X POST \
-  -d '{ "id": "2", "item": "Shoes", "quantity": 3 }' \
-  'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v -X POST \
+    -d '{ "id": "1", "item": "Socks", "quantity": 5 }' \
+    'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
+    
+  curl -v -X POST \
+    -d '{ "id": "2", "item": "Shoes", "quantity": 3 }' \
+    'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
+  ```
+
+  ```java theme={null}
+  Unirest.post("https://my-basket-demo.wiremockapi.cloud/baskets/1/items")
+    .header("Content-Type", "application/json")
+    .body("{ \"id\": \"1\", \"item\": \"Socks\", \"quantity\": 5 }")
+    .asString();
+
+  Unirest.post("https://my-basket-demo.wiremockapi.cloud/baskets/1/items")
+    .header("Content-Type", "application/json")
+    .body("{ \"id\": \"2\", \"item\": \"Shoes\", \"quantity\": 3 }")
+    .asString();
+  ```
+
+  ```javascript theme={null}
+  const optionsSocks = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: '1', item: 'Socks', quantity: 5 })
+  };
+
+  const optionsShoes = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: '2', item: 'Shoes', quantity: 3 })
+  };
+
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items', optionsSocks).then(res => ...);
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items', optionsShoes).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  requests.post(
+      'https://my-basket-demo.wiremockapi.cloud/baskets/1/items',
+      json={'id': '1', 'item': 'Socks', 'quantity': 5}
+  )
+
+  requests.post(
+      'https://my-basket-demo.wiremockapi.cloud/baskets/1/items',
+      json={'id': '2', 'item': 'Shoes', 'quantity': 3}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+
+  Net::HTTP.post(
+    uri,
+    { id: '1', item: 'Socks', quantity: 5 }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  Net::HTTP.post(
+    uri,
+    { id: '2', item: 'Shoes', quantity: 3 }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $url = 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items';
+
+  $curlSocks = curl_init($url);
+  curl_setopt_array($curlSocks, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'id' => '1',
+          'item' => 'Socks',
+          'quantity' => 5
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+  curl_exec($curlSocks);
+
+  $curlShoes = curl_init($url);
+  curl_setopt_array($curlShoes, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'id' => '2',
+          'item' => 'Shoes',
+          'quantity' => 3
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+  curl_exec($curlShoes);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  url := "https://my-basket-demo.wiremockapi.cloud/baskets/1/items"
+
+  socks, _ := json.Marshal(map[string]any{"id": "1", "item": "Socks", "quantity": 5})
+  respSocks, _ := http.Post(url, "application/json", bytes.NewReader(socks))
+  respSocks.Body.Close()
+
+  shoes, _ := json.Marshal(map[string]any{"id": "2", "item": "Shoes", "quantity": 3})
+  respShoes, _ := http.Post(url, "application/json", bytes.NewReader(shoes))
+  respShoes.Body.Close()
+  ```
+</CodeGroup>
 
 Now when we get the items in the basket with id `1` we should see the items we just added:
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 returns
 
-```json  theme={null}
+```json theme={null}
 {
   "items" : [ {
     "id" : "1",
@@ -80,13 +322,56 @@ returns
 
 However, when we retrieve a *different* basket it will still be empty:
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/2/items'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/2/items'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/2/items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/2/items').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/2/items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/2/items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/2/items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/2/items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 returns
 
-```json  theme={null}
+```json theme={null}
 {
   "items" : [ ],
   "total" : 0
@@ -100,13 +385,56 @@ Have a play with adding items to different baskets and retrieving those baskets;
 
 We can also retrieve a specific item from a basket by id. Try this:
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 It should return
 
-```json  theme={null}
+```json theme={null}
 {
   "id" : "2",
   "item" : "Shoes",
@@ -116,13 +444,56 @@ It should return
 
 However, if you try and get an item you never added, you should get a 404:
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items/56")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 returns
 
-```json  theme={null}
+```json theme={null}
 {
   "error": "Cannot find item id 56 in basket 1"
 }
@@ -132,18 +503,114 @@ returns
 
 You can also remove a single item from a basket. Try this:
 
-```bash  theme={null}
-curl -v -X DELETE \
-  'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2'  
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v -X DELETE \
+    'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2'  
+  ```
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
-```
+  ```java theme={null}
+  Unirest.delete("https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2', { method: 'DELETE' })
+    .then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.delete('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2')
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+
+  request = Net::HTTP::Delete.new(uri)
+
+  response = http.request(request)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_CUSTOMREQUEST => 'DELETE',
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  req, _ := http.NewRequest("DELETE", "https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2", nil)
+
+  resp, _ := http.DefaultClient.Do(req)
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+    .then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 should now return
 
-```json  theme={null}
+```json theme={null}
 {
   "items" : [ {
     "id" : "1",
@@ -156,13 +623,57 @@ should now return
 
 and
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2')
+    .then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items/2")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 should now return
 
-```json  theme={null}
+```json theme={null}
 {
   "error": "Cannot find item id 2 in basket 1"
 }
@@ -172,18 +683,114 @@ should now return
 
 You can remove all items from a basket. Try this:
 
-```bash  theme={null}
-curl -v -X DELETE \
-  'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'  
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v -X DELETE \
+    'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'  
+  ```
 
-```bash  theme={null}
-curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
-```
+  ```java theme={null}
+  Unirest.delete("https://my-basket-demo.wiremockapi.cloud/baskets/1/items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items', { method: 'DELETE' })
+    .then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.delete('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+
+  request = Net::HTTP::Delete.new(uri)
+
+  response = http.request(request)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_CUSTOMREQUEST => 'DELETE',
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  req, _ := http.NewRequest("DELETE", "https://my-basket-demo.wiremockapi.cloud/baskets/1/items", nil)
+
+  resp, _ := http.DefaultClient.Do(req)
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -v 'https://my-basket-demo.wiremockapi.cloud/baskets/1/items'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+    .then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://my-basket-demo.wiremockapi.cloud/baskets/1/items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://my-basket-demo.wiremockapi.cloud/baskets/1/items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://my-basket-demo.wiremockapi.cloud/baskets/1/items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 should now return
 
-```json  theme={null}
+```json theme={null}
 {
   "items" : [ ],
   "total" : 0
@@ -214,7 +821,7 @@ state at all. Any stub can render state variables in its response, you don't nee
 The stateful configuration comes in the Response definition. Unsurprisingly "Enable dynamic response templating" is
 checked. The body contains the following Handlebars template:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{val (state 'basketItems' context=request.path.basketId) or='[]' assign='basketItems'}}
 {
     "items": {{basketItems}},
@@ -241,7 +848,7 @@ with the key `basketItems`. From now on we can just use `basketItems` in Handleb
 
 Now let's look at what we actually output:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {
     "items": {{basketItems}},
     "total": {{size (parseJson basketItems)}}
@@ -274,7 +881,7 @@ It has its "Context" set to `{{request.path.basketId}}`. "Context" identifiers a
 but they can be built using Handlebars templates. In this case the context is derived from the `basketId` path parameter
 on the request. It has its "Key" set to `'basketItems'`, its "Operation" to `SET` and its "Value" to
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonArrayAdd (val previousValue or='[]') request.body}}
 ```
 
@@ -306,7 +913,7 @@ context.
 
 The request body ("Enable dynamic response templating" checked) then looks like this:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'findExpression'}}$.[?(@.id == '{{request.path.itemId}}')]{{/assign}}
 {{jsonPath (jsonPath (state 'basketItems' context=request.path.basketId) findExpression) '$[0]'}}
 ```
@@ -336,7 +943,7 @@ The "State" panel is opened, and "Dynamic state" is toggled on, with a single st
 item" stub. As we are used to it has its "Context" set to `{{request.path.basketId}}`, its
 "Key" set to `'basketItems'` and its "Operation" to `SET`. However, its "Value" is
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'removalExpression'}}$.[?(@.id == '{{request.path.itemId}}')]{{/assign}}
 {{jsonRemove previousValue removalExpression}}
 ```
@@ -357,4 +964,3 @@ item" stub. As we are used to it has its "Context" set to `{{request.path.basket
 `basketItems` key will be entirely removed in the `{{request.path.basketId}}` context.
 
 (We could instead have used a `SET` operation with a "Value" of `[]`.)
-

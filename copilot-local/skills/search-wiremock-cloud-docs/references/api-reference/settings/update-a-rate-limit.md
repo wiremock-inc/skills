@@ -6,11 +6,13 @@
 
 # Update a rate limit
 
+> Update a single rate limit.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/rateLimits/{rateLimitId}
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/rateLimits/{rateLimitId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -96,6 +98,7 @@ paths:
       tags:
         - Settings
       summary: Update a rate limit
+      description: Update a single rate limit.
       operationId: updateRateLimit
       requestBody:
         required: true

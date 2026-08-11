@@ -96,7 +96,7 @@ generated in your stubs using various OpenAPI elements:
 If no min or max length are provided in the schema, defaults of a minimum of 3 and a maximum of
 200 is used. Therefore, an OpenAPI specification snippet like the following:
 
-```yaml  theme={null}
+```yaml theme={null}
 paths:
   /trips/{tripId}:
     delete:
@@ -111,7 +111,7 @@ Could generate a `tripId` equalsTo matcher with the following value - `gtpq1fggn
 
 Adding a `minLength` and a `maxLength` to the schema will control the size of the random string. The snippet below:
 
-```yaml  theme={null}
+```yaml theme={null}
 paths:
   /trips/{tripId}:
     delete:
@@ -131,7 +131,7 @@ Could generate a `tripId` equalsTo matcher with the following value - `aspp`
 You can force a value to be used in the matcher by creating an enum with only one value. This is effectively the same as
 generating a constant:
 
-```yaml  theme={null}
+```yaml theme={null}
 paths:
   /trips/{tripId}:
     delete:
@@ -150,7 +150,7 @@ If an enum is used with multiple values, then a random item from the enum is use
 
 Alternatively, a regex pattern can be used in the schema to further control the value used in the matcher:
 
-```yaml  theme={null}
+```yaml theme={null}
 paths:
   /trips/{tripId}:
     delete:
@@ -168,7 +168,7 @@ Could generate a `tripId` equalsTo matcher with the following value - `trip-id-6
 
 Optional `minLength` and `maxLength` elements can be used to further control the generated value:
 
-```yaml  theme={null}
+```yaml theme={null}
 paths:
   /trips/{tripId}:
     delete:
@@ -211,4 +211,3 @@ On save, the path plus operation, responses, schemas and examples will be added 
 Automatic generation of OpenAPI to stubs and vice versa can be turned off in the Settings tab of the OpenAPI page.
 
 <img src="https://mintcdn.com/wiremockinc/9niDaTpLrBsVTNkq/images/openapi/generation-settings.png?fit=max&auto=format&n=9niDaTpLrBsVTNkq&q=85&s=a3485801ea60d4ce56ae57d62071c7db" alt="Stub and OpenAPI generation settings" width="50%" data-path="images/openapi/generation-settings.png" />
-

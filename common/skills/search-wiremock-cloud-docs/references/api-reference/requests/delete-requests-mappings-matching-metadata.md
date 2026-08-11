@@ -4,11 +4,13 @@
 
 # Delete requests mappings matching metadata
 
+> Delete logged requests whose metadata matches the given criteria.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/requests/remove-by-metadata
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/requests/remove-by-metadata
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Requests
       summary: Delete requests mappings matching metadata
+      description: Delete logged requests whose metadata matches the given criteria.
       operationId: removeRequestsByMetadata
       requestBody:
         content:

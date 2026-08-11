@@ -94,4 +94,3 @@ organisation *and* give them that role on the mock API.
 ## Single Sign-on (SSO)
 
 WireMock Cloud supports auto-provisioning and SSO for user management via any SAML 2.x capable IdP.
-

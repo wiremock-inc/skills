@@ -24,9 +24,9 @@ All options available to the [`run` CLI command](/cli/local-playback) are also a
 When specifying an option in the [`"config"` field of the HTTP switch request](/runner/overview#mode-configuration), remove the dash (`-`) prefix that would normally be used when provided on the command line.
 For instance, the [`--profile` option](/cli/environments) would become `"profile"` in the request body, like so:
 
-```json  theme={null}
+```json theme={null}
 {
-  "mode": "record-many",
+  "mode": "serve",
   "config": {
     "profile": "staging"
   }
@@ -36,6 +36,42 @@ For instance, the [`--profile` option](/cli/environments) would become `"profile
 Just like the WireMock CLI, by default the Runner will expect a WireMock environment file in the `.wiremock` directory
 in the current working directory of the container.
 
+### Manual Reload
+
+Regardless of whether [`--watch`](#serve-configuration) is enabled, you can trigger an on-demand reload of every
+service's `stub-mappings.yaml` by sending an HTTP `POST` request to `/v1/serve/reload` on the Runner's admin port.
+This re-checks each service's `stub-mappings.yaml` and applies any changes without restarting the Runner - the same
+behavior `--watch` triggers automatically on a filesystem change.
+
+```http request theme={null}
+POST http://localhost:8080/v1/serve/reload
+```
+
+The response body reports the outcome for each service - `reloaded`, `unchanged`, or `failed`:
+
+```json theme={null}
+{
+  "results": [
+    { "service": "Invoicing API", "outcome": "reloaded" },
+    { "service": "Payment API", "outcome": "unchanged" }
+  ]
+}
+```
+
+The response status is `200 OK` if every service reloaded successfully or was unchanged. If a service's
+`stub-mappings.yaml` couldn't be read or failed to parse, that service's `outcome` is `failed` with an `error` message,
+and the overall response status is `500 Internal Server Error`, while every other service in the response is still
+updated:
+
+```json theme={null}
+{
+  "results": [
+    { "service": "Invoicing API", "outcome": "reloaded" },
+    { "service": "Broken API", "outcome": "failed", "error": "Invalid YAML" }
+  ]
+}
+```
+
 ### Starting the Runner In Serve Mode
 
 When starting the runner in `serve` mode you will need to [publish the appropriate ports](https://docs.docker.com/reference/cli/docker/container/run/#publish)
@@ -43,7 +79,7 @@ for the services you are running along with the port you have configured for the
 
 Here is a typical example on Linux or macOS when running the Runner on port `9999` and serving two services:
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -e WMC_DEFAULT_MODE='serve' \
   -e WMC_ADMIN_PORT='9999' \
@@ -81,4 +117,3 @@ If no OTEL environment variables are set, the specification defaults are obeyed,
 `OTEL_METRICS_EXPORTER`, and `OTEL_LOGS_EXPORTER`, which are all set to `none` by default, rather than `otlp`.
 
 These telemetry options also apply to [the `wiremock run` command](/cli/local-playback#telemetry).
-

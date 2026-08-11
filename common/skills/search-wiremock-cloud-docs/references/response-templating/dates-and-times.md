@@ -12,7 +12,7 @@ WireMock Cloud has two helpers for manipulating dates - `now` and `date`.
 
 The `now` helper renders the current date/time, with the ability to specify the format (see [full reference](#format-string-reference)) and offset.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{now}}
 {{now offset='3 days'}}
 {{now offset='-24 seconds'}}
@@ -22,14 +22,14 @@ The `now` helper renders the current date/time, with the ability to specify the 
 
 Dates can be rendered in a specific timezone (the default is UTC):
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{now timezone='Australia/Sydney' format='yyyy-MM-dd HH:mm:ssZ'}}
 ```
 
 Pass `epoch` as the format to render the date as UNIX epoch time (in milliseconds), or `unix` as the format to render
 the UNIX timestamp in seconds.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{now offset='2 years' format='epoch'}}
 {{now offset='2 years' format='unix'}}
 ```
@@ -38,7 +38,7 @@ the UNIX timestamp in seconds.
 
 You can combine the `now` helper with [random helpers](./random-values#random-numbers) to generate random dates:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{now offset=(join (randomInt lower=-365 upper=365) ' days' '')}} // a date somewhere between a year ago and a year in the future
 ```
 
@@ -47,7 +47,7 @@ You can combine the `now` helper with [random helpers](./random-values#random-nu
 The `date` helper can be used to manipulate existing date values, changing the
 offset, timezone and print format in exactly the same manner as with the `now` helper.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{date myDate offset='-1 days' timezone='America/New_York' format='yyyy-MM-dd'}}
 ```
 
@@ -56,7 +56,7 @@ offset, timezone and print format in exactly the same manner as with the `now` h
 Dates can be parsed from other model elements. This is mostly useful when passed to
 the `date` helper for further processing:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{date (parseDate request.headers.MyDate) offset='-1 days'}}
 ```
 
@@ -64,7 +64,7 @@ the `date` helper for further processing:
 
 You can specify the format to use when parsing a date via a [format string](#format-string-reference):
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{parseDate '10/11/2021' format="dd/MM/yyyy"}}
 ```
 
@@ -73,7 +73,7 @@ Output: `2021-11-10T00:00:00Z`.
 Additionally you can specify `unix` or `epoch` as the format which will interpret
 parse a large integer denoting (respectively) seconds or milliseconds since 1st of January 1970:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{parseDate '1577964091000' format="epoch"}}
 ```
 
@@ -91,13 +91,13 @@ either select a named format from the following:
 
 e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{dateFormat (parseDate '2020-01-01T11:11:11Z') 'full'}} // Wednesday, January 1, 2020
 ```
 
 Or you can specify your own format string ([full reference here](#format-string-reference)):
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{dateFormat (parseDate '2020-01-01T11:11:11Z') format='yyyy-MM-dd'}} // 2020-01-01
 ```
 
@@ -134,7 +134,7 @@ The following details all of the format string elements used when formatting and
 
 The `truncateDate` helper will truncate date/times to specific points e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{truncateDate (parseDate '2021-06-14T00:00:00Z') 'last day of month'}}
 ```
 
@@ -150,4 +150,3 @@ The full list of available truncations is:
 * `first day of year`
 * `first day of next year`
 * `last day of year`
-

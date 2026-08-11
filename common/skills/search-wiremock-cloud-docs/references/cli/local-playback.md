@@ -11,12 +11,12 @@ connection to the internet.
 
 ## Usage
 
-First you will need to pull one or more of your Mock APIs locally.  This can be done by running the `pull mock-api`
+First you will need to pull one or more of your Mock APIs locally.  This can be done by running the `mock-apis pull`
 command as detailed [here](./push-pull-mock-api).
 
 Once you have pulled one or more of your Mock APIs, you can then run them as so:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock run
 ```
 
@@ -25,12 +25,30 @@ which port is being used for which API.
 
 (Naturally you can pass the same `--wiremock-dir` argument to override the default `.wiremock` directory.)
 
+### Watching for Changes
+
+By default, `wiremock run` loads each service's stub mappings once at startup. If you're iterating on stubs, you can
+pass `-w`/`--watch` to have the CLI watch each service's `stub-mappings.yaml` file for changes and reload it
+automatically, without restarting the running services:
+
+```shell theme={null}
+wiremock run --watch
+```
+
+When a `stub-mappings.yaml` file is created or modified, its contents are re-parsed and applied to the corresponding
+running service. Reloads happen in place, so ports stay bound and in-flight requests aren't disrupted. If a file
+can't be read or fails to parse, a warning is printed and the previously loaded stub mappings continue to be served
+until the file is fixed.
+
+Only stub mappings are watched this way - other configuration, such as ports or TLS settings in `wiremock.yaml`,
+requires a restart of `wiremock run` to take effect.
+
 ### TLS Usage
 
 You can run your Mock APIs locally using a TLS certificate of your choice. You configure this by editing the local
 environment config file, `.wiremock/wiremock.yaml`, and specifying your https settings:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   local-running-service-name:
     https:
@@ -40,7 +58,7 @@ services:
 
 If you have a file containing a PEM encoded RSA private key and X509 certificate, you can provide it as so:
 
-```yaml  theme={null}
+```yaml theme={null}
 certificate:
   pem: /path/to/file.pem
 ```
@@ -62,7 +80,7 @@ dHhXPaefkEhrsUbnXGYRfwQhf4SzdYCMCJno7KKsNn6RLIo=
 
 If you have a PKCS 12 key store containing your private key and X509 certificate, you can provide it as so:
 
-```yaml  theme={null}
+```yaml theme={null}
 certificate:
   keystore: /path/to/keystore.p12
   password: very_secret
@@ -71,7 +89,7 @@ certificate:
 
 If you wish to use the same certificate across multiple services, you may specify it as so:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate: <certificate details>
@@ -85,7 +103,7 @@ Any service with an `https` section will then use that certificate by default.
 
 You may still provide a specific certificate for any individual service:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate:
@@ -103,7 +121,7 @@ services:
 
 In addition, you can specify a global keystore but reference different certificates in it by alias for a given service:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate:
@@ -134,7 +152,7 @@ for the services you are running.
 
 Here is a typical example on Linux or macOs when running two Mock APIs:
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -v ~/.config/wiremock-cli:/etc/wiremock-cli \
   -v $(pwd):/work \
@@ -164,4 +182,3 @@ If no OTEL environment variables are set, the specification defaults are obeyed,
 `OTEL_METRICS_EXPORTER`, and `OTEL_LOGS_EXPORTER`, which are all set to `none` by default, rather than `otlp`.
 
 These telemetry options also apply to [the WireMock Runner's `serve` mode](/runner/serve#telemetry).
-

@@ -4,11 +4,13 @@
 
 # Get pending invitations for organisation
 
+> List pending user invitations for an organisation.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/organisations/{organisationId}/invitations
+````yaml /api-reference/openapi.yaml get /v1/organisations/{organisationId}/invitations
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -82,7 +84,7 @@ tags:
 paths:
   /v1/organisations/{organisationId}/invitations:
     parameters:
-      - $ref: '#/components/parameters/organisationId'
+      - $ref: '#/components/parameters/OrganisationId'
       - in: query
         name: q
         description: >-
@@ -96,6 +98,7 @@ paths:
       tags:
         - Organisations
       summary: Get pending invitations for organisation
+      description: List pending user invitations for an organisation.
       operationId: getOrganisationInvitations
       responses:
         '200':
@@ -125,7 +128,7 @@ paths:
                           self: /v1/organisations/mgk7g/invitations/neqek
 components:
   parameters:
-    organisationId:
+    OrganisationId:
       in: path
       name: organisationId
       description: The ID of the organisation

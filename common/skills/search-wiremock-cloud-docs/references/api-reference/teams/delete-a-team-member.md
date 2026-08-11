@@ -4,11 +4,13 @@
 
 # Delete a team member
 
+> Remove a user from a team.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/teams/{teamId}/members/{userId}
+````yaml /api-reference/openapi.yaml delete /v1/teams/{teamId}/members/{userId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -96,6 +98,7 @@ paths:
       tags:
         - Teams
       summary: Delete a team member
+      description: Remove a user from a team.
       operationId: deleteTeamMember
       responses:
         '204':

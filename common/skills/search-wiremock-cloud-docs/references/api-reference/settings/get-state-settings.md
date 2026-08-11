@@ -4,11 +4,13 @@
 
 # Get state settings
 
+> Retrieve a mock API's dynamic state settings.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/state
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/state
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Settings
       summary: Get state settings
+      description: Retrieve a mock API's dynamic state settings.
       operationId: getStateSettings
       responses:
         '200':

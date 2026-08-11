@@ -62,7 +62,7 @@ cannot compare the two values against each other.
 
 **Expression Matcher Template:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{lt request.query.startDate.[0] request.query.endDate.[0]}}
 ```
 
@@ -86,7 +86,7 @@ ordering.
 To change this into a match for an error stub that matches if the `endDate` is before
 `startDate`, you can change the Expression Matcher to:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{gt request.query.startDate.[0] request.query.endDate.[0]}}
 ```
 
@@ -102,7 +102,7 @@ a single stub.
 
 **Expression Matcher Template (matches when ANY parameter is invalid):**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{or
   (not (matches request.query.W.[0] '^[A-Z]{3}$'))
   (not (matches request.query.X.[0] '^\d{4}$'))
@@ -128,7 +128,7 @@ For USD transactions, the amount must be at least 50 (50 cents).
 
 **Expression Matcher Template:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{or
   (and
     (eq (jsonPath request.body '$.currency') 'GBP')
@@ -143,7 +143,7 @@ For USD transactions, the amount must be at least 50 (50 cents).
 
 **Request body example:**
 
-```json  theme={null}
+```json theme={null}
 {
   "currency": "GBP",
   "amount": 150,
@@ -161,7 +161,7 @@ want a stub that matches requests with EITHER a valid `X-API-Key` header OR a va
 
 **Expression Matcher Template:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{or
   (matches (val request.headers.X-API-Key.[0] or='') "^sk_live_[A-Za-z0-9]{24}$")
   (matches (val request.headers.Authorization.[0] or='') "^Bearer [A-Za-z0-9\\-_]+\\.[A-Za-z0-9\\-_]+\\.[A-Za-z0-9\\-_]+$")
@@ -170,7 +170,7 @@ want a stub that matches requests with EITHER a valid `X-API-Key` header OR a va
 
 ```
 POST /payments
-X-API-Key: <api-key>
+X-API-Key: sk_live_<your-api-key-here>
 Content-Type: application/json
 
 {
@@ -191,7 +191,7 @@ their idempotency keys with their request payloads.
 
 **Expression Matcher Template:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{eq (val request.headers.X-Idempotency-Key.[0] or='') (jsonPath request.body '$.requestId')}}
 ```
 
@@ -223,7 +223,7 @@ This allows you to inspect the actual values being evaluated.
 
 **Debugging technique:** Temporarily modify your template to output the values you're working with:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 startDate: {{request.query.startDate.[0]}} 
 endDate: {{request.query.endDate.[0]}}
 
@@ -255,4 +255,3 @@ The Expression Matcher supports all the same helpers you can use when writing [d
 1. **Use standard matchers first** - They're optimized for their specific tasks
 2. **Combine matchers** - Use standard matchers for basic validation, Expression Matcher for complex logic
 3. **Use debugging output** - When templates aren't working, output values to the request log to diagnose issues
-

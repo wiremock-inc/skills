@@ -4,11 +4,13 @@
 
 # Create a data source
 
+> Create a new CSV or database data source that mock API responses can be templated from.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/users/{userId}/data-sources
+````yaml /api-reference/openapi.yaml post /v1/users/{userId}/data-sources
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,9 @@ paths:
       tags:
         - Data sources
       summary: Create a data source
+      description: >-
+        Create a new CSV or database data source that mock API responses can be
+        templated from.
       operationId: createDataSource
       requestBody:
         $ref: '#/components/requestBodies/CreateDataSourceRequestBody'

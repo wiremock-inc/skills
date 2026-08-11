@@ -6,11 +6,13 @@
 
 # Update OpenAPI settings
 
+> Update a mock API's OpenAPI validation and generation settings.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/openapi
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/openapi
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Settings
       summary: Update OpenAPI settings
+      description: Update a mock API's OpenAPI validation and generation settings.
       operationId: updateOpenApiSettings
       requestBody:
         required: true
@@ -155,11 +158,45 @@ components:
                 - OIDC
         validationMode:
           type: string
-          description: OpenAPI request/response validation mode.
+          default: none
+          description: >
+            OpenAPI request/response validation mode. See
+
+            [OpenAPI Validation](/openAPI/openapi-validation) for full detail.
+
+
+            A newly created mock API uses `soft`, and updating a mock API's
+            settings
+
+            without an `openApiSettings` object leaves the mode as `soft`.
+            However,
+
+            when an `openApiSettings` object is supplied with `validationMode`
+            omitted,
+
+            the mode is set to `none` — so set it explicitly to avoid
+            unintentionally
+
+            disabling validation.
+
+
+            - `none`: no validation; no effect on the mock API.
+
+            - `soft`: requests/responses that do not conform to the OpenAPI
+            document
+              are flagged with validation warnings in the request log.
+            - `hard`: as `soft`, and invalid requests additionally receive a
+            generic
+              error response describing the validation issues.
+            - `hard_spec_compliant`: as `hard`, but error responses use the body
+            and
+              `Content-Type` declared in your OpenAPI spec, and carry the raw failures
+              in an `X-WMC-OpenAPI-Validation-Errors` header.
           enum:
             - none
             - soft
             - hard
+            - hard_spec_compliant
         generateOpenApiFromStubs:
           type: boolean
           description: Automatically generate an OpenAPI description from stub mappings.

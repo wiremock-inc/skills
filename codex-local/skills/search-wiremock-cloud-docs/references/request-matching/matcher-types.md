@@ -14,6 +14,8 @@ the request's query, headers, cookies and body.
 This article provides an overview of these matchers. The names shown are the exact
 keys used in the WireMock/WireMock Cloud JSON API.
 
+These are the same matchers documented in [WireMock OSS's request matching reference](https://wiremock.org/docs/request-matching/).
+
 ## `equalTo`
 
 Only matches if the input string is exactly equal to the expected value.
@@ -119,4 +121,3 @@ For matching based on whether a numeric value is less than the expected value.
 For matching based on whether a numeric value is less than or equal to the expected value.
 
 These matchers always report inputs that cannot be parsed to a number as not matching. It can be used for matching both strings and numbers.
-

@@ -111,4 +111,3 @@ connection and then try to delete again.
 <p>
   <img src="https://mintcdn.com/wiremockinc/TMB5bBMjkV05sCok/images/screenshots/data-sources/database-connection-delete-confirm-error.png?fit=max&auto=format&n=TMB5bBMjkV05sCok&q=85&s=3eec8fb63db38e57568b79b863995705" alt="Delete a database connection confirmation error" title="Delete a database connection confirmation error" width="667" height="355" data-path="images/screenshots/data-sources/database-connection-delete-confirm-error.png" />
 </p>
-

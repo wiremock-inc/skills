@@ -13,7 +13,7 @@ formats.
 
 The `base64` helper encodes and decodes Base64:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{base64 request.headers.X-Plain-Header}}}
 {{{base64 request.headers.X-Plain-Header padding=false}}}
 {{{base64 request.headers.X-Encoded-Header decode=true}}}
@@ -27,7 +27,7 @@ The `base64` helper encodes and decodes Base64:
 
 The `urlEncode` helper encode and decode values according to the [HTTP URL encoding standard](https://en.wikipedia.org/wiki/Percent-encoding).
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{urlEncode request.headers.X-Plain-Header}}}
 {{{urlEncode request.headers.X-Encoded-Header decode=true}}}
 
@@ -44,14 +44,13 @@ indicating that values should be URL decoded.
 
 The following example will parse the request body as a form, then output a single field `formField3`:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{formData request.body 'form' urlDecode=true}}{{{form.formField3}}
 ```
 
 If the form submitted has multiple values for a given field, these can be accessed by index:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{formData request.body 'form' urlDecode=true}}}{{{form.multiValueField.1}}, {{{form.multiValueField.2}}
 {{formData request.body 'form' urlDecode=true}}}{{{form.multiValueField.first}}, {{{form.multiValueField.last}}
 ```
-

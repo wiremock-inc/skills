@@ -12,7 +12,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/subscriptions/{subscriptionId}/usage
+````yaml /api-reference/openapi.yaml get /v1/subscriptions/{subscriptionId}/usage
 openapi: 3.1.0
 info:
   title: WireMock Cloud

@@ -26,7 +26,7 @@ All options available to the [`record-many` CLI command](/cli/multi-domain-recor
 When specifying an option in the [`"config"` field of the HTTP switch request](/runner/overview#mode-configuration), remove the dash (`-`) prefix that would normally be used when provided on the command line.
 For instance, the [`--include-services` option](/cli/multi-domain-recording#choosing-which-services-to-record) would become `"include-services"` in the request body, like so:
 
-```json  theme={null}
+```json theme={null}
 {
   "mode": "record-many",
   "config": {
@@ -49,7 +49,7 @@ to WireMock Cloud independently of the batching configuration:
 <Warning>
   When the Runner is stopped or switched out of record-many mode, recorded requests will not be flushed automatically.
   To ensure all your recordings are saved to WireMock Cloud, call [`POST
-      /v1/record-many/flush`](/runner/record-many#flushing-recordings) before stopping the recording session.
+        /v1/record-many/flush`](/runner/record-many#flushing-recordings) before stopping the recording session.
 </Warning>
 
 ### Starting the Runner In Record Many Mode
@@ -59,7 +59,7 @@ for the services you are running along with the port you have configured for the
 
 Here is a typical example on Linux or macOS when running the Runner on port `9999` and recording to two Mock APIs:
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -e WMC_DEFAULT_MODE='record-many' \
   -e WMC_ADMIN_PORT='9999' \
@@ -70,4 +70,3 @@ docker run \
   -p 8081:8081 \
   wiremock/wiremock-runner:latest
 ```
-

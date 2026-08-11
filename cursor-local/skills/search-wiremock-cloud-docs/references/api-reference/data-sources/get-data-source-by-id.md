@@ -6,11 +6,13 @@
 
 # Get data source by ID
 
+> Retrieve a single data source's metadata, optionally including a preview of its row data.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/data-sources/{dataSourceId}
+````yaml /api-reference/openapi.yaml get /v1/data-sources/{dataSourceId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -93,6 +95,9 @@ paths:
       tags:
         - Data sources
       summary: Get data source by ID
+      description: >-
+        Retrieve a single data source's metadata, optionally including a preview
+        of its row data.
       operationId: getDataSourceById
       parameters:
         - in: query

@@ -23,7 +23,7 @@ Additionally, it enables you to skip the complexity of building out new services
 
 Install the CLI globally using npm:
 
-```bash  theme={null}
+```bash theme={null}
 npm i -g @wiremock/cli
 ```
 
@@ -31,7 +31,7 @@ npm i -g @wiremock/cli
 
 If you already have a WireMock Cloud account, simply log in. Otherwise, the login process will guide you through creating an account:
 
-```bash  theme={null}
+```bash theme={null}
 wiremock login
 ```
 
@@ -52,7 +52,7 @@ wiremock login
     * Click Add new MCP server.
     * In the dialog, configure your server to run this command:
 
-    ```bash  theme={null}
+    ```bash theme={null}
     wiremock mcp
     ```
 
@@ -80,7 +80,7 @@ wiremock login
   <Tab title="VSCode + GitHub Copilot">
     * In VSCode, open the `settings.json` file via Settings...->Settings then clicking the Open Settings (JSON) link in the top right.
     * Add the `mcp` element to the settings JSON:
-      ```json  theme={null}
+      ```json theme={null}
       {
         "mcp": {
                 "servers": {
@@ -118,13 +118,13 @@ wiremock login
     * Open your terminal or command prompt.
     * Add the WireMock MCP server using the Claude CLI:
 
-    ```bash  theme={null}
+    ```bash theme={null}
     claude mcp add wiremock -- wiremock mcp
     ```
 
     * Verify the server was added successfully:
 
-    ```bash  theme={null}
+    ```bash theme={null}
     claude mcp list
     ```
 
@@ -150,7 +150,7 @@ wiremock login
     * Click Edit Config and open the config file in your preferred editor.
     * Add the WireMock MCP server to the file. The whole file will look like this if this is the first MCP server installed:
 
-    ```json  theme={null}
+    ```json theme={null}
     {
         "mcpServers": {
         "wiremock": {
@@ -183,7 +183,7 @@ wiremock login
     * Click **Manage plugins** to access the raw configuration.
     * Click **View raw config** to edit the `mcp_config.json` file (located at `~/.codeium/windsurf/mcp_config.json`) and add:
 
-      ```json  theme={null}
+      ```json theme={null}
       {
         "mcpServers": {
           "wiremock": {
@@ -196,7 +196,7 @@ wiremock login
 
       * Save the configuration and press the refresh button in the Plugin Store.
 
-      <img src="https://mintcdn.com/wiremockinc/46NqgX7QaQdjW6uv/images/ai/windsurf-manage-plugins.png?fit=max&auto=format&n=46NqgX7QaQdjW6uv&q=85&s=fd9589396496c688c448347826048af1" alt="Windsurf Manage Plugins" width="1590" height="650" data-path="images/ai/windsurf-manage-plugins.png" />
+          <img src="https://mintcdn.com/wiremockinc/46NqgX7QaQdjW6uv/images/ai/windsurf-manage-plugins.png?fit=max&auto=format&n=46NqgX7QaQdjW6uv&q=85&s=fd9589396496c688c448347826048af1" alt="Windsurf Manage Plugins" width="1590" height="650" data-path="images/ai/windsurf-manage-plugins.png" />
 
       ### Step 6: Confirm Your Setup
 
@@ -221,4 +221,3 @@ Develop a new feature in your application that calls a fresh API. Quickly genera
 ### Swap an existing API connection for a mock
 
 If you have an existing real API integration, you can replace it with a WireMock Cloud mock. Generate the mock from documentation, source code, or other external description formats. This enables you to test your app in isolation without depending on live services.
-

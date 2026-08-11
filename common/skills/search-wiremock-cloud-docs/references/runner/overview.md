@@ -28,7 +28,7 @@ for the services defined in your environment file along with the port you have c
 
 Here is a typical example on Linux or macOS when starting the Runner in `record-many` mode:
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -e WMC_DEFAULT_MODE='record-many' \
   -e WMC_ADMIN_PORT='9999' \
@@ -44,7 +44,7 @@ Once running, the Runner's current mode can be changed via an HTTP `PUT` request
 port, configurable via `WMC_ADMIN_PORT`.
 The request must contain a JSON body of the form
 
-```json  theme={null}
+```json theme={null}
 { "mode" : "<DESIRED_MODE>" }
 ```
 
@@ -111,7 +111,7 @@ environment variable `WMC_RUNNER_ENABLED` to `true`.
 
 Example:
 
-```shell  theme={null}
+```shell theme={null}
 WMC_RUNNER_ENABLED=true wiremock
 ```
 
@@ -122,4 +122,3 @@ Performing a `GET` request to this endpoint will return a 200 status code when t
 
 This health check can be used by orchestration systems like Kubernetes to detect issues, and is built-in to the Runner's [published docker image](https://hub.docker.com/r/wiremock/wiremock-runner).
 More information on using the WireMock Runner in your Kubernetes cluster can be found [here](/runner/running-on-kubernetes).
-

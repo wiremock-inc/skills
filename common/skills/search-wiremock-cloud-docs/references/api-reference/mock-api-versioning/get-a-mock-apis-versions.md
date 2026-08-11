@@ -4,11 +4,13 @@
 
 # Get a mock API's versions
 
+> List the version history commits for a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Mock API versioning
       summary: Get a mock API's versions
+      description: List the version history commits for a mock API.
       operationId: getMockApiVersionHistoryCommits
       responses:
         '200':

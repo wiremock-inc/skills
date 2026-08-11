@@ -4,11 +4,13 @@
 
 # Delete all requests in journal
 
+> Permanently delete every request in a mock API's request journal.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/requests
+````yaml /api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/requests
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Requests
       summary: Delete all requests in journal
+      description: Permanently delete every request in a mock API's request journal.
       operationId: deleteAllRequestsInJournal
       responses:
         '200':

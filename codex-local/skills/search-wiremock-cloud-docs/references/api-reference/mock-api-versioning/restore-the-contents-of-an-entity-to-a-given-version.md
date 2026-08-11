@@ -6,11 +6,13 @@
 
 # Restore the contents of an entity to a given version
 
+> Restore a single entity to its contents at a given version.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/restore/{entityType}/{entityId}
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/restore/{entityType}/{entityId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -92,6 +94,7 @@ paths:
       tags:
         - Mock API versioning
       summary: Restore the contents of an entity to a given version
+      description: Restore a single entity to its contents at a given version.
       operationId: restoreEntityToContentsAtVersionHistoryCommit
       responses:
         '200':

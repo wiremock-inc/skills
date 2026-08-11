@@ -4,11 +4,13 @@
 
 # Get all teams in an organisation
 
+> List every team in an organisation.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/organisations/{organisationId}/teams
+````yaml /api-reference/openapi.yaml get /v1/organisations/{organisationId}/teams
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -101,6 +103,7 @@ paths:
       tags:
         - Teams
       summary: Get all teams in an organisation
+      description: List every team in an organisation.
       operationId: getOrganisationTeams
       responses:
         '200':

@@ -83,7 +83,7 @@ For now, leave the Context as "Default context" and the Operation as `SET`. Add 
 
 Under Response, check "Enable dynamic response templating" and put the following in the body text area:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 State itemName was set to {{ state 'itemName' }}
 ```
 
@@ -96,7 +96,7 @@ value currently associated with the `itemName` key in the default context. For i
 `GET /someItemName`, check "Enable dynamic response templating" and put the following in the body
 text area:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 The current itemName is {{ state 'itemName' }}
 ```
 
@@ -133,7 +133,7 @@ template is once again [the same request data model that is provided in the resp
 
 For instance you could set it to:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ request.headers.x-test-id }}
 ```
 
@@ -147,7 +147,7 @@ There are two ways to render state from an explicit context:
 
 Inline:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 The current itemName is {{ state 'itemName' context=request.headers.x-test-id }}
 ```
 
@@ -156,7 +156,7 @@ context dynamically on render just as you could set it dynamically when making a
 
 Block:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#stateContext request.headers.x-test-id}}
 The current itemName is {{ state 'itemName' }}
 {{/stateContext}}
@@ -171,7 +171,7 @@ It is possible to access all values within a given context using the `listState`
 
 Template:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ listState request.headers.x-test-id }}
 ```
 
@@ -243,4 +243,3 @@ You can read more about [plan limits here](./plan-limits/).
 ## Examples
 
 * [An example of modelling a shopping basket with dynamic state](./basket-example/)
-

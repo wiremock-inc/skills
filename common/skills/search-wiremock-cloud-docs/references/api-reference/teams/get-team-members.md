@@ -4,11 +4,13 @@
 
 # Get team members
 
+> List the members of a team.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/teams/{teamId}/members
+````yaml /api-reference/openapi.yaml get /v1/teams/{teamId}/members
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -100,6 +102,7 @@ paths:
       tags:
         - Teams
       summary: Get team members
+      description: List the members of a team.
       operationId: getTeamMembers
       responses:
         '200':

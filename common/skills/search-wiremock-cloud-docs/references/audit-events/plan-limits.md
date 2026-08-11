@@ -19,4 +19,3 @@ limits, the exceeding destinations will be disabled.  This means WireMock Cloud 
 those destinations.
 
 Disabled destinations can be enabled at any time by [upgrading to a different plan](https://www.wiremock.io/contact-now).
-

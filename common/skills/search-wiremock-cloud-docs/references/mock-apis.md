@@ -47,4 +47,3 @@ Follow these steps to create a mock API then grant a single user permission to u
 </Steps>
 
 Similar steps can be taken when adding a team rather than a single user to the permissions.
-

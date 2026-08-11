@@ -4,11 +4,13 @@
 
 # Delete user by ID
 
+> Permanently delete a user account.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/users/{userId}
+````yaml /api-reference/openapi.yaml delete /v1/users/{userId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -92,6 +94,7 @@ paths:
       tags:
         - Users
       summary: Delete user by ID
+      description: Permanently delete a user account.
       operationId: deleteUser
       responses:
         '204':

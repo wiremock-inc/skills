@@ -10,6 +10,8 @@
 
 The fundamental building block of a simulation is a **stub**. A stub represents a rule that tells WireMock how to respond when it receives certain kinds of requests.
 
+Stubbing is a concept from the underlying [WireMock OSS](https://wiremock.org/docs/stubbing/) engine — if you're already familiar with stubs from open-source WireMock, everything here carries over directly.
+
 A stub consists of two main parts:
 
 1. **Request matching criteria** - The conditions that an incoming request must satisfy to trigger this stub
@@ -69,3 +71,24 @@ Stubs are organized within Mock APIs, which are collections of related stubs tha
 * The order of stubs affects which one matches first
 * A priority can be set on a stub explicitly, which will take precedence of the order
 
+### Deleting All Stubs
+
+If you have permission to delete stubs, A "Delete All Stubs" button is available
+on the mock API **Settings** page in the **Danger Zone** section at the bottom of the
+page. Clicking it opens a confirmation dialog. If the user confirms, all stubs for
+that mock API are deleted.
+
+<Note>
+  This action can be reverted using the mock API's **[Version History](/versioning/overview)**.
+</Note>
+
+#### How to use
+
+1. Navigate to the mock API you want to clear.
+2. Open the **Settings** page.
+3. Scroll to the **Danger Zone** section at the bottom.
+4. Click the **Delete All Stubs** button.
+5. A confirmation dialog appears: *"Are you sure you want to delete all stubs?"*
+6. Click **Yes** to confirm, or **No** to cancel.
+7. On success the dialog closes and you remain on the settings page. All stubs for
+   the mock API are removed regardless of any active search or filter.

@@ -4,11 +4,13 @@
 
 # Replace all rate limits
 
+> Replace every rate limit configured on a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/rateLimits
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/rateLimits
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Settings
       summary: Replace all rate limits
+      description: Replace every rate limit configured on a mock API.
       operationId: updateRateLimits
       requestBody:
         required: true

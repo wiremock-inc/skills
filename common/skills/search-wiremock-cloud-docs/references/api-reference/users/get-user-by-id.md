@@ -4,11 +4,13 @@
 
 # Get user by ID
 
+> Retrieve a single user's account information by their ID.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/users/{userId}
+````yaml /api-reference/openapi.yaml get /v1/users/{userId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -92,6 +94,7 @@ paths:
       tags:
         - Users
       summary: Get user by ID
+      description: Retrieve a single user's account information by their ID.
       operationId: getUserById
       responses:
         '200':

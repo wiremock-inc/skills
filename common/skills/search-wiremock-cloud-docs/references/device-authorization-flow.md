@@ -33,7 +33,7 @@ returns:
 
 #### `discover_urls`
 
-```json  theme={null}
+```json theme={null}
 {
   "token_endpoint": "{fully_qualified_url}",
   "device_authorization_endpoint": "{fully_qualified_url}",
@@ -54,7 +54,7 @@ returns:
 
 #### `device_authorization`
 
-```json  theme={null}
+```json theme={null}
 {
   "device_code": "{random_value}",
   "user_code": "{legible_random_value}",
@@ -161,7 +161,7 @@ returns
 
 ##### `token_response`
 
-```json  theme={null}
+```json theme={null}
 {
   "access_token": "{access_token}",
   "token_type": "{token_type}",
@@ -178,4 +178,3 @@ Content-Type: application/x-www-form-urlencoded
 
 client_id={inputs.client_id}&token={token_response.refresh_token}
 ```
-

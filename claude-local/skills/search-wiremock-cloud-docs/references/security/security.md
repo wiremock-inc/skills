@@ -82,4 +82,3 @@ The value of the Audiences field can optionally be a set of required audiences.
 If this field's value is non-empty, every JWT's
 [`aud` claim](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.3) must contain all of these audiences for the
 JWT to be considered valid.
-

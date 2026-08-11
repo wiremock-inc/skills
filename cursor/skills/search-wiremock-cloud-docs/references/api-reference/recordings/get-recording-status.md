@@ -6,11 +6,13 @@
 
 # Get recording status
 
+> Check whether a mock API is currently recording, and its current recording session state.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/recordings/status
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/recordings/status
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,9 @@ paths:
       tags:
         - Recordings
       summary: Get recording status
+      description: >-
+        Check whether a mock API is currently recording, and its current
+        recording session state.
       operationId: getRecordingStatus
       responses:
         '200':

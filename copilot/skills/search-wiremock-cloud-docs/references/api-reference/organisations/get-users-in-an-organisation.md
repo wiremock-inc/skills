@@ -12,7 +12,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/organisations/{organisationId}/users
+````yaml /api-reference/openapi.yaml get /v1/organisations/{organisationId}/users
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -86,7 +86,7 @@ tags:
 paths:
   /v1/organisations/{organisationId}/users:
     parameters:
-      - $ref: '#/components/parameters/organisationId'
+      - $ref: '#/components/parameters/OrganisationId'
     get:
       tags:
         - Organisations
@@ -152,7 +152,7 @@ paths:
           $ref: '#/components/responses/404'
 components:
   parameters:
-    organisationId:
+    OrganisationId:
       in: path
       name: organisationId
       description: The ID of the organisation

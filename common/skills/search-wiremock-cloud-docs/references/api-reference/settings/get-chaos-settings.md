@@ -4,11 +4,13 @@
 
 # Get chaos settings
 
+> Retrieve a mock API's chaos settings (random latency and failure injection).
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/chaos
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/chaos
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,9 @@ paths:
       tags:
         - Settings
       summary: Get chaos settings
+      description: >-
+        Retrieve a mock API's chaos settings (random latency and failure
+        injection).
       operationId: getChaosSettings
       responses:
         '200':

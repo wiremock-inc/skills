@@ -6,11 +6,13 @@
 
 # Update chaos settings
 
+> Update a mock API's chaos settings.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/chaos
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/chaos
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Settings
       summary: Update chaos settings
+      description: Update a mock API's chaos settings.
       operationId: updateChaosSettings
       requestBody:
         required: true

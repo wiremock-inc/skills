@@ -6,11 +6,13 @@
 
 # Get mock APIs accessible to a user
 
+> List the mock APIs a user can access, with support for filtering by name and by ACL subject.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/users/{userId}/apis
+````yaml /api-reference/openapi.yaml get /v1/users/{userId}/apis
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -132,6 +134,9 @@ paths:
       tags:
         - Mock APIs
       summary: Get mock APIs accessible to a user
+      description: >-
+        List the mock APIs a user can access, with support for filtering by name
+        and by ACL subject.
       operationId: getMockApisForUser
       responses:
         '200':

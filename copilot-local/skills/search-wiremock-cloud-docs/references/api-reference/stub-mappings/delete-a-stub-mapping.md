@@ -6,11 +6,13 @@
 
 # Delete a stub mapping
 
+> Permanently delete a single stub mapping.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/mappings/{stubMappingId}
+````yaml /api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/mappings/{stubMappingId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -96,6 +98,7 @@ paths:
       tags:
         - Stub Mappings
       summary: Delete a stub mapping
+      description: Permanently delete a single stub mapping.
       operationId: deleteStubMapping
       responses:
         '200':

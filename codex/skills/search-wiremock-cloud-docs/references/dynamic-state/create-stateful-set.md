@@ -34,7 +34,7 @@ You provide:
 4. Provide a **sample request body** for the `POST`
    e.g.:
 
-   ```json  theme={null}
+   ```json theme={null}
    {
        "firstName": "Betty",
        "lastName": "Boop",
@@ -47,7 +47,7 @@ You provide:
 5. Input a **correlated sample response body** for the given request body
    e.g.:
 
-   ```json  theme={null}
+   ```json theme={null}
    {
        "contactId": "4",
        "firstName": "Betty",
@@ -78,4 +78,3 @@ New stubs will be created that are automatically configured with stateful functi
 * A fallback **404 response** for unknown requests
 
 You will want to further modify the stubs to better simulate the API's real-world stateful behavior.
-

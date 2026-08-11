@@ -4,11 +4,13 @@
 
 # Retrieve an organisation's mock hosts
 
+> List the mock hosts belonging to an organisation.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/organisations/{organisationId}/hosts
+````yaml /api-reference/openapi.yaml get /v1/organisations/{organisationId}/hosts
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -82,11 +84,12 @@ tags:
 paths:
   /v1/organisations/{organisationId}/hosts:
     parameters:
-      - $ref: '#/components/parameters/organisationId'
+      - $ref: '#/components/parameters/OrganisationId'
     get:
       tags:
         - Organisations
       summary: Retrieve an organisation's mock hosts
+      description: List the mock hosts belonging to an organisation.
       operationId: getOrganisationMockHosts
       responses:
         '200':
@@ -106,7 +109,7 @@ paths:
                   - $ref: '#/components/schemas/PaginationData'
 components:
   parameters:
-    organisationId:
+    OrganisationId:
       in: path
       name: organisationId
       description: The ID of the organisation
@@ -131,6 +134,14 @@ components:
         friendlyHostname:
           description: A domain that addresses the mock host.
           type: string
+        role:
+          description: >-
+            If DEFAULT, new Mock APIs will be automatically assigned to this
+            host if it has fewer than any other host with role DEFAULT
+          type: string
+          enum:
+            - DEFAULT
+            - SPECIFIC
         links:
           type: object
           properties:

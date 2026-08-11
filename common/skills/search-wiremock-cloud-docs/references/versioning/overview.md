@@ -144,4 +144,3 @@ You can read more about [plan limits here](./plan-limits/).
 
 If you have feedback or questions on our Versioning functionality as it evolves, we'd love to hear from you.
 Please [get in touch](mailto:support@wiremock.io).
-

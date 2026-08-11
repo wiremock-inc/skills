@@ -4,11 +4,13 @@
 
 # Update state settings
 
+> Update a mock API's dynamic state settings.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/state
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/settings/state
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Settings
       summary: Update state settings
+      description: Update a mock API's dynamic state settings.
       operationId: updateStateSettings
       requestBody:
         required: true

@@ -4,11 +4,13 @@
 
 # Get request by ID
 
+> Retrieve a single logged request by ID.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/requests/{requestId}
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/requests/{requestId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Requests
       summary: Get request by ID
+      description: Retrieve a single logged request by ID.
       operationId: getRequestById
       parameters:
         - description: The UUID of the logged request

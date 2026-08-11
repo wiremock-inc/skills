@@ -4,11 +4,13 @@
 
 # Test a database connection
 
+> Verify that the given database connection details are reachable and valid before saving them.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/users/{userId}/database-connections/test
+````yaml /api-reference/openapi.yaml post /v1/users/{userId}/database-connections/test
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,9 @@ paths:
       tags:
         - Database connections
       summary: Test a database connection
+      description: >-
+        Verify that the given database connection details are reachable and
+        valid before saving them.
       operationId: testDatabaseConnection
       requestBody:
         required: true

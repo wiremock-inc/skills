@@ -44,7 +44,7 @@ The configuration file is located at:
 
 ### Basic Structure
 
-```yaml  theme={null}
+```yaml theme={null}
 authenticators:
   "api.example.com":
     type: "header_token"
@@ -75,7 +75,7 @@ The most common authentication method using a static token in a header.
 
 **Example Configuration**:
 
-```yaml  theme={null}
+```yaml theme={null}
 authenticators:
   "api.example.com":
     type: "header_token"
@@ -94,4 +94,3 @@ authenticators:
 
 * With prefix: `Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
 * Without prefix: `X-API-Key: sk-1234567890abcdef`
-

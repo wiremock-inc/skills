@@ -10,7 +10,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/{entityCollection}/{entityId}/acl/candidates
+````yaml /api-reference/openapi.yaml get /v1/{entityCollection}/{entityId}/acl/candidates
 openapi: 3.1.0
 info:
   title: WireMock Cloud

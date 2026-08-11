@@ -12,13 +12,30 @@
 
 ### Create basic WireMock stub from scratch
 
-If a JSON file is placed in the **mappings** folder or contains the `"mappings"` key, the plugin recognizes it as a WireMock stub file and provides appropriate coding assistance.
+If a JSON file is placed in the **mappings** or **messages** folder, or contains the `"mappings"` or `"messageMappings"`key,
+the plugin recognizes it as a WireMock stub file and provides appropriate coding assistance.
 
 1. In the **Project** tool window, right-click a folder (or press <kbd>⌘Сmd</kbd><kbd>N</kbd> or <kbd>Alt</kbd><kbd>Insert</kbd>) and select **New | File**.
 2. In the **New File** dialog that opens, enter a name of the file. For example, you can enter `mappings/my-stub.json`, and the plugin will create the **mappings** folder and place the new file within it.
 3. Start typing a key to get suggestions for applicable keys and their quick documentation.
 
 <img src="https://mintcdn.com/wiremockinc/aVMhpBIMjELNN2Qr/images/ides/jetbrains/mappings_property_completion.png?fit=max&auto=format&n=aVMhpBIMjELNN2Qr&q=85&s=d244a1a9070d1a057bfb3e22f6a4e913" alt="WireMock Coding Assistance" width="1364" height="836" data-path="images/ides/jetbrains/mappings_property_completion.png" />
+
+#### Additional coding assistance
+
+This coding assistance also includes the following features (supporting both HTTP and message stubs):
+
+* Code completion of HTTP methods in JSON properties like `request.method` in HTTP stubs, and `trigger.requestPattern.method` and other request pattern locations in message stubs
+
+<img src="https://mintcdn.com/wiremockinc/fJEwRAsZnxmazrGr/images/ides/jetbrains/mappings_http_method_completion.png?fit=max&auto=format&n=fJEwRAsZnxmazrGr&q=85&s=9b9f11b3e923ba0a1e8cf821b3ed81de" alt="WireMock HTTP method completion" width="547" height="492" data-path="images/ides/jetbrains/mappings_http_method_completion.png" />
+
+* Code completion of HTTP headers in JSON properties like `request.headers.*`
+
+<img src="https://mintcdn.com/wiremockinc/fJEwRAsZnxmazrGr/images/ides/jetbrains/mappings_header_completion.png?fit=max&auto=format&n=fJEwRAsZnxmazrGr&q=85&s=43e3ba3428d02b361982a7ea917b7884" alt="WireMock header completion" width="538" height="425" data-path="images/ides/jetbrains/mappings_header_completion.png" />
+
+* Server URL references in JSON properties like `request.url`, and in parameters of Java methods like `WireMock.urlEqualTo()`
+
+<img src="https://mintcdn.com/wiremockinc/fJEwRAsZnxmazrGr/images/ides/jetbrains/mappings_url_references.png?fit=max&auto=format&n=fJEwRAsZnxmazrGr&q=85&s=eb8ae0502cfb34edb5592422d041587a" alt="WireMock URL references" width="907" height="360" data-path="images/ides/jetbrains/mappings_url_references.png" />
 
 ### Create WireMock stubs from Endpoints tool window
 
@@ -67,12 +84,18 @@ You can view the stub response in the **Services** tool window.
 
 IntelliJ IDEA provides coding assistance for templating language used in WireMock response templates. To use this feature, you need the [Handlebars/Mustache](https://plugins.jetbrains.com/plugin/6884-handlebars-mustache) plugin to be installed and enabled.
 
-1. Open your stub JSON file.
+1. Open your HTTP or message stub JSON file.
 2. In the upper-right part of the editor, click <img src="https://resources.jetbrains.com/help/img/idea/2025.3/handlebarsJson.svg" style={{display: 'inline-block', margin: 'inherit'}} /> (**Use Handlebars Templates**). If the [Handlebars/Mustache](https://plugins.jetbrains.com/plugin/6884-handlebars-mustache) plugin is not installed, the action will install it.
 
-This will make IntelliJ IDEA treat JSON files placed in the `__files` directory as response templates and provide appropriate Handlebars coding assistance including completion for [Handlebars helpers](https://wiremock.org/docs/response-templating/#handlebars-helpers).
+This will make IntelliJ IDEA treat JSON files placed in the `__files` directory as response templates and provide appropriate Handlebars coding assistance including
+
+* Completion for [Handlebars helpers](https://wiremock.org/docs/response-templating/#handlebars-helpers)
 
 <img src="https://mintcdn.com/wiremockinc/aVMhpBIMjELNN2Qr/images/ides/jetbrains/enable-support-for-handlebars-templates.png?fit=max&auto=format&n=aVMhpBIMjELNN2Qr&q=85&s=732352d5623f45163036b6e9b29f50ea" alt="Enable support for Handlebars templates" width="1538" height="1194" data-path="images/ides/jetbrains/enable-support-for-handlebars-templates.png" />
+
+* Completion for [request model](https://wiremock.org/docs/response-templating/#the-request-model) and [message model](https://wiremock.org/docs/messaging/stubbing/#available-template-variables) attributes
+
+<img src="https://mintcdn.com/wiremockinc/fJEwRAsZnxmazrGr/images/ides/jetbrains/handlebars-request-model-completion.png?fit=max&auto=format&n=fJEwRAsZnxmazrGr&q=85&s=753cddaf1f2ee1aa35fa441a1ba281ba" alt="Handlebars completion for request model attributes" width="855" height="265" data-path="images/ides/jetbrains/handlebars-request-model-completion.png" />
 
 ## WireMock run configuration
 
@@ -101,4 +124,3 @@ Specify which log files generated while running the application should be displa
 ### Before launch
 
 Select tasks to be performed before starting the selected run/debug configuration.
-

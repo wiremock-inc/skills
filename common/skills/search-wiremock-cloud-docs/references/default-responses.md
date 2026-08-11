@@ -28,35 +28,130 @@ In the Response section, set the Status to `403` and the body content to `"Sorry
 
 Create a second stub with the method set to `GET`, the URL to `/examples/12` and the response body to `"Example 12 body"` (keeping the Status as `200`).
 
-Now if you make a request that matches the specific stub you will see a response with a `200` status and the success message:
+Now if you make a request that matches the specific stub you will see a response with a `200` status:
+
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl -v http://example.wiremockapi.cloud/examples/12
+
+  > GET /examples/12 HTTP/1.1
+  > Host: example.wiremockapi.cloud
+  > User-Agent: curl/7.54.0
+  > Accept: */*
+  >
+  < HTTP/1.1 200 OK
+  < Transfer-Encoding: chunked
+  <
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+      Unirest.get("http://example.wiremockapi.cloud/examples/12").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('http://example.wiremockapi.cloud/examples/12').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('http://example.wiremockapi.cloud/examples/12')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://example.wiremockapi.cloud/examples/12')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('http://example.wiremockapi.cloud/examples/12');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("http://example.wiremockapi.cloud/examples/12")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+and the success message:
 
 ```
-$ curl -v http://example.wiremockapi.cloud/examples/12
-
-> GET /examples/12 HTTP/1.1
-> Host: example.wiremockapi.cloud
-> User-Agent: curl/7.54.0
-> Accept: */*
->
-< HTTP/1.1 200 OK
-< Transfer-Encoding: chunked
-<
 Example 12 body
 ```
 
-Whereas if you make a request to a URL with no stub to match you will see the default `403` response.
+Whereas if you make a request to a URL with no stub to match you will see the default `403` response
+
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl -v http://example.wiremockapi.cloud/examples/12222222
+
+  > GET /examples/12222222 HTTP/1.1
+  > Host: example.wiremockapi.cloud
+  > User-Agent: curl/7.54.0
+  > Accept: */*
+  >
+  < HTTP/1.1 403 Forbidden
+  < Transfer-Encoding: chunked
+  <
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("http://example.wiremockapi.cloud/examples/12222222").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('http://example.wiremockapi.cloud/examples/12222222').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('http://example.wiremockapi.cloud/examples/12222222')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://example.wiremockapi.cloud/examples/12222222')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('http://example.wiremockapi.cloud/examples/12222222');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("http://example.wiremockapi.cloud/examples/12222222")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+with the following message:
 
 ```
-$ curl -v http://example.wiremockapi.cloud/examples/12222222
-
-> GET /examples/12222222 HTTP/1.1
-> Host: example.wiremockapi.cloud
-> User-Agent: curl/7.54.0
-> Accept: */*
->
-< HTTP/1.1 403 Forbidden
-< Transfer-Encoding: chunked
-<
 Sorry, you can't do that
 ```
-

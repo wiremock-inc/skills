@@ -42,7 +42,7 @@ The schemas for each subgraph are below:
 
 <AccordionGroup>
   <Accordion title="Users">
-    ```graphql  theme={null}
+    ```graphql theme={null}
     extend schema
         @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
 
@@ -60,7 +60,7 @@ The schemas for each subgraph are below:
   </Accordion>
 
   <Accordion title="Products">
-    ```graphql  theme={null}
+    ```graphql theme={null}
     extend schema
         @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
 
@@ -79,7 +79,7 @@ The schemas for each subgraph are below:
   </Accordion>
 
   <Accordion title="Reviews">
-    ```graphql  theme={null}
+    ```graphql theme={null}
     extend schema
         @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
 
@@ -126,7 +126,7 @@ subgraphs:
 
 In your terminal, run the following command to start up a supergraph:
 
-```shell  theme={null}
+```shell theme={null}
 rover dev --supergraph-config supergraph-config.yaml
 ```
 
@@ -144,4 +144,3 @@ as well as [the Apollo Federation documentation](https://www.apollographql.com/d
 
 If you have feedback or questions on our GraphQL functionality as it evolves, we'd love to hear from you.
 Please [get in touch](mailto:support@wiremock.io).
-

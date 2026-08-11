@@ -27,4 +27,3 @@ You should see the text that you entered into the body text box. You can find ou
 subdomain is on the Settings page for the mock API.
 
 <img src="https://mintcdn.com/wiremockinc/m5hvbZSijetQGAV3/images/screenshots/mock-api-browser-screenshot.png?fit=max&auto=format&n=m5hvbZSijetQGAV3&q=85&s=5b77cad88396c58d95cbcea317a17a83" alt="Mock response served" width="760" height="455" data-path="images/screenshots/mock-api-browser-screenshot.png" />
-

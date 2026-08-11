@@ -4,11 +4,13 @@
 
 # Invite a user to an organisation
 
+> Invite a user to join an organisation.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/organisations/{organisationId}/invitations
+````yaml /api-reference/openapi.yaml post /v1/organisations/{organisationId}/invitations
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -82,7 +84,7 @@ tags:
 paths:
   /v1/organisations/{organisationId}/invitations:
     parameters:
-      - $ref: '#/components/parameters/organisationId'
+      - $ref: '#/components/parameters/OrganisationId'
       - in: query
         name: q
         description: >-
@@ -96,6 +98,7 @@ paths:
       tags:
         - Organisations
       summary: Invite a user to an organisation
+      description: Invite a user to join an organisation.
       operationId: inviteUserToOrganisation
       requestBody:
         content:
@@ -148,7 +151,7 @@ paths:
                         self: /v1/organisations/mgk7g/invitations/neqek
 components:
   parameters:
-    organisationId:
+    OrganisationId:
       in: path
       name: organisationId
       description: The ID of the organisation

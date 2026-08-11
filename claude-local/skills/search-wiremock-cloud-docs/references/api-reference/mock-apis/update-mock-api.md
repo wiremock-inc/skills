@@ -6,11 +6,13 @@
 
 # Update mock API
 
+> Update a mock API's metadata, such as its name.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Mock APIs
       summary: Update mock API
+      description: Update a mock API's metadata, such as its name.
       operationId: updateMockApi
       requestBody:
         content:

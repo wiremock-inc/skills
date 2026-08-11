@@ -50,7 +50,7 @@ You can also optionally allow bursting by setting:
 You set the rate limit by making a `PUT` request to `https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits`
 containing the JSON object configuring all of your rate limits e.g.
 
-```json  theme={null}
+```json theme={null}
 {
   "rateLimits": {
     "management": {
@@ -68,23 +68,189 @@ containing the JSON object configuring all of your rate limits e.g.
 
 If you've got admin API security turned on you'll need to supply your API key e.g.
 
-```bash  theme={null}
-curl -H 'Authorization:Token <your API token>' \
-  https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits \
-  -X PUT -d '{
- "rateLimits": {
-   "management": {
-     "rate": 15,
-     "unit": "seconds",
-     "burst": 50
-   },
-   "authentication": {
-     "rate": 100,
-     "unit": "seconds"
-   }
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -H 'Authorization:Token <your API token>' \
+    https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits \
+    -X PUT -d '{
+   "rateLimits": {
+     "management": {
+       "rate": 15,
+       "unit": "seconds",
+       "burst": 50
+     },
+     "authentication": {
+       "rate": 100,
+       "unit": "seconds"
+     }
+    }
+  }'
+  ```
+
+  ```java theme={null}
+  String body = """
+      {
+       "rateLimits": {
+         "management": {
+           "rate": 15,
+           "unit": "seconds",
+           "burst": 50
+         },
+         "authentication": {
+           "rate": 100,
+           "unit": "seconds"
+         }
+        }
+      }""";
+
+  HttpResponse<String> response =
+    Unirest.put("https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits")
+      .header("Authorization", "Token <your API token>")
+      .header("Content-Type", "application/json")
+      .body(body)
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const rateLimitBody = JSON.stringify({
+    rateLimits: {
+      management: {
+        rate: 15,
+        unit: 'seconds',
+        burst: 50
+      },
+      authentication: {
+        rate: 100,
+        unit: 'seconds'
+      }
+    }
+  });
+
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Token <your API token>',
+      'Content-Type': 'application/json'
+    },
+    body: rateLimitBody
+  };
+
+  fetch('https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  rate_limit_body = {
+      'rateLimits': {
+          'management': {
+              'rate': 15,
+              'unit': 'seconds',
+              'burst': 50
+          },
+          'authentication': {
+              'rate': 100,
+              'unit': 'seconds'
+          }
+      }
   }
-}'
-```
+
+  response = requests.put(
+      'https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits',
+      headers={'Authorization': 'Token <your API token>'},
+      json=rate_limit_body
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  rate_limit_body = {
+    rateLimits: {
+      management: { rate: 15, unit: 'seconds', burst: 50 },
+      authentication: { rate: 100, unit: 'seconds' }
+    }
+  }
+
+  uri = URI('https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits')
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+
+  request = Net::HTTP::Put.new(uri)
+  request['Authorization'] = 'Token <your API token>'
+  request['Content-Type'] = 'application/json'
+  request.body = rate_limit_body.to_json
+
+  response = http.request(request)
+  ```
+
+  ```php theme={null}
+  <?php
+  $rateLimitBody = json_encode([
+      'rateLimits' => [
+          'management' => [
+              'rate' => 15,
+              'unit' => 'seconds',
+              'burst' => 50
+          ],
+          'authentication' => [
+              'rate' => 100,
+              'unit' => 'seconds'
+          ]
+      ]
+  ]);
+
+  $curl = curl_init('https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_CUSTOMREQUEST => 'PUT',
+      CURLOPT_POSTFIELDS => $rateLimitBody,
+      CURLOPT_HTTPHEADER => [
+          'Authorization: Token <your API token>',
+          'Content-Type: application/json',
+      ],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "rateLimits": map[string]any{
+          "management": map[string]any{
+              "rate":  15,
+              "unit":  "seconds",
+              "burst": 50,
+          },
+          "authentication": map[string]any{
+              "rate": 100,
+              "unit": "seconds",
+          },
+      },
+  })
+
+  req, _ := http.NewRequest(
+      "PUT",
+      "https://<your mock API>.wiremockapi.cloud/__admin/ext/settings/extended/rateLimits",
+      bytes.NewReader(body),
+  )
+  req.Header.Set("Authorization", "Token <your API token>")
+  req.Header.Set("Content-Type", "application/json")
+
+  resp, _ := http.DefaultClient.Do(req)
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 ## Applying to your stubs
 
@@ -97,7 +263,7 @@ You do this by `POST`ing the JSON to `https://<your mock API>.wiremockapi.cloud/
 Taking the above example, if I wanted to use the "authentication" rate limit in my
 login handler stub, I'd do as follows:
 
-```json  theme={null}
+```json theme={null}
 {
   "name": "Login handler",
   "request": {
@@ -124,4 +290,3 @@ and `"rateLimitName": "authentication"` under `transformerParameters`.
 
 Once you've created a stub this way you will start to see 429 responses when the
 request rate to **all stubs associated with the named rate limit** exceeds the limit.
-

@@ -102,10 +102,10 @@ stubs from the open mapping file into that new API.
 
 ### Mock API properties and types
 
-When you initiate the mock API creation, you are presented with a dialog to specify the API name, an optional custom hostname
+When you initiate the mock API creation, you are presented with a dialog to specify the API name, description and custom hostname (both optional),
 and the type of the API to create.
 
-<img src="https://mintcdn.com/wiremockinc/X5ETVmm7Bk8h2cuW/images/ides/jetbrains/wiremock-cloud-create-mock-api-dialog.png?fit=max&auto=format&n=X5ETVmm7Bk8h2cuW&q=85&s=29fb54d18eec6e58ff07fef9e8e99e8a" alt="WireMock Cloud create mock API dialog" width="486" height="219" data-path="images/ides/jetbrains/wiremock-cloud-create-mock-api-dialog.png" />
+<img src="https://mintcdn.com/wiremockinc/FpTwWC2cvkXGHyke/images/ides/jetbrains/wiremock-cloud-create-mock-api-dialog.png?fit=max&auto=format&n=FpTwWC2cvkXGHyke&q=85&s=320cf83dda45a7e32bdd71d06dcc851b" alt="WireMock Cloud create mock API dialog" width="486" height="251" data-path="images/ides/jetbrains/wiremock-cloud-create-mock-api-dialog.png" />
 
 The following API types are supported:
 
@@ -191,4 +191,3 @@ In addition, when an invalid page number is entered, the field displays an appro
 
 When the dialog is OKed, the stub import begins, and the same logic, including handling failure scenarios,
 is performed as when uploading stubs via the [Create mock APIs and import stubs](#create-mock-apis-and-import-stubs) feature.
-

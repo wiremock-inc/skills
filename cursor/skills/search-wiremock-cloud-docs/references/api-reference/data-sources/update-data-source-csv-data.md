@@ -12,7 +12,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/data-sources/{dataSourceId}/data
+````yaml /api-reference/openapi.yaml put /v1/data-sources/{dataSourceId}/data
 openapi: 3.1.0
 info:
   title: WireMock Cloud

@@ -6,11 +6,13 @@
 
 # Regenerate a user's API token
 
+> Invalidate a user's current API token and issue a new one.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/users/{userId}/regenerate-api-token
+````yaml /api-reference/openapi.yaml post /v1/users/{userId}/regenerate-api-token
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -93,6 +95,7 @@ paths:
       tags:
         - Security
       summary: Regenerate a user's API token
+      description: Invalidate a user's current API token and issue a new one.
       operationId: regenerateUserApiToken
       requestBody:
         content:

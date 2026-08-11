@@ -10,7 +10,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/users/self
+````yaml /api-reference/openapi.yaml get /v1/users/self
 openapi: 3.1.0
 info:
   title: WireMock Cloud

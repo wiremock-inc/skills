@@ -6,11 +6,13 @@
 
 # Get OpenAPI document for mock API
 
+> Retrieve the OpenAPI document currently associated with a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/open-api
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/open-api
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - OpenAPI
       summary: Get OpenAPI document for mock API
+      description: Retrieve the OpenAPI document currently associated with a mock API.
       operationId: getOpenAPIDocumentForMockApi
       responses:
         '200':
@@ -102,28 +105,11 @@ paths:
                   doc: |-
                     openapi: 3.1.0
                     info:
-                      title: Customer
-                    Contacts
-                    Management
-                    API
-                    \nn
-                    description: API
-                    for
-                    managing
-                    customer
-                    contacts
-                    including
-                    personal
-                    and
-                    professional
-                    \nn
-                    details
-                    \nn
-                    version: 1.0.0
-                    \nnservers:
-                    \nn-
-                    url: https
-                    ://dev-openapi-testing.wiremockapi.cloud
+                      title: Customer Contacts Management API
+                      description: API for managing customer contacts including personal and professional details
+                      version: 1.0.0
+                    servers:
+                    - url: https://dev-openapi-testing.wiremockapi.cloud
 components:
   parameters:
     mockApiId:

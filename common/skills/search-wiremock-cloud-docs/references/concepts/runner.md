@@ -14,7 +14,7 @@ This hybrid mode splits the difference between Cloud-only and fully self-managed
 
 ## What is WireMock Runner?
 
-WireMock Runner is a long-running service packaged as a container that can be run anywhere you can deploy it. It connects to WireMock Cloud for configuration and collaboration, but executes recordngs and runs mock APIs locally in your environment.
+WireMock Runner is a long-running service packaged as a container that can be run anywhere you can deploy it. It connects to WireMock Cloud for configuration and collaboration, but executes recordngs and runs mock APIs locally in your environment, using the same [WireMock OSS](https://wiremock.org/) engine under the hood.
 
 This architecture creates a clear separation of concerns:
 
@@ -43,11 +43,18 @@ In record mode, the Runner automatically creates or updates mock APIs by capturi
 
 Recording can happen locally during development, in CI/CD during integration tests or deployments, or in any environment where you need to capture API interactions (see [Recording on Kubernetes](/runner/recording-multiple-apis-on-kubernetes) for an example).
 
-### Run Mode
+### Serve Mode
 
-In Run / serve mode, the Runner retrieves mock specifications from WireMock Cloud (or uses already locally stored mock configurations) and serves them locally. Incoming requests are matched against these specifications and responded to according to the stub definitions—all without the request ever leaving your infrastructure.
+In serve mode, the Runner serves mock APIs locally, responding to incoming requests based on stub definitions — all without requests ever leaving your infrastructure.
 
-This enables development, testing, and even production-like environments to operate with simulated APIs while remaining completely isolated from external networks.
+Before the Runner can serve a mock API locally, the mock specification must first be pulled from WireMock Cloud to your local machine using the WireMock CLI:
+`wiremock mock-apis pull <mock-api-id>`
+
+See [Pulling a mock API from WireMock Cloud](/cli/push-pull-mock-api) for full details.
+
+Once pulled, the Runner uses the locally stored mock configuration to match and respond to incoming requests.
+
+This enables development, testing, and production-like environments to operate with simulated APIs while remaining completely isolated from external networks.
 
 ### Mode Switching
 
@@ -117,4 +124,3 @@ For practical examples of how Runner can be used in a real-world software delive
 * [Running on Kubernetes](/runner/running-on-kubernetes)
 * [Recording on Kubernetes](/runner/recording-multiple-apis-on-kubernetes)
 * [Promoting APIs with Git and CI/CD](/runner/promoting-apis-with-git-and-ci)
-

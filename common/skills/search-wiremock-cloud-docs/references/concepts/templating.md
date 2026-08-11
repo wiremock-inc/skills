@@ -14,7 +14,7 @@ Templating is a mechanism for generating content dynamically by combining a temp
 
 For example, this simple template:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 Hello {{request.query.name}}!
 ```
 
@@ -105,4 +105,3 @@ Once enabled, templating applies to:
 For a comprehensive guide to using templating in stub responses, including syntax details and the request data model, see [Response Templating](/response-templating/basics).
 
 For a complete reference of all available helpers organized by category, see the [Templating reference section](/response-templating/conditional-logic-and-iteration) in the documentation.
-

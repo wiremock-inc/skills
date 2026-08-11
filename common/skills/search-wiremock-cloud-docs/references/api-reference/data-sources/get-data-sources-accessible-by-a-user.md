@@ -4,11 +4,13 @@
 
 # Get data sources accessible by a user
 
+> List the CSV and database data sources a user can access, with pagination and name filtering.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/users/{userId}/data-sources
+````yaml /api-reference/openapi.yaml get /v1/users/{userId}/data-sources
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,9 @@ paths:
       tags:
         - Data sources
       summary: Get data sources accessible by a user
+      description: >-
+        List the CSV and database data sources a user can access, with
+        pagination and name filtering.
       operationId: getDataSourcesForUser
       parameters:
         - schema:

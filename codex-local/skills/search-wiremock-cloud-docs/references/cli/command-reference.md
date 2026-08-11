@@ -18,7 +18,7 @@ These options are available for all commands:
 
 Show the version and exit.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock --version
 ```
 
@@ -26,7 +26,7 @@ wiremock --version
 
 Show help message and exit. Can be used with any command or subcommand.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock --help
 wiremock record --help
 ```
@@ -37,7 +37,7 @@ wiremock record --help
 
 Login to WireMock Cloud. This command must have been executed at least once before executing most other commands.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock login
 ```
 
@@ -51,7 +51,7 @@ Opens a browser window for authentication. Once complete, your credentials are s
 
 Remove all WireMock Cloud user information from the CLI configuration.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock logout
 ```
 
@@ -59,7 +59,7 @@ wiremock logout
 
 View information on the currently logged in user.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock whoami
 ```
 
@@ -75,7 +75,7 @@ See [Configuring the CLI](/cli/config) for detailed documentation.
 
 View a config value.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config get <key>
 ```
 
@@ -87,7 +87,7 @@ wiremock config get <key>
 
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config get api_endpoint
 ```
 
@@ -95,7 +95,7 @@ wiremock config get api_endpoint
 
 Set a config value.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config set <key> [<value>]
 ```
 
@@ -108,7 +108,7 @@ wiremock config set <key> [<value>]
 
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config set api_token
 wiremock config set api_endpoint https://api.wiremock.cloud
 ```
@@ -117,7 +117,7 @@ wiremock config set api_endpoint https://api.wiremock.cloud
 
 Clear a single config value.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config unset <key>
 ```
 
@@ -129,7 +129,7 @@ wiremock config unset <key>
 
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config unset api_token
 ```
 
@@ -137,7 +137,7 @@ wiremock config unset api_token
 
 Clear all config values.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config clear
 ```
 
@@ -153,7 +153,7 @@ See [Managing Mock APIs with the CLI](/cli/mock-apis) for detailed documentation
 
 List your mock APIs.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis list [<options>]
 ```
 
@@ -166,7 +166,7 @@ wiremock mock-apis list [<options>]
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis list
 wiremock mock-apis list --limit=50 --page=2
 wiremock mock-apis list --query="payment" --output=json
@@ -176,7 +176,7 @@ wiremock mock-apis list --query="payment" --output=json
 
 Create a new mock API.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis create [<options>] <name>
 ```
 
@@ -191,7 +191,7 @@ wiremock mock-apis create [<options>] <name>
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis create "My API"
 wiremock mock-apis create "GraphQL Service" --type=GraphQL
 wiremock mock-apis create "Payment API" --hostname=payment-api
@@ -201,7 +201,7 @@ wiremock mock-apis create "Payment API" --hostname=payment-api
 
 Delete a mock API by ID.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis delete [<options>] <mock_api_id>
 ```
 
@@ -215,9 +215,70 @@ wiremock mock-apis delete [<options>] <mock_api_id>
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis delete abc123xyz
 wiremock mock-apis delete abc123xyz --force
+```
+
+### mock-apis push
+
+Push a local mock API configuration to WireMock Cloud.
+
+See [Push and Pull Mock APIs](/cli/push-pull-mock-api) for detailed documentation.
+
+```shell theme={null}
+wiremock mock-apis push [<options>] [<local_service_ids>]...
+```
+
+**Arguments:**
+
+* `<local_service_ids>` - The service IDs defined in your WireMock environment file to push (optional)
+
+**Options:**
+
+* `--all` - Push all mock APIs in your local WireMock environment file. To be used instead of specifying a mock API service ID
+* `--wiremock-dir=<path>` - The path to the wiremock directory, containing mock APIs to push (default: .wiremock)
+* `-p, --profile=<text>` - Profile name to use for this environment eg dev or staging
+* `--to=<value>` - The ID of the destination mock API in the cloud. Use 'cloud:new' to force creation of a new mock API even if cloud\_id is present. If not specified, uses the cloud\_id from wiremock.yaml or creates a new mock API
+
+**Examples:**
+
+```shell theme={null}
+wiremock mock-apis push my-service
+wiremock mock-apis push my-service --to=cloud:abc123xyz
+wiremock mock-apis push --all
+wiremock mock-apis push --wiremock-dir=./my-wiremock --profile=staging
+```
+
+### mock-apis pull
+
+Pull a mock API's stub mappings and create a local configuration.
+
+See [Push and Pull Mock APIs](/cli/push-pull-mock-api) for detailed documentation.
+
+```shell theme={null}
+wiremock mock-apis pull [<options>] [<mock_api_ids or local service_names>]...
+```
+
+**Arguments:**
+
+* `<mock_api_ids or local service_names>` - The IDs of the mock APIs to pull or the names of the services defined in your WireMock environment file to pull (optional)
+
+**Options:**
+
+* `--wiremock-dir=<path>` - The path to the wiremock directory, to which all pulled mock APIs will be written (default: .wiremock)
+* `-p, --profile=<text>` - Profile name to use for this environment eg dev or staging
+* `--all` - Pull all mock APIs in your local WireMock environment file. To be used instead of specifying a mock API ID or service name
+* `--into=<text>` - The name of an existing service in wiremock.yaml to pull data into. Only stub mappings and API documents will be updated; service settings in wiremock.yaml will remain unchanged.
+
+**Examples:**
+
+```shell theme={null}
+wiremock mock-apis pull abc123xyz
+wiremock mock-apis pull my-service
+wiremock mock-apis pull --all
+wiremock mock-apis pull abc123xyz --into=existing-service
+wiremock mock-apis pull --wiremock-dir=./my-wiremock --profile=staging
 ```
 
 ## record
@@ -226,7 +287,7 @@ Record requests to a proxied API and import the converted stubs into a mock API.
 
 See [Recording using the WireMock CLI](/cli/recording) for detailed documentation.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record [<options>] <from>
 ```
 
@@ -261,7 +322,7 @@ wiremock record [<options>] <from>
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record https://api.example.com
 wiremock record https://api.example.com --to=cloud:abc123xyz
 wiremock record https://api.example.com -p 9000 -v
@@ -276,7 +337,7 @@ Record requests to multiple proxied APIs and import the converted stubs into a m
 
 See [Multi-domain recording using the WireMock CLI](/cli/multi-domain-recording) for detailed documentation.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many [<options>]
 ```
 
@@ -308,7 +369,7 @@ wiremock record-many [<options>]
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many
 wiremock record-many --wiremock-dir=./my-wiremock
 wiremock record-many --profile=staging -v
@@ -321,7 +382,7 @@ Import files or directories into WireMock Cloud.
 
 See [Importing using the CLI](/cli/import) for detailed documentation.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import [<options>] <file_or_directory>
 ```
 
@@ -336,23 +397,23 @@ wiremock import [<options>] <file_or_directory>
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import ./stubs --to=cloud:abc123xyz
 wiremock import ./api.har --to=cloud:abc123xyz --import-config-file=./config.yaml
 ```
 
-## push
+## open-api
 
-Commands to push resources to WireMock Cloud.
+Commands to push and pull OpenAPI documents to/from WireMock Cloud.
 
 See [Push and Pull](/cli/push-pull) for detailed documentation.
 
-### push open-api
+### open-api push
 
 Push an OpenAPI document to a mock API.
 
-```shell  theme={null}
-wiremock push open-api [<options>] <mock_api_id>
+```shell theme={null}
+wiremock open-api push [<options>] <mock_api_id>
 ```
 
 **Arguments:**
@@ -366,18 +427,47 @@ wiremock push open-api [<options>] <mock_api_id>
 
 **Examples:**
 
-```shell  theme={null}
-wiremock push open-api abc123xyz --file=./openapi.yaml
-wiremock push open-api abc123xyz --file=./openapi.yaml --watch
-cat openapi.yaml | wiremock push open-api abc123xyz
+```shell theme={null}
+wiremock open-api push abc123xyz --file=./openapi.yaml
+wiremock open-api push abc123xyz --file=./openapi.yaml --watch
+cat openapi.yaml | wiremock open-api push abc123xyz
 ```
 
-### push graphql
+### open-api pull
+
+Pull the OpenAPI document from a mock API and save it locally.
+
+```shell theme={null}
+wiremock open-api pull [<options>] <mock_api_id>
+```
+
+**Arguments:**
+
+* `<mock_api_id>` - The ID of the mock API to pull the OpenAPI document from (required)
+
+**Options:**
+
+* `-f, --file=<path>` - The filename to save the OpenAPI document to
+
+**Examples:**
+
+```shell theme={null}
+wiremock open-api pull abc123xyz --file=./openapi.yaml
+wiremock open-api pull abc123xyz
+```
+
+## graphql
+
+Commands to push and pull GraphQL schemas to/from WireMock Cloud.
+
+See [Push and Pull](/cli/push-pull) for detailed documentation.
+
+### graphql push
 
 Push a GraphQL schema to a mock API.
 
-```shell  theme={null}
-wiremock push graphql [<options>] <mock_api_id>
+```shell theme={null}
+wiremock graphql push [<options>] <mock_api_id>
 ```
 
 **Arguments:**
@@ -391,76 +481,17 @@ wiremock push graphql [<options>] <mock_api_id>
 
 **Examples:**
 
-```shell  theme={null}
-wiremock push graphql abc123xyz --file=./schema.graphql
-wiremock push graphql abc123xyz --file=./schema.graphql --watch
+```shell theme={null}
+wiremock graphql push abc123xyz --file=./schema.graphql
+wiremock graphql push abc123xyz --file=./schema.graphql --watch
 ```
 
-### push mock-api
-
-Push a local mock API configuration to WireMock Cloud.
-
-See [Push and Pull Mock APIs](/cli/push-pull-mock-api) for detailed documentation.
-
-```shell  theme={null}
-wiremock push mock-api [<options>] [<local_service_ids>]...
-```
-
-**Arguments:**
-
-* `<local_service_ids>` - The service IDs defined in your WireMock environment file to push (optional)
-
-**Options:**
-
-* `--all` - Push all mock APIs in your local WireMock environment file. To be used instead of specifying a mock API service ID
-* `--wiremock-dir=<path>` - The path to the wiremock directory, containing mock APIs to push (default: .wiremock)
-* `-p, --profile=<text>` - Profile name to use for this environment eg dev or staging
-* `--to=<value>` - The ID of the destination mock API in the cloud. Use 'cloud:new' to force creation of a new mock API even if cloud\_id is present. If not specified, uses the cloud\_id from wiremock.yaml or creates a new mock API
-
-**Examples:**
-
-```shell  theme={null}
-wiremock push mock-api my-service
-wiremock push mock-api my-service --to=cloud:abc123xyz
-wiremock push mock-api --all
-wiremock push mock-api --wiremock-dir=./my-wiremock --profile=staging
-```
-
-## pull
-
-Commands to pull resources from WireMock Cloud.
-
-See [Push and Pull](/cli/push-pull) for detailed documentation.
-
-### pull open-api
-
-Pull the OpenAPI document from a mock API and save it locally.
-
-```shell  theme={null}
-wiremock pull open-api [<options>] <mock_api_id>
-```
-
-**Arguments:**
-
-* `<mock_api_id>` - The ID of the mock API to pull the OpenAPI document from (required)
-
-**Options:**
-
-* `-f, --file=<path>` - The filename to save the OpenAPI document to
-
-**Examples:**
-
-```shell  theme={null}
-wiremock pull open-api abc123xyz --file=./openapi.yaml
-wiremock pull open-api abc123xyz
-```
-
-### pull graphql
+### graphql pull
 
 Pull the GraphQL schema document from a mock API and save it locally.
 
-```shell  theme={null}
-wiremock pull graphql [<options>] <mock_api_id>
+```shell theme={null}
+wiremock graphql pull [<options>] <mock_api_id>
 ```
 
 **Arguments:**
@@ -473,39 +504,8 @@ wiremock pull graphql [<options>] <mock_api_id>
 
 **Examples:**
 
-```shell  theme={null}
-wiremock pull graphql abc123xyz --file=./schema.graphql
-```
-
-### pull mock-api
-
-Pull a mock API's stub mappings and create a local configuration.
-
-See [Push and Pull Mock APIs](/cli/push-pull-mock-api) for detailed documentation.
-
-```shell  theme={null}
-wiremock pull mock-api [<options>] [<mock_api_ids or local service_names>]...
-```
-
-**Arguments:**
-
-* `<mock_api_ids or local service_names>` - The IDs of the mock APIs to pull or the names of the services defined in your WireMock environment file to pull (optional)
-
-**Options:**
-
-* `--wiremock-dir=<path>` - The path to the wiremock directory, to which all pulled mock APIs will be written (default: .wiremock)
-* `-p, --profile=<text>` - Profile name to use for this environment eg dev or staging
-* `--all` - Pull all mock APIs in your local WireMock environment file. To be used instead of specifying a mock API ID or service name
-* `--into=<text>` - The name of an existing service in wiremock.yaml to pull data into. Only stub mappings and API documents will be updated; service settings in wiremock.yaml will remain unchanged.
-
-**Examples:**
-
-```shell  theme={null}
-wiremock pull mock-api abc123xyz
-wiremock pull mock-api my-service
-wiremock pull mock-api --all
-wiremock pull mock-api abc123xyz --into=existing-service
-wiremock pull mock-api --wiremock-dir=./my-wiremock --profile=staging
+```shell theme={null}
+wiremock graphql pull abc123xyz --file=./schema.graphql
 ```
 
 ## run
@@ -514,7 +514,7 @@ Start the local host runner.
 
 See [Running Mock APIs Locally](/cli/local-playback) for detailed documentation.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock run [<options>]
 ```
 
@@ -522,13 +522,15 @@ wiremock run [<options>]
 
 * `--wiremock-dir=<path>` - The path to the wiremock directory, containing mock APIs to run (default: .wiremock)
 * `-p, --profile=<text>` - Profile name to use for this environment eg dev or staging
+* `-w, --watch` - Watch each service's stub-mappings.yaml for changes and reload it without restarting
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock run
 wiremock run --wiremock-dir=./my-wiremock
 wiremock run --profile=staging
+wiremock run --watch
 ```
 
 ## environments
@@ -541,7 +543,7 @@ See [Managing Environments](/cli/environments) for detailed documentation.
 
 Create a new WireMock Cloud environment.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock environments create [<options>]
 ```
 
@@ -552,9 +554,115 @@ wiremock environments create [<options>]
 
 **Examples:**
 
-```shell  theme={null}
+```shell theme={null}
 wiremock environments create --profile=staging
 wiremock environments create --profile=dev --wiremock-dir=./my-wiremock
+```
+
+## templates
+
+Commands to manage API templates in WireMock Cloud.
+
+See [Syncing API Templates](/cli/templates) for detailed documentation.
+
+### templates sync
+
+Sync API templates from one or more `.wiremock` directories into your organisation's default catalogue.
+
+```shell theme={null}
+wiremock templates sync [<options>]
+```
+
+**Options:**
+
+* `--wiremock-dir=<path>` - A `.wiremock` directory to sync templates from; may be specified multiple times (default: `.wiremock`)
+* `--dry-run` - Print what would be synced without making any changes
+* `--prune` / `--no-prune` - Remove remote templates not present locally (`--no-prune`: only report them) (default: `--prune`)
+* `-f, --force` - Skip the confirmation prompt when pruning (only valid with `--prune`)
+
+**Examples:**
+
+```shell theme={null}
+wiremock templates sync
+wiremock templates sync --wiremock-dir=./service-a/.wiremock --wiremock-dir=./service-b/.wiremock
+wiremock templates sync --dry-run
+wiremock templates sync --force
+wiremock templates sync --no-prune
+```
+
+## data-sources
+
+Commands to interact with your data sources.
+
+See [Managing Data Sources with the CLI](/cli/data-sources) for detailed documentation.
+
+### data-sources list
+
+List your data sources.
+
+```shell theme={null}
+wiremock data-sources list [<options>]
+```
+
+**Options:**
+
+* `--limit=<int>` - The maximum number of data sources to return (default: 20)
+* `--page=<int>` - The page of data sources to return (default: 1)
+* `--query=<text>` - The query with which to filter data sources
+* `-o, --output=(text|json)` - The output format to use (default: text)
+
+**Examples:**
+
+```shell theme={null}
+wiremock data-sources list
+wiremock data-sources list --limit=50 --page=2
+wiremock data-sources list --query="customer" --output=json
+```
+
+### data-sources push
+
+Push CSV data to an existing data source.
+
+```shell theme={null}
+wiremock data-sources push [<options>] <data_source_id>
+```
+
+**Arguments:**
+
+* `<data_source_id>` - The ID of the data source to push data to (required)
+
+**Options:**
+
+* `-f, --file=<path>` - The filename to read the CSV data from (if not specified, reads from stdin)
+
+**Examples:**
+
+```shell theme={null}
+wiremock data-sources push abc123xyz --file=./data.csv
+cat data.csv | wiremock data-sources push abc123xyz
+```
+
+### data-sources pull
+
+Pull CSV data from a data source and save it locally.
+
+```shell theme={null}
+wiremock data-sources pull [<options>] <data_source_id>
+```
+
+**Arguments:**
+
+* `<data_source_id>` - The ID of the data source to pull data from (required)
+
+**Options:**
+
+* `-f, --file=<path>` - The filename to save the CSV data to (if not specified, prints to stdout)
+
+**Examples:**
+
+```shell theme={null}
+wiremock data-sources pull abc123xyz --file=./data.csv
+wiremock data-sources pull abc123xyz > data.csv
 ```
 
 ## mcp
@@ -563,7 +671,7 @@ Start an MCP server for use with AI tools. Intended to be called from the AI too
 
 See [WireMock Cloud AI](/ai-mcp/installation) for detailed documentation.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mcp
 ```
 
@@ -579,4 +687,5 @@ This command starts the Model Context Protocol (MCP) server which provides WireM
 * [Push and Pull](/cli/push-pull)
 * [Running Mock APIs Locally](/cli/local-playback)
 * [Managing Environments](/cli/environments)
-
+* [Syncing API Templates](/cli/templates)
+* [Managing Data Sources with the CLI](/cli/data-sources)

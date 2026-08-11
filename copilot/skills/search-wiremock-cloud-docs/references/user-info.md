@@ -17,4 +17,3 @@ ensuring you follow the redirect.
 
 You can get all the users in your organisation or find a selection of these via their username or email address using
 [get users in organisation](/api-reference/organisations/get-users-in-an-organisation).
-

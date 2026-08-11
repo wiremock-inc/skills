@@ -145,4 +145,3 @@ Approaches may vary, so it is best to consult your system administrator.
 
 For security purposes, WireMock recommends creating a specific user for WireMock Cloud on your server with read
 permission on the Git repository directory only (and write permission if pushing from WireMock Cloud is desired).
-

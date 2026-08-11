@@ -4,11 +4,13 @@
 
 # Get all rate limits
 
+> List the rate limits configured on a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/rateLimits
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/rateLimits
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Settings
       summary: Get all rate limits
+      description: List the rate limits configured on a mock API.
       operationId: getRateLimits
       responses:
         '200':

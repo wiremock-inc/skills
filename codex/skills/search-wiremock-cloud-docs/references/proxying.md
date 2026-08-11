@@ -64,4 +64,3 @@ Examples of things these specific stubs can be used for are:
 * Return an HTTP 503 response
 * Return response data in a format not expected by your app's client
 * Close the connection prematurely without sending a response (see [Simulating Faults](./simulating-faults/))
-

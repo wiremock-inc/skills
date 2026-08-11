@@ -11,7 +11,7 @@ the CLI, but not accessible from the internet. This is achieved by the use of th
 WireMock environment config file, `wiremock.yaml`. The environment configuration file specifies all the services you are
 recording:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     type: <mock_api_type>
@@ -53,7 +53,7 @@ specify `0` or `-1` as the port.
 
 To start a multi-domain recording session, you would run:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --wiremock-dir <path>
 ```
 
@@ -75,7 +75,7 @@ services.
 You can achieve this using the `--include-services` option with a value that is a comma separated list of the  YAML keys
 (as defined in the environment configuration file) of the services you wish to record.
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --include-services invoicing-api,payment-api
 ```
 
@@ -105,7 +105,7 @@ one).
 
 The WireMock CLI accepts a configuration file to control how stubs are recorded:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --import-config-file=<path>
 ```
 
@@ -116,7 +116,7 @@ The format of this file is documented in the [advanced recording configuration p
 You can run your recording proxy using a TLS certificate of your choice.
 This can be configured by editing the local environment config file, `.wiremock/wiremock.yaml`, and specifying your HTTPS settings:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   local-running-service-name:
     https:
@@ -126,7 +126,7 @@ services:
 
 If you have a file containing a PEM encoded RSA private key and X509 certificate, you can provide it as so:
 
-```yaml  theme={null}
+```yaml theme={null}
 certificate:
   pem: /path/to/file.pem
 ```
@@ -148,7 +148,7 @@ dHhXPaefkEhrsUbnXGYRfwQhf4SzdYCMCJno7KKsNn6RLIo=
 
 If you have a PKCS 12 key store containing your private key and X509 certificate, you can provide it as so:
 
-```yaml  theme={null}
+```yaml theme={null}
 certificate:
   keystore: /path/to/keystore.p12
   password: very_secret
@@ -157,7 +157,7 @@ certificate:
 
 If you wish to use the same certificate across multiple services, you may specify it as so:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate: <certificate details>
@@ -171,7 +171,7 @@ Any service with an `https` section will then use that certificate by default.
 
 You may still provide a specific certificate for any individual service:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate:
@@ -189,7 +189,7 @@ services:
 
 In addition, you can specify a global keystore but reference different certificates in it by alias for a given service:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   https:
     certificate:
@@ -218,7 +218,7 @@ certificate in one of two ways:
 
 If you have a file containing a PEM encoded RSA private key and X509 certificate, you can provide it as so:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many \
   --client-certificate=/path/to/file.pem
 ```
@@ -243,7 +243,7 @@ dHhXPaefkEhrsUbnXGYRfwQhf4SzdYCMCJno7KKsNn6RLIo=
 Keeping a private key in PEM format is a security risk, so we also support supplying your client certificate in a
 password protected PKCS 12 store as so:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many \
   --client-certificate-store=/path/to/file.pkcs12
 ```
@@ -265,7 +265,7 @@ and port.
 If this is not the behaviour you want when recording, you can configure hostname rewriting on a per-service basis by adding
 the `rewriteOriginHostname` field to the service:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     type: <mock_api_type>
@@ -286,7 +286,7 @@ services:
 
 This can also be configured for all services in the `global` configuration section of your `wiremock.yaml` file:
 
-```yaml  theme={null}
+```yaml theme={null}
 global:
   rewriteOriginHostname: false
 
@@ -326,13 +326,13 @@ The WireMock CLI and WireMock Runner support recording gRPC APIs, but require so
 In order for the recorder to intercept and marshall gRPC requests and responses, a [descriptor file](/grpc/overview#generating-a-descriptor-set-file) must be provided.
 
 If a gRPC mock API already exists in WireMock Cloud ([with a descriptor file uploaded](/grpc/overview#uploading-a-descriptor-set-file)),
-then running the `pull mock-api` command, as detailed [here](/cli/push-pull-mock-api), will ensure the descriptor file is available to the recorder.
+then running the `mock-apis pull` command, as detailed [here](/cli/push-pull-mock-api), will ensure the descriptor file is available to the recorder.
 
 For newly recorded gRPC APIs, add a `path` field to the gRPC service configuration in your `.wiremock/wiremock.yaml`
 file whose value is a file path pointing to a directory containing a descriptor file named `grpc.dsc`.
 For example, given a `wiremock.yaml` file with the following contents
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   my-grpc-service:
     type: gRPC
@@ -351,4 +351,3 @@ the file tree must resemble the following structure
 │   └── grpc.dsc
 └── wiremock.yaml
 ```
-

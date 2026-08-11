@@ -6,11 +6,13 @@
 
 # Delete a team by ID
 
+> Permanently delete a team.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/teams/{teamId}
+````yaml /api-reference/openapi.yaml delete /v1/teams/{teamId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -93,6 +95,7 @@ paths:
       tags:
         - Teams
       summary: Delete a team by ID
+      description: Permanently delete a team.
       operationId: deleteTeam
       responses:
         '200':

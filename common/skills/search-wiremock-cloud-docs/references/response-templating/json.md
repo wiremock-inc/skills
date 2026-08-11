@@ -16,7 +16,7 @@ via a query expression.
 
 For example, given the JSON
 
-```json  theme={null}
+```json theme={null}
 {
   "outer": {
     "inner": "Stuff"
@@ -26,13 +26,13 @@ For example, given the JSON
 
 The following will render "Stuff" into the output:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonPath request.body '$.outer.inner'}}
 ```
 
 And for the same JSON the following will render `{ "inner": "Stuff" }`:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonPath request.body '$.outer'}}
 ```
 
@@ -43,7 +43,7 @@ be printed directly, or passed to further helpers such as [`each`](./conditional
 
 For instance, given a request body of the form:
 
-```json  theme={null}
+```json theme={null}
 {
   "things": [
     {
@@ -61,7 +61,7 @@ For instance, given a request body of the form:
 
 And the following response body template:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#each (jsonPath request.body '$.things') as |thing|}}
 thing: {{{thing.id}}}{{/each}}
 ```
@@ -78,7 +78,7 @@ The above will only work if the JSONPath expression selects an array from the
 request JSON. However, `each` can also be used to iterate over maps/objects, so given
 the request JSON:
 
-```json  theme={null}
+```json theme={null}
 {
   "things": {
     "one": 1,
@@ -90,7 +90,7 @@ the request JSON:
 
 And the template:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#each (jsonPath request.body '$.things') as |value key|}}
 {{{key}}}={{{value}}}{{/each}}
 ```
@@ -109,13 +109,13 @@ The `jsonArrayAdd` helper allows you to append an element to an existing json ar
 
 Its simplest form just takes two parameters, the array to append to and the item to be added:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonArrayAdd existingArray newItem}}
 ```
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [
     {
         "id": 123,
@@ -130,7 +130,7 @@ The above template will produce the following JSON:
 
 You can also use it in block form to parse the contents of the block as the new item to add:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#jsonArrayAdd existingArray}}
 {
   "id": 321,
@@ -141,7 +141,7 @@ You can also use it in block form to parse the contents of the block as the new 
 
 It may be convenient to default the array to an empty array if it does not exist:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#jsonArrayAdd (val existingArray or='[]')}}
 {
   "id": 321,
@@ -152,7 +152,7 @@ It may be convenient to default the array to an empty array if it does not exist
 
 The number of items in the array can be limited by using the `maxItems` parameter:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'existingArray'}}
 [
     {
@@ -177,7 +177,7 @@ The number of items in the array can be limited by using the `maxItems` paramete
 The above template will produce the following JSON.  The first item in the array has been removed to maintain the
 number of items in the array as specified by the `maxItems` parameter:
 
-```json  theme={null}
+```json theme={null}
 [
   {
     "id": 321,
@@ -192,7 +192,7 @@ number of items in the array as specified by the `maxItems` parameter:
 
 You can add arrays to the existing json array using this helper:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'existingArray'}}
 [
     {
@@ -218,7 +218,7 @@ You can add arrays to the existing json array using this helper:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [
   {
     "id": 123,
@@ -239,7 +239,7 @@ The above template will produce the following JSON:
 
 If you want the end result to be a single json array, you can use the `flatten` attribute:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'existingArray'}}
 [
     {
@@ -265,7 +265,7 @@ If you want the end result to be a single json array, you can use the `flatten` 
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [
   {
     "id": 123,
@@ -285,7 +285,7 @@ The above template will produce the following JSON:
 You can use the `jsonArrayAdd` helper to add items to a nested array.  This is achieved using the `jsonPath` property
 and referencing the array you want to add an item to:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'existingArray'}}
 [
     {
@@ -306,7 +306,7 @@ and referencing the array you want to add an item to:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [
   {
     "id": 123,
@@ -326,7 +326,7 @@ json object, by identifying it using a [json path](https://datatracker.ietf.org/
 
 For instance, given an existing array like this:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'existingArray'}}
 [
   { "id": 456, "name": "bob"},
@@ -338,13 +338,13 @@ For instance, given an existing array like this:
 
 application of this helper, which selects the object with id `123`:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonRemove existingArray '$.[?(@.id == 123)]'}}
 ```
 
 will return this array:
 
-```json  theme={null}
+```json theme={null}
 [
   { "id": 456, "name": "bob"},
   { "id": 321, "name": "sam"}
@@ -353,7 +353,7 @@ will return this array:
 
 Given an object like this:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'existingObject'}}
 { "id": 456, "name": "bob"}
 {{/assign}}
@@ -361,13 +361,13 @@ Given an object like this:
 
 application of this helper, which selects the key `name`:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonRemove existingObject '$.name'}}
 ```
 
 will return this object:
 
-```json  theme={null}
+```json theme={null}
 { "id": 456 }
 ```
 
@@ -378,7 +378,7 @@ are both objects, but not into any array values, where the value in the second o
 
 Given these two objects:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'object1'}}
 {
   "id": 456, 
@@ -402,13 +402,13 @@ Given these two objects:
 {{/assign}}
 ```
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonMerge object1 object2}}
 ```
 
 will return this object:
 
-```json  theme={null}
+```json theme={null}
 {
   "id": 456,
   "forename": "Robert",
@@ -424,7 +424,7 @@ will return this object:
 
 Like the `jsonArrayAdd` helper, the second object can be provided as a block:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#jsonMerge object1}}
 {
   "name": "Robert",
@@ -444,7 +444,7 @@ have null values in the second JSON document.
 
 So for instance, given the following template:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'object1'}}
 {
     "keepMe": 1,
@@ -461,7 +461,7 @@ So for instance, given the following template:
 
 The resulting JSON would be:
 
-```json  theme={null}
+```json theme={null}
 {
     "keepMe": 1
 }
@@ -471,7 +471,7 @@ The resulting JSON would be:
 
 The `formatJson` helper allows you to output JSON in either a pretty or a compact format. The default is pretty:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'object1'}}
 {"id": 456,
      "forename": "Robert", "surname": "Smith",
@@ -487,7 +487,7 @@ The `formatJson` helper allows you to output JSON in either a pretty or a compac
 
 emits:
 
-```json  theme={null}
+```json theme={null}
 {
   "id" : 456,
   "forename" : "Robert",
@@ -501,19 +501,19 @@ emits:
 
 Whereas
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{formatJson object1 format='compact'}}
 ```
 
 emits
 
-```json  theme={null}
+```json theme={null}
 {"id":456,"forename":"Robert","surname":"Smith","address":{"number":"12"},"hobbies":["chess","football"]}
 ```
 
 The json to format can also be supplied as a block body:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#formatJson}}
 {"id": 456,
      "forename": "Robert", "surname": "Smith",
@@ -532,7 +532,7 @@ The `jsonSort` helper allows you to specify a field within a JSON array to sort 
 The field is referenced using a JSON path expression, and all sort field values must be
 of the same comparable type (Number, String, or Boolean).  For example:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 [
     {
@@ -551,7 +551,7 @@ of the same comparable type (Number, String, or Boolean).  For example:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [
   {
     "id": 321,
@@ -567,7 +567,7 @@ The above template will produce the following JSON:
 The order of the sorting is `ascending (asc)` by default.  This can be changed by supplying `desc` for the `order` parameter.
 For example:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 [
     {
@@ -586,7 +586,7 @@ For example:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [
   {
     "id": 321,
@@ -602,7 +602,7 @@ The above template will produce the following JSON:
 The array being referenced in the JSON path expression must be an array, but it doesn't have to be a top-level array.
 For example:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 {"users":[{"name":"fred"},{"name":"bob"}]}
 {{/assign}}
@@ -612,14 +612,14 @@ For example:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 {"users":[{"name":"bob"},{"name":"fred"}]}
 ```
 
 Even though all sort field values must be of the same comparable type (Number, String, or Boolean), this equally works for
 dates where they can be compared as strings. For example:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 [{"id":1,"created":"2025-03-15T14:30:00Z"},{"id":2,"created":"2025-01-10T09:15:00Z"},{"id":3,"created":"2025-12-01T18:45:00Z"}]
 {{/assign}}
@@ -629,13 +629,13 @@ dates where they can be compared as strings. For example:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
  [{"id":2,"created":"2025-01-10T09:15:00Z"},{"id":1,"created":"2025-03-15T14:30:00Z"},{"id":3,"created":"2025-12-01T18:45:00Z"}]
 ```
 
 Simple arrays can also be sorted using the `jsonSort` helper:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 ["charlie","alice","bob"]
 {{/assign}}
@@ -645,13 +645,13 @@ Simple arrays can also be sorted using the `jsonSort` helper:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 ["alice","bob","charlie"]
 ```
 
 You can also reference arrays in a specific index position using the `jsonPath` parameter:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 [{"items":[{"price":30},{"price":10},{"price":20}]},{"items":[{"price":100},{"price":50}]}]
 {{/assign}}
@@ -661,7 +661,7 @@ You can also reference arrays in a specific index position using the `jsonPath` 
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [{"items":[{"price":10},{"price":20},{"price":30}]},{"items":[{"price":100},{"price":50}]}]
 ```
 
@@ -671,7 +671,7 @@ The `jsonSort` helper allows you to sort on a field that can be missing or null.
 sorting, missing fields are treated as null.  By default, nulls are added to the
 beginning of the sorted array:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 [{"id":1,"name":"alice"},{"id":2},{"id":3,"name":"bob"}]
 {{/assign}}
@@ -681,14 +681,14 @@ beginning of the sorted array:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [{"id":2},{"id":1,"name":"alice"},{"id":3,"name":"bob"}]
 ```
 
 This can be changed by supplying a `nulls` parameter and setting the value to `last` - `nulls='last'`.  This will
 move nulls to the end of the sorted array:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 [{"id":1,"name":"alice"},{"id":2},{"id":3,"name":"bob"}]
 {{/assign}}
@@ -698,7 +698,7 @@ move nulls to the end of the sorted array:
 
 The above template will produce the following JSON:
 
-```json  theme={null}
+```json theme={null}
 [{"id":1,"name":"alice"},{"id":3,"name":"bob"},{"id":2}]
 ```
 
@@ -710,7 +710,7 @@ The `jsonSort` helper provides a 'stable' sort where the order of equal values a
 a field that contains duplicate values will maintain the order within the array.  This is demonstrated in the following
 example:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'jsonArray'}}
 [{"id":"a","score":100},{"id":"b","score":50},{"id":"c","score":50},{"id":"d","score":25},{"id":"e","score":50}]""";
 {{/assign}}
@@ -720,7 +720,7 @@ example:
 
 The above template will produce the following JSON where the order of the duplicate items is preserved:
 
-```json  theme={null}
+```json theme={null}
 [{"id":"d","score":25},{"id":"b","score":50},{"id":"c","score":50},{"id":"e","score":50},{"id":"a","score":100}]
 ```
 
@@ -731,7 +731,7 @@ into an object or array, and assign it to the given variable.
 
 e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#parseJson 'newVariableName'}}
     [ "shoes", "socks" ]
 {{/parseJson}}
@@ -741,7 +741,7 @@ will add an array called `newVariableName` that can be used in subsequent helper
 
 The contents to parse can also be supplied inline:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'inputString'}}
     [ "shoes", "socks" ]
 {{/assign}}
@@ -754,13 +754,12 @@ If no variable name is supplied the result of the parsing is output.
 
 The `toJson` helper will convert any object into a JSON string.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{toJson (array 1 2 3)}}
 ```
 
 emits
 
-```json  theme={null}
+```json theme={null}
 [ 1, 2, 3 ]
 ```
-

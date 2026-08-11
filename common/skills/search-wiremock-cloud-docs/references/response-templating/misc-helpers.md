@@ -13,7 +13,7 @@ This article describes some useful helpers that don't neatly fit into any of the
 You can create a string variable of own using the `assign` helper, then use it
 later in your template e.g.:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'myCapitalisedQuery'}}{{capitalize request.query.search}}{{/assign}}
 
 Capitalised query: {{myCapitalisedQuery}}
@@ -25,7 +25,7 @@ The `val` helper can be used to access values or provide a default if the value 
 assign a value to a variable much like the `assign` helper.  The main difference between `val` and `assign` is that `val`
 will maintain the type of the date being assigned whereas `assign` will always assign a string.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{val request.query.search or='default'}} // the value of request.query.search or 'default' if it's not present
 {{val request.query.search default='default'}} // the value of request.query.search or 'default' if it's not present
 {{val request.query.search}} // the value of request.query.search or null if it's not present
@@ -43,7 +43,7 @@ will maintain the type of the date being assigned whereas `assign` will always a
 
 The `size` helper returns the size of a string, list or map:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{size 'abcde'}}               // Returns 5
 {{size request.query.things}}  // Returns number of values in query param 'things'
 ```
@@ -56,7 +56,7 @@ an object without fully qualifying it each time.
 For instance, given a variable whose value is an object with the properties `id` and `position`,
 `with` allows these to be accessed without qualifying each time:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#with myObject}}
   ID: {{{id}}}
   Position: {{{position}}}
@@ -68,14 +68,14 @@ For instance, given a variable whose value is an object with the properties `id`
 The `range` helper emits an array of integers between the bounds specified in the
 first and second parameters (both of which are mandatory).
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{range 3 8}}
 {{range -2 2}}
 ```
 
 As mentioned above, you can use this with `randomInt` and `each` to output random length, repeating pieces of content e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#each (range 0 (randomInt lower=1 upper=10)) as |index|}}
 id: {{index}}
 {{/each}}
@@ -85,13 +85,13 @@ id: {{index}}
 
 The `array` helper emits an array containing exactly the values specified as parameters.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{array 1 'two' true}}
 ```
 
 Passing no parameters will result in an empty array being returned.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{array}}
 ```
 
@@ -101,7 +101,7 @@ The `arrayAdd` and `arrayRemove` helpers can be used to add or remove elements f
 or the `start` or `end` keywords. If no position is specified, the element will be added or removed from the end of the
 array.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{arrayAdd (array 1 'three') 2 position=1}} // [1, 2, three]
 {{arrayAdd (array 1 'three') 2 position='start'}} // [2, 1, three]
 {{arrayAdd (array 1 'three') 2 position='end'}} // [1, three, 2]
@@ -117,7 +117,7 @@ array.
 
 The `arrayJoin` helper will concatenate the values passed to it with the separator specified:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{arrayJoin ',' (array 'One' 'Two' 'Three')}} // One,Two,Three
 {{arrayJoin ' - ' 'a' 'b' 'c'}} // a - b - c
 {{arrayJoin ', ' (range 1 5)}} // 1, 2, 3, 4, 5
@@ -127,14 +127,14 @@ The `arrayJoin` helper will concatenate the values passed to it with the separat
 
 You can also specify a `prefix` and `suffix` to be added to the start and end of the result:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{arrayJoin ',' (array 'One' 'Two' 'Three') prefix='[' suffix=']'}} // [One,Two,Three]
 {{arrayJoin ' * ' (array 1 2 3) prefix='(' suffix=')'}} // (1 * 2 * 3)
 ```
 
 The `arrayJoin` helper can also be used as a block helper:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#parseJson 'myThings'}}
 [
   { "id": 1, "name": "One" },
@@ -163,4 +163,3 @@ The `arrayJoin` helper can also be used as a block helper:
     }
 {{/arrayJoin}} // [{ "name1": "One" }, { "name2": "Two" }, { "name3": "Three" }]
 ```
-

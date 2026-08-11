@@ -17,4 +17,3 @@ On Enterprise plans, up to 100,000 values can be defined before the least recent
 the store.
 
 On other plans with Dynamic State enabled only 100 values are maintained in the store.
-

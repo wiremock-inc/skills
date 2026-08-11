@@ -4,11 +4,13 @@
 
 # Create a team
 
+> Create a new team within an organisation.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/teams
+````yaml /api-reference/openapi.yaml post /v1/teams
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -85,6 +87,7 @@ paths:
       tags:
         - Teams
       summary: Create a team
+      description: Create a new team within an organisation.
       operationId: createTeam
       requestBody:
         content:

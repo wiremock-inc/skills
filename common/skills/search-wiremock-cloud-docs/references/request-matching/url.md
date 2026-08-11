@@ -110,4 +110,3 @@ is providing a low priority default response which is matched only if nothing el
 You might also choose to proxy the request to another endpoint in this case.
 
 For this purpose use the `Any URL` option from the URL match type list under Advanced.
-

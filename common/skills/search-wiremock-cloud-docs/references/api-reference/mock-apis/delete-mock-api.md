@@ -4,11 +4,13 @@
 
 # Delete mock API
 
+> Permanently delete a mock API, including its stub mappings, request journal and settings.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}
+````yaml /api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,9 @@ paths:
       tags:
         - Mock APIs
       summary: Delete mock API
+      description: >-
+        Permanently delete a mock API, including its stub mappings, request
+        journal and settings.
       operationId: deleteMockApi
       responses:
         '200':

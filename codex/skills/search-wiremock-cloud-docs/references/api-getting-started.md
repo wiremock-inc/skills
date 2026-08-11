@@ -63,4 +63,3 @@ Accept: application/json
 ## Documentation
 
 The full API is documented under [API Reference](/api-reference/users/get-self).
-

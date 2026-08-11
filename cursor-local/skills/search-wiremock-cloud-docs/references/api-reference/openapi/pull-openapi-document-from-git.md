@@ -6,11 +6,13 @@
 
 # Pull OpenAPI document from Git
 
+> Pull the latest OpenAPI document for a mock API from its connected Git repository.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/open-api/pull
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/open-api/pull
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,9 @@ paths:
       tags:
         - OpenAPI
       summary: Pull OpenAPI document from Git
+      description: >-
+        Pull the latest OpenAPI document for a mock API from its connected Git
+        repository.
       operationId: pullOpenAPIFromGit
       requestBody:
         content:

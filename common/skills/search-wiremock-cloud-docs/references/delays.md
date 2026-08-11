@@ -41,4 +41,3 @@ Chunked dribble delay flushes the response body out in chunks over the total def
 ## Delays and proxying
 
 Fixed or random delays can be added to proxy responses in addition to direct responses, however chunked delays cannot at present.
-

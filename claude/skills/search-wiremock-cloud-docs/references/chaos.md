@@ -6,7 +6,7 @@
 
 # Chaos settings - Basics
 
-> Proxying requests to other systems
+> Inject random latency and failures into a mock API's responses to test how your app behaves when a dependency degrades.
 
 The idea of the chaos settings is to introduce an element of failure into your
 environment and observe how clients cope with it.
@@ -71,4 +71,3 @@ The server will return valid HTTP responses with the configured error status
 codes.
 
 <img src="https://mintcdn.com/wiremockinc/46NqgX7QaQdjW6uv/images/chaos/http-errors.png?fit=max&auto=format&n=46NqgX7QaQdjW6uv&q=85&s=e79ede560b123f38e9b7671da0278f27" alt="Chaos http errors" width="652" height="111" data-path="images/chaos/http-errors.png" />
-

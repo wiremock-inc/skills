@@ -14,7 +14,7 @@ The CLI provides commands for interacting with your mock APIs in WireMock Cloud.
 
 You can list your mock APIs using:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis list
 ```
 
@@ -33,19 +33,19 @@ The list command supports several options to customize the output:
 
 List first 5 mock APIs:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis list --limit 5
 ```
 
 Search for mock APIs containing "test":
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis list --query test
 ```
 
 Get results in JSON format:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis list --output json
 ```
 
@@ -53,7 +53,7 @@ wiremock mock-apis list --output json
 
 You can create a new mock API using:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis create <name>
 ```
 
@@ -70,19 +70,19 @@ The create command supports the following options:
 
 Create a new mock API called `NewName`
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis create NewName
 ```
 
 Create a new mock API of type `GraphQL`
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis create --type GraphQL NewName
 ```
 
 Create a new mock API of type `Unstructured` with a custom hostname
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis create --type Unstructured -o newname NewName
 ```
 
@@ -90,7 +90,7 @@ wiremock mock-apis create --type Unstructured -o newname NewName
 
 You can delete a new mock API using:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock wiremock mock-apis delete <mock_api_id>
 ```
 
@@ -107,13 +107,12 @@ The delete command supports the following options:
 
 Delete a mock API with ID `v16kg`
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis delete v16kg
 ```
 
 Force delete a mock API with ID `v16kg`
 
-```shell  theme={null}
+```shell theme={null}
 wiremock mock-apis delete -f v16kg
 ```
-

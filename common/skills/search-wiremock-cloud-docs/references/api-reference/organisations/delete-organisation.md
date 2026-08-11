@@ -4,11 +4,13 @@
 
 # Delete organisation
 
+> Permanently delete an organisation.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/organisations/{organisationId}
+````yaml /api-reference/openapi.yaml delete /v1/organisations/{organisationId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,7 @@ paths:
       tags:
         - Organisations
       summary: Delete organisation
+      description: Permanently delete an organisation.
       operationId: deleteOrganisation
       responses:
         '204':

@@ -42,7 +42,7 @@ When you specify a profile, WireMock reads both the base configuration and the p
 
 For example, given this base configuration:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     type: REST
@@ -55,7 +55,7 @@ services:
 
 And this `wiremock-staging.yaml` profile:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     cloud_id: staging456
@@ -65,7 +65,7 @@ services:
 
 Using `--profile staging` produces this effective configuration:
 
-```yaml  theme={null}
+```yaml theme={null}
 services:
   invoicing-api:
     type: REST
@@ -109,7 +109,7 @@ When working with WireMock Cloud, different environments typically map to differ
 
 For example:
 
-```yaml  theme={null}
+```yaml theme={null}
 # wiremock.yaml (base configuration)
 services:
   invoicing-api:
@@ -119,7 +119,7 @@ services:
     port: 8888
 ```
 
-```yaml  theme={null}
+```yaml theme={null}
 # wiremock-staging.yaml (staging profile)
 services:
   invoicing-api:
@@ -132,7 +132,7 @@ Using `--profile staging` targets the staging cloud API while preserving all oth
 
 Recording often needs environment-specific source URLs. Development might record from localhost, staging from internal services, and production from live APIs:
 
-```yaml  theme={null}
+```yaml theme={null}
 # wiremock.yaml
 services:
   payment-api:
@@ -140,7 +140,7 @@ services:
       default: https://api.production.example.com
 ```
 
-```yaml  theme={null}
+```yaml theme={null}
 # wiremock-dev.yaml
 services:
   payment-api:
@@ -157,4 +157,3 @@ For instructions on using profiles to manage WireMock Cloud environments, see [M
 For information on using profiles with Runner, see [Serve Mode](/runner/serve) and [Runner Environment Variables](/runner/environment-variables).
 
 For details on WireMock Runner's architecture and capabilities, see [WireMock Runner](/concepts/runner).
-

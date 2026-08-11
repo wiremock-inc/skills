@@ -4,11 +4,13 @@
 
 # Get all teams readable by a user
 
+> List the teams a user belongs to.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/users/{userId}/teams
+````yaml /api-reference/openapi.yaml get /v1/users/{userId}/teams
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -99,6 +101,7 @@ paths:
       tags:
         - Teams
       summary: Get all teams readable by a user
+      description: List the teams a user belongs to.
       operationId: getTeamsForUser
       responses:
         '200':

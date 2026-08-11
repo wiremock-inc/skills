@@ -27,7 +27,7 @@ hosted by WireMock Cloud, which is also available to use as an template when cre
 You can generate a token in a stub response by enabling templating
 and simply adding the following to the respobse body:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt maxAge='12 days'}}}
 ```
 
@@ -38,19 +38,19 @@ for all the required values, set a 100 year expiry term and sign the token using
 
 You can customise expiry term either by setting the `maxAge` parameter e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt maxAge='12 days'}}}
 ```
 
 or by setting an absolute expiry date e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt exp=(parseDate '2040-02-23T21:22:23Z')}}}
 ```
 
 You can similarly set the `nbf` (not before) date:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt nbf=(parseDate '2018-02-23T21:22:23Z')}}}
 ```
 
@@ -60,19 +60,19 @@ Standard claims can be set as follows.
 
 Issuer:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt iss='https://jwt-example.wiremockapi.cloud/'}}}
 ```
 
 Audience:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt aud='https://jwt-target.wiremockapi.cloud/'}}}
 ```
 
 Subject:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt sub='jonsmith'}}}
 ```
 
@@ -80,7 +80,7 @@ Subject:
 
 You can also set any custom claim you wish via named parameters e.g.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt
     isAdmin=true
     quota=23
@@ -95,7 +95,7 @@ You can also set any custom claim you wish via named parameters e.g.
 By setting the `alg` parameter, the token can be signed using the public/private key
 algorithm:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt alg='RS256'}}}
 ```
 
@@ -109,14 +109,77 @@ the shared secret or the public key, depending on the signing algorithm.
 The keys used to sign tokens for a particular mock API can be retrieved via the
 settings admin API resource. To fetch these via curl, you can do the following:
 
-```
-curl -H 'Authorization:Token <your WireMock Cloud API token>' https://your-mock-api.wiremockapi.cloud/__admin/settings
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl -H 'Authorization:Token <your WireMock Cloud API token>' https://your-mock-api.wiremockapi.cloud/__admin/settings
+  ```
 
-This will return a JSON document like this, from which you can retrieve the any of the
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://your-mock-api.wiremockapi.cloud/__admin/settings")
+      .header("Authorization", "Token <your WireMock Cloud API token>")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://your-mock-api.wiremockapi.cloud/__admin/settings', {
+    headers: { 'Authorization': 'Token <your WireMock Cloud API token>' }
+  }).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get(
+      'https://your-mock-api.wiremockapi.cloud/__admin/settings',
+      headers={'Authorization': 'Token <your WireMock Cloud API token>'}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://your-mock-api.wiremockapi.cloud/__admin/settings')
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+
+  request = Net::HTTP::Get.new(uri)
+  request['Authorization'] = 'Token <your WireMock Cloud API token>'
+
+  response = http.request(request)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://your-mock-api.wiremockapi.cloud/__admin/settings');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_HTTPHEADER => [
+          'Authorization: Token <your WireMock Cloud API token>',
+      ],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  req, _ := http.NewRequest("GET", "https://your-mock-api.wiremockapi.cloud/__admin/settings", nil)
+  req.Header.Set("Authorization", "Token <your WireMock Cloud API token>")
+
+  resp, _ := http.DefaultClient.Do(req)
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+This will return a JSON document like this, from which you can retrieve any of the
 keys:
 
-```json  theme={null}
+```json theme={null}
 {
   "settings": {
     "extended": {
@@ -138,7 +201,6 @@ the public key for verification via a JSON Web Key Set (JWKS) endpoint. You serv
 a JWKS from your mock API simply by adding a stub containing the following response
 body (with templating enabled):
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwks}}}
 ```
-

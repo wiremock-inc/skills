@@ -6,11 +6,13 @@
 
 # Create a rate limit
 
+> Create a new rate limit on a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/settings/rateLimits
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/settings/rateLimits
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Settings
       summary: Create a rate limit
+      description: Create a new rate limit on a mock API.
       operationId: createRateLimit
       requestBody:
         required: true

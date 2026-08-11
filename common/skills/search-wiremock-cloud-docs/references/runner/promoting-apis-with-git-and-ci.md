@@ -33,7 +33,7 @@ Before you begin, ensure you have:
 
 Create a development environment to keep your experimental changes separate from production:
 
-```bash  theme={null}
+```bash theme={null}
 wiremock environments create --profile development
 ```
 
@@ -45,7 +45,7 @@ Note the base URLs from the output - you'll use these to test your recorded endp
 
 Create a staging environment that will serve as your pre-production testing ground:
 
-```bash  theme={null}
+```bash theme={null}
 wiremock environments create --profile staging
 ```
 
@@ -55,7 +55,7 @@ This creates another set of mock APIs with a `[staging]` suffix and generates a 
 
 If you haven't already, initialize Git in your project directory:
 
-```bash  theme={null}
+```bash theme={null}
 cd kubernetes-runner-demo
 git init
 git add .
@@ -64,7 +64,7 @@ git commit -m "Initial commit: WireMock configuration"
 
 Create a repository on GitHub and push your initial configuration:
 
-```bash  theme={null}
+```bash theme={null}
 git remote add origin https://github.com/your-username/your-repo.git
 git branch -M main
 git push -u origin main
@@ -83,13 +83,13 @@ Create a GitHub Actions workflow that automatically pushes changes to staging wh
 
 Create the workflow file:
 
-```bash  theme={null}
+```bash theme={null}
 mkdir -p .github/workflows
 ```
 
 Create `.github/workflows/deploy-staging.yml`:
 
-```yaml  theme={null}
+```yaml theme={null}
 name: Deploy to Staging
 
 on:
@@ -121,7 +121,7 @@ jobs:
 
       - name: Push to staging environment
         run: |
-          wiremock push mock-api --all --profile staging
+          wiremock mock-apis push --all --profile staging
 
       - name: Confirm deployment
         run: |
@@ -140,7 +140,7 @@ Add your WireMock Cloud API token as a GitHub secret:
 
 Commit and push the workflow:
 
-```bash  theme={null}
+```bash theme={null}
 git add .github/workflows/deploy-staging.yml
 git commit -m "Add CI/CD workflow for staging deployment"
 git push origin main
@@ -154,8 +154,8 @@ Now that your environments and CI/CD pipeline are configured, you can start maki
 
 Run the following to push all the configuration to the development environment in WireMock Cloud:
 
-```bash  theme={null}
-wiremock push mock-api --all --profile development
+```bash theme={null}
+wiremock mock-apis push --all --profile development
 ```
 
 ### Update APIs in development
@@ -169,8 +169,8 @@ simultaneously from within Kubernetes.
 
 Pull the updated stub mappings from your development environment into your local project:
 
-```bash  theme={null}
-wiremock pull mock-api --all --profile development
+```bash theme={null}
+wiremock mock-apis pull --all --profile development
 ```
 
 This downloads the stub mappings from your development environment and overwrites the local stub files in your `.wiremock` directory.
@@ -181,7 +181,7 @@ This downloads the stub mappings from your development environment and overwrite
 
 Review the changes to ensure they look correct:
 
-```bash  theme={null}
+```bash theme={null}
 git diff .wiremock
 ```
 
@@ -189,13 +189,13 @@ git diff .wiremock
 
 Create a new branch for your changes:
 
-```bash  theme={null}
+```bash theme={null}
 git checkout -b feature/add-github-org-endpoints
 ```
 
 Commit your changes:
 
-```bash  theme={null}
+```bash theme={null}
 git add .wiremock
 git commit -m "Add GitHub organization and repository endpoints"
 git push origin feature/add-github-org-endpoints
@@ -233,9 +233,52 @@ Check the GitHub Actions workflow to ensure it completed successfully:
 
 Test the deployed endpoints in staging:
 
-```bash  theme={null}
-curl https://your-staging-api.wiremock.cloud/a-new-endpoint
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl https://your-staging-api.wiremock.cloud/a-new-endpoint
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("https://your-staging-api.wiremock.cloud/a-new-endpoint").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('https://your-staging-api.wiremock.cloud/a-new-endpoint').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('https://your-staging-api.wiremock.cloud/a-new-endpoint')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('https://your-staging-api.wiremock.cloud/a-new-endpoint')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://your-staging-api.wiremock.cloud/a-new-endpoint');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("https://your-staging-api.wiremock.cloud/a-new-endpoint")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 The staging environment now has the same stub mappings as your development environment.
 
@@ -261,4 +304,3 @@ If stub mappings don't appear in WireMock Cloud after pushing:
 
 * Learn about [selective recording](/runner/record-many#choosing-which-services-to-record) to record only specific services
 * Set up [branch-specific environments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) for feature branch testing
-

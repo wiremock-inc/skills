@@ -4,11 +4,13 @@
 
 # Delete database connection by ID
 
+> Permanently remove a database connection. Data sources backed by it will stop working.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/database-connections/{databaseConnectionId}
+````yaml /api-reference/openapi.yaml delete /v1/database-connections/{databaseConnectionId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,9 @@ paths:
       tags:
         - Database connections
       summary: Delete database connection by ID
+      description: >-
+        Permanently remove a database connection. Data sources backed by it will
+        stop working.
       operationId: deleteDatabaseConnection
       responses:
         '204':

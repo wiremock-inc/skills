@@ -4,11 +4,13 @@
 
 # Update organisation
 
+> Update an organisation's details.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/organisations/{organisationId}
+````yaml /api-reference/openapi.yaml put /v1/organisations/{organisationId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,7 @@ paths:
       tags:
         - Organisations
       summary: Update organisation
+      description: Update an organisation's details.
       operationId: updateOrganisation
       requestBody:
         content:
@@ -103,12 +106,6 @@ paths:
                   properties:
                     name:
                       type: string
-                    defaultMockHost:
-                      description: >-
-                        The default mock host where newly created mock APIs will
-                        be placed.
-                      type: string
-                      nullable: true
                   required:
                     - name
               required:
@@ -167,12 +164,6 @@ components:
               type: string
             emailAddress:
               type: string
-            defaultMockHost:
-              description: >-
-                The default mock host where newly created mock APIs will be
-                placed.
-              type: string
-              nullable: true
             aclObject:
               description: The ACL object ID of the entity.
               type: string

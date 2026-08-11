@@ -15,4 +15,3 @@ Mountebank files are imported in exactly the same way as other formats.
 See [Import and Export Overview](./) for basic importing instructions via the UI and
 [Importing and Export via the API](./api) for directions on automating
 imports via WireMock Cloud's API.
-

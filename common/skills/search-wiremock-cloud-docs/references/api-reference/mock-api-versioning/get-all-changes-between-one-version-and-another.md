@@ -4,11 +4,13 @@
 
 # Get all changes between one version and another
 
+> List everything that changed between two versions of a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/changes
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/changes
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -91,6 +93,7 @@ paths:
       tags:
         - Mock API versioning
       summary: Get all changes between one version and another
+      description: List everything that changed between two versions of a mock API.
       operationId: getMockApiVersionHistoryCommitChanges
       responses:
         '200':

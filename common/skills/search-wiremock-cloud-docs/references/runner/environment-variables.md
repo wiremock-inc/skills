@@ -20,7 +20,7 @@ Enables Runner mode when using the WireMock binary. By default, the binary runs 
 **Default:** `false`
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 WMC_RUNNER_ENABLED=true wiremock
 ```
 
@@ -39,7 +39,7 @@ The mode that the Runner starts in. Once running, the mode can be changed via th
 **Default:** `serve`
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -e WMC_DEFAULT_MODE='record-many' \
   wiremock/wiremock-runner:latest
@@ -53,7 +53,7 @@ The port that the Runner's admin interface is exposed on. The admin interface pr
 **Default:** Random available port
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -e WMC_ADMIN_PORT='9999' \
   -p 9999:9999 \
@@ -68,7 +68,7 @@ The API token used to authenticate with WireMock Cloud. This token is required f
 **Required:** Yes
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -e WMC_API_TOKEN='your-api-token-here' \
   wiremock/wiremock-runner:latest
@@ -88,7 +88,7 @@ Overrides the default path for the values configuration file. By default, the Ru
 **Default:** `.wiremock/config.yaml`
 **Example:**
 
-```shell  theme={null}
+```shell theme={null}
 docker run \
   -e WMC_VALUES_CONFIG_FILE='/custom/path/config.yaml' \
   wiremock/wiremock-runner:latest
@@ -116,22 +116,19 @@ Environment variable names follow this pattern:
 
 For `serve` mode, equivalent to the [`run` CLI command](/cli/local-playback):
 
-```shell  theme={null}
+```shell theme={null}
 # Set the request log level for serve mode
 WMC_RUN_REQUEST_LOG_LEVEL=full
 
 # Set the WireMock directory for serve mode
 WMC_RUN_WIREMOCK_DIR=/custom/path
-
-# Enable watch mode for serve mode
-WMC_RUN_WATCH=true
 ```
 
 #### Record-many mode configuration
 
 For `record-many` mode, equivalent to the [`record-many` CLI command](/cli/multi-domain-recording):
 
-```shell  theme={null}
+```shell theme={null}
 # Set the request log level for record-many mode
 WMC_RECORD_MANY_REQUEST_LOG_LEVEL=full
 
@@ -154,7 +151,7 @@ Specifies the profile to use when the Runner is in `serve` mode. This determines
 **Default:** `default` profile from `wiremock.yaml`
 **Example:**
 
-```yaml  theme={null}
+```yaml theme={null}
 # In Kubernetes manifest
 - name: WMC_RUN_PROFILE
   value: "development"
@@ -168,7 +165,7 @@ Specifies the profile to use when the Runner is in `record-many` mode. This dete
 **Default:** `default` profile from `wiremock.yaml`
 **Example:**
 
-```yaml  theme={null}
+```yaml theme={null}
 # In Kubernetes manifest
 - name: WMC_RECORD_MANY_PROFILE
   value: "development"
@@ -198,4 +195,3 @@ This allows you to set baseline configuration in a values file, override it with
 * [CLI configuration](/cli/overview#environment-variables) - Details on CLI environment variable patterns
 * [Serve mode](/runner/serve) - Using the Runner in serve mode
 * [Record-many mode](/runner/record-many) - Using the Runner in record-many mode
-

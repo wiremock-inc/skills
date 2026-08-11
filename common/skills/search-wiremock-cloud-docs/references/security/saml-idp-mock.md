@@ -92,7 +92,7 @@ and remember to toggle on the applications you want to associate with this conne
 3. The `Extra attribute(s)` allows you to send arbitrary extra `<saml:Attribute>` tags.
    It is important to remove all whitespace to ensure SAML hashing and signing work correctly.  For example
 
-```xml  theme={null}
+```xml theme={null}
 <saml:Attribute Name="groups"><saml:AttributeValue>admins</saml:AttributeValue><saml:AttributeValue>developers</saml:AttributeValue><saml:AttributeValue>finance</saml:AttributeValue></saml:Attribute>
 ```
 
@@ -110,4 +110,3 @@ You should then be authenticated and redirected back to your application.
 
 If you're not sure how something works or have a suggestion for improving this simulation, please get in touch with us
 via [info@wiremock.io](mailto:info@wiremock.io) or the chat widget.
-

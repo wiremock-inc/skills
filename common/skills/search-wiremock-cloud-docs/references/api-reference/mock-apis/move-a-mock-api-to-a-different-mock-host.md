@@ -4,11 +4,13 @@
 
 # Move a mock API to a different mock host
 
+> Change which mock host serves a mock API's simulated traffic.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/host
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/host
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Mock APIs
       summary: Move a mock API to a different mock host
+      description: Change which mock host serves a mock API's simulated traffic.
       operationId: moveMockApiToHost
       requestBody:
         content:

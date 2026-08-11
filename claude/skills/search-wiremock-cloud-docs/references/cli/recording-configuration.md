@@ -19,13 +19,13 @@ matcher (which can be both brittle and slow for large/complex JSON documents).
 
 ## Usage
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record http://private-endpoint --import-config-file=<path>
 ```
 
 Or for multi-domain recording:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock record-many --import-config-file=<path>
 ```
 
@@ -48,7 +48,7 @@ unless further edits are applied.
 
 The policy can be specified in the config file as follows:
 
-```yaml  theme={null}
+```yaml theme={null}
 import:
   duplicatePolicy: ignore # overwrite|create_new|ignore|create_scenarios
 ```
@@ -93,7 +93,7 @@ will result in the following scenario being created:
 By default recording produces a stub that matches on the specific method and full path and query of each request.
 The config file can specify any number of rules for generating more or less specific matching criteria:
 
-```yaml  theme={null}
+```yaml theme={null}
 import:
   stubTemplateTransformationRules:
   - filter: {}
@@ -121,7 +121,7 @@ it would not the entire stub is discarded and no stub is generated at all for th
 Where matchers have a right hand side the `{{ recordedValue }}` macro may be used to capture what that value had
 on the recorded request. For instance, the following rule:
 
-```yaml  theme={null}
+```yaml theme={null}
 import:
   stubTemplateTransformationRules:
   - filter:
@@ -147,7 +147,7 @@ Security-Context: { "userId": "usr_123" }
 
 would produce a stub mapping with the following request matcher:
 
-```json  theme={null}
+```json theme={null}
 {
   "request": {
     "method": "GET",
@@ -184,4 +184,3 @@ This would allow recording different stubs for requests made by different users.
 
 The format of the import config file is defined by the [import-config-file-schema](https://static.wiremock.io/schemas/wiremock-import-config.yaml-schema.json)
 JSON schema.
-

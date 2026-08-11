@@ -10,7 +10,7 @@ Each file saved in your S3 bucket follows the [new line delimited JSON specifica
 
 Each line of json in the file conforms to the following json schema:
 
-```json  theme={null}
+```json theme={null}
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
@@ -150,4 +150,3 @@ Each line of json in the file conforms to the following json schema:
   }
 }
 ```
-

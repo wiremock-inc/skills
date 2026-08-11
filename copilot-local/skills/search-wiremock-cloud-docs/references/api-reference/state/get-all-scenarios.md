@@ -6,11 +6,13 @@
 
 # Get all scenarios
 
+> List every scenario and its current state for a mock API.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/scenarios
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/scenarios
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,7 +91,20 @@ paths:
       tags:
         - State
       summary: Get all scenarios
+      description: List every scenario and its current state for a mock API.
       operationId: getAllScenarios
+      parameters:
+        - description: >-
+            When set to `summary`, returns a lightweight view of each scenario
+            containing only its name and current state, omitting stub mappings,
+            possible states, and IDs. Any other value (or omitting the
+            parameter) returns the full scenario representation.
+          in: query
+          name: detail
+          schema:
+            type: string
+            enum:
+              - summary
       responses:
         '200':
           content:
@@ -100,7 +115,9 @@ paths:
                   scenarios:
                     type: array
                     items:
-                      $ref: '#/components/schemas/scenario'
+                      oneOf:
+                        - $ref: '#/components/schemas/scenario'
+                        - $ref: '#/components/schemas/scenarioSummary'
           description: All scenarios
 components:
   parameters:
@@ -133,6 +150,18 @@ components:
             - Started
             - state_1
             - state_2
+        state:
+          type: string
+          default: Started
+          description: The current state of this scenario
+          example: state_2
+    scenarioSummary:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The scenario name
+          example: my_scenario
         state:
           type: string
           default: Started

@@ -4,11 +4,13 @@
 
 # Delete a rate limit
 
+> Permanently delete a single rate limit.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/settings/rateLimits/{rateLimitId}
+````yaml /api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/settings/rateLimits/{rateLimitId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -94,6 +96,7 @@ paths:
       tags:
         - Settings
       summary: Delete a rate limit
+      description: Permanently delete a single rate limit.
       operationId: deleteRateLimit
       responses:
         '204':

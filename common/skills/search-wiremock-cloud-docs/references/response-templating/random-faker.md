@@ -16,7 +16,7 @@ To get started with the random faker generation, you first need to create a stub
 enabled. Once you have response templating enabled, you can use the `random` helper to generate random values using the
 following pattern in your stub responses:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Name.firstName' }}
 ```
 
@@ -25,7 +25,7 @@ following pattern in your stub responses:
 When you request the stub, the `random` helper will populate those fields with random values based on the key provided.
 The above example will generate something that looks similar to the following output:
 
-```json  theme={null}
+```json theme={null}
 {
   "id": "b37f9d89c35a6a9d17f5555ffb5bd4646cdb096cd4bf2529dbc00a98b6d0be64",
   "username": "jarvis.gorczany",
@@ -58,7 +58,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Address
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Address.state' }}
 {{ random 'Address.country' }}
 {{ random 'Address.streetName' }}
@@ -88,7 +88,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Ancient
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Ancient.god' }}
 {{ random 'Ancient.primordial' }}
 {{ random 'Ancient.titan' }}
@@ -97,7 +97,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Animal
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Animal.name' }}
 {{ random 'Animal.species' }}
 {{ random 'Animal.genus' }}
@@ -106,7 +106,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - App
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'App.name' }}
 {{ random 'App.version' }}
 {{ random 'App.author' }}
@@ -114,20 +114,20 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Appliance
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Appliance.brand' }}
 {{ random 'Appliance.equipment' }}
 ```
 
 #### Key - Artist
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Artist.name' }}
 ```
 
 #### Key - Australia
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Australia.locations' }}
 {{ random 'Australia.animals' }}
 {{ random 'Australia.states' }}
@@ -135,7 +135,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Aviation
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Aviation.aircraft' }}
 {{ random 'Aviation.airport' }}
 {{ random 'Aviation.METAR' }}
@@ -145,7 +145,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Aws
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Aws.region' }}
 {{ random 'Aws.accountId' }}
 {{ random 'Aws.acmARN' }}
@@ -159,7 +159,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Azure
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Azure.region' }}
 {{ random 'Azure.tenantId' }}
 {{ random 'Azure.firewall' }}
@@ -195,7 +195,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Barcode
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Barcode.type' }}
 {{ random 'Barcode.ean8' }}
 {{ random 'Barcode.gtin8' }}
@@ -207,7 +207,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - BloodType
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'BloodType.aboTypes' }}
 {{ random 'BloodType.rhTypes' }}
 {{ random 'BloodType.pTypes' }}
@@ -216,7 +216,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Book
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Book.title' }}
 {{ random 'Book.author' }}
 {{ random 'Book.publisher' }}
@@ -225,13 +225,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Bool
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Bool.bool' }}
 ```
 
 #### Key - Business
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Business.creditCardNumber' }}
 {{ random 'Business.creditCardType' }}
 {{ random 'Business.creditCardExpiry' }}
@@ -240,21 +240,21 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - CNPJ
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'CNPJ.valid' }}
 {{ random 'CNPJ.invalid' }}
 ```
 
 #### Key - CPF
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'CPF.valid' }}
 {{ random 'CPF.invalid' }}
 ```
 
 #### Key - Camera
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Camera.brand' }}
 {{ random 'Camera.model' }}
 {{ random 'Camera.brandWithModel' }}
@@ -262,7 +262,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Cannabis
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Cannabis.types' }}
 {{ random 'Cannabis.strains' }}
 {{ random 'Cannabis.terpenes' }}
@@ -277,7 +277,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Cat
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Cat.name' }}
 {{ random 'Cat.breed' }}
 {{ random 'Cat.registry' }}
@@ -285,7 +285,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Chiquito
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Chiquito.terms' }}
 {{ random 'Chiquito.sentences' }}
 {{ random 'Chiquito.jokes' }}
@@ -294,7 +294,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Code
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Code.asin' }}
 {{ random 'Code.isbnGs1' }}
 {{ random 'Code.isbnGroup' }}
@@ -310,20 +310,20 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Coin
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Coin.flip' }}
 ```
 
 #### Key - Color
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Color.name' }}
 {{ random 'Color.hex' }}
 ```
 
 #### Key - Commerce
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Commerce.brand' }}
 {{ random 'Commerce.department' }}
 {{ random 'Commerce.material' }}
@@ -335,14 +335,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Community
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Community.quote' }}
 {{ random 'Community.character' }}
 ```
 
 #### Key - Company
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Company.name' }}
 {{ random 'Company.bs' }}
 {{ random 'Company.suffix' }}
@@ -356,7 +356,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Compass
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Compass.word' }}
 {{ random 'Compass.azimuth' }}
 {{ random 'Compass.abbreviation' }}
@@ -364,7 +364,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Computer
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Computer.type' }}
 {{ random 'Computer.platform' }}
 {{ random 'Computer.linux' }}
@@ -375,7 +375,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Construction
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Construction.materials' }}
 {{ random 'Construction.roles' }}
 {{ random 'Construction.trades' }}
@@ -386,7 +386,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Cosmere
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Cosmere.aons' }}
 {{ random 'Cosmere.shards' }}
 {{ random 'Cosmere.surges' }}
@@ -401,7 +401,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Country
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Country.name' }}
 {{ random 'Country.flag' }}
 {{ random 'Country.currency' }}
@@ -413,13 +413,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - CryptoCoin
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'CryptoCoin.coin' }}
 ```
 
 #### Key - CultureSeries
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'CultureSeries.books' }}
 {{ random 'CultureSeries.civs' }}
 {{ random 'CultureSeries.planets' }}
@@ -430,14 +430,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Currency
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Currency.name' }}
 {{ random 'Currency.code' }}
 ```
 
 #### Key - DcComics
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'DcComics.name' }}
 {{ random 'DcComics.hero' }}
 {{ random 'DcComics.heroine' }}
@@ -447,7 +447,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Demographic
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Demographic.race' }}
 {{ random 'Demographic.demonym' }}
 {{ random 'Demographic.sex' }}
@@ -457,7 +457,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Device
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Device.platform' }}
 {{ random 'Device.modelName' }}
 {{ random 'Device.serial' }}
@@ -466,7 +466,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Disease
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Disease.ophthalmologyAndOtorhinolaryngology' }}
 {{ random 'Disease.neurology' }}
 {{ random 'Disease.surgery' }}
@@ -478,7 +478,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Dog
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Dog.name' }}
 {{ random 'Dog.size' }}
 {{ random 'Dog.breed' }}
@@ -491,7 +491,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Drone
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Drone.name' }}
 {{ random 'Drone.iso' }}
 {{ random 'Drone.weight' }}
@@ -521,7 +521,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - DungeonsAndDragons
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'DungeonsAndDragons.alignments' }}
 {{ random 'DungeonsAndDragons.cities' }}
 {{ random 'DungeonsAndDragons.klasses' }}
@@ -535,7 +535,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Educator
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Educator.course' }}
 {{ random 'Educator.campus' }}
 {{ random 'Educator.university' }}
@@ -545,7 +545,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - EldenRing
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'EldenRing.location' }}
 {{ random 'EldenRing.weapon' }}
 {{ random 'EldenRing.skill' }}
@@ -555,7 +555,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - ElectricalComponents
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'ElectricalComponents.active' }}
 {{ random 'ElectricalComponents.passive' }}
 {{ random 'ElectricalComponents.electromechanical' }}
@@ -563,20 +563,20 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Emoji
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Emoji.cat' }}
 {{ random 'Emoji.smiley' }}
 ```
 
 #### Key - FamousLastWords
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'FamousLastWords.lastWords' }}
 ```
 
 #### Key - File
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'File.fileName' }}
 {{ random 'File.extension' }}
 {{ random 'File.mimeType' }}
@@ -584,7 +584,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Finance
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Finance.nyseTicker' }}
 {{ random 'Finance.creditCard' }}
 {{ random 'Finance.bic' }}
@@ -595,7 +595,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - FreshPrinceOfBelAir
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'FreshPrinceOfBelAir.characters' }}
 {{ random 'FreshPrinceOfBelAir.quotes' }}
 {{ random 'FreshPrinceOfBelAir.celebrities' }}
@@ -603,19 +603,19 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - FunnyName
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'FunnyName.name' }}
 ```
 
 #### Key - GarmentSize
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'GarmentSize.size' }}
 ```
 
 #### Key - Gender
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Gender.types' }}
 {{ random 'Gender.binaryTypes' }}
 {{ random 'Gender.shortBinaryTypes' }}
@@ -623,21 +623,21 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - GratefulDead
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'GratefulDead.players' }}
 {{ random 'GratefulDead.songs' }}
 ```
 
 #### Key - GreekPhilosopher
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'GreekPhilosopher.name' }}
 {{ random 'GreekPhilosopher.quote' }}
 ```
 
 #### Key - Hacker
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Hacker.noun' }}
 {{ random 'Hacker.ingverb' }}
 {{ random 'Hacker.adjective' }}
@@ -647,7 +647,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Hashing
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Hashing.md2' }}
 {{ random 'Hashing.md5' }}
 {{ random 'Hashing.sha1' }}
@@ -658,39 +658,39 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Hipster
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Hipster.word' }}
 ```
 
 #### Key - Hobby
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Hobby.activity' }}
 ```
 
 #### Key - Hololive
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Hololive.talent' }}
 ```
 
 #### Key - Horse
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Horse.name' }}
 {{ random 'Horse.breed' }}
 ```
 
 #### Key - House
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'House.room' }}
 {{ random 'House.furniture' }}
 ```
 
 #### Key - IdNumber
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'IdNumber.valid' }}
 {{ random 'IdNumber.invalid' }}
 {{ random 'IdNumber.ssnValid' }}
@@ -712,7 +712,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - IndustrySegments
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'IndustrySegments.industry' }}
 {{ random 'IndustrySegments.sector' }}
 {{ random 'IndustrySegments.subSector' }}
@@ -721,7 +721,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Internet
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Internet.url' }}
 {{ random 'Internet.port' }}
 {{ random 'Internet.image' }}
@@ -752,7 +752,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Job
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Job.position' }}
 {{ random 'Job.field' }}
 {{ random 'Job.seniority' }}
@@ -762,7 +762,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Kpop
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Kpop.iGroups' }}
 {{ random 'Kpop.iiGroups' }}
 {{ random 'Kpop.iiiGroups' }}
@@ -773,7 +773,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Lorem
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Lorem.words' }}
 {{ random 'Lorem.word' }}
 {{ random 'Lorem.character' }}
@@ -784,19 +784,19 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Marketing
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Marketing.buzzwords' }}
 ```
 
 #### Key - Matz
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Matz.quote' }}
 ```
 
 #### Key - Mbti
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Mbti.name' }}
 {{ random 'Mbti.type' }}
 {{ random 'Mbti.personage' }}
@@ -807,7 +807,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Measurement
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Measurement.length' }}
 {{ random 'Measurement.height' }}
 {{ random 'Measurement.weight' }}
@@ -820,7 +820,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Medical
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Medical.symptoms' }}
 {{ random 'Medical.medicineName' }}
 {{ random 'Medical.diseaseName' }}
@@ -831,7 +831,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Military
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Military.armyRank' }}
 {{ random 'Military.navyRank' }}
 {{ random 'Military.marinesRank' }}
@@ -841,14 +841,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Money
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Money.currency' }}
 {{ random 'Money.currencyCode' }}
 ```
 
 #### Key - Mood
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Mood.feeling' }}
 {{ random 'Mood.emotion' }}
 {{ random 'Mood.tone' }}
@@ -856,20 +856,20 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Mountain
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Mountain.name' }}
 {{ random 'Mountain.range' }}
 ```
 
 #### Key - Mountaineering
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Mountaineering.mountaineer' }}
 ```
 
 #### Key - Music
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Music.key' }}
 {{ random 'Music.instrument' }}
 {{ random 'Music.chord' }}
@@ -878,7 +878,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Name
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Name.name' }}
 {{ random 'Name.prefix' }}
 {{ random 'Name.suffix' }}
@@ -892,7 +892,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Nation
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Nation.flag' }}
 {{ random 'Nation.language' }}
 {{ random 'Nation.isoCountry' }}
@@ -903,13 +903,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - NatoPhoneticAlphabet
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'NatoPhoneticAlphabet.codeWord' }}
 ```
 
 #### Key - Nigeria
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Nigeria.name' }}
 {{ random 'Nigeria.places' }}
 {{ random 'Nigeria.schools' }}
@@ -919,7 +919,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Number
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Number.digit' }}
 {{ random 'Number.negative' }}
 {{ random 'Number.positive' }}
@@ -930,13 +930,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Passport
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Passport.valid' }}
 ```
 
 #### Key - PhoneNumber
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'PhoneNumber.extension' }}
 {{ random 'PhoneNumber.cellPhone' }}
 {{ random 'PhoneNumber.phoneNumberInternational' }}
@@ -947,7 +947,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Photography
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Photography.iso' }}
 {{ random 'Photography.brand' }}
 {{ random 'Photography.genre' }}
@@ -961,14 +961,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - ProgrammingLanguage
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'ProgrammingLanguage.name' }}
 {{ random 'ProgrammingLanguage.creator' }}
 ```
 
 #### Key - Relationship
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Relationship.parent' }}
 {{ random 'Relationship.inLaw' }}
 {{ random 'Relationship.spouse' }}
@@ -977,7 +977,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Restaurant
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Restaurant.name' }}
 {{ random 'Restaurant.type' }}
 {{ random 'Restaurant.description' }}
@@ -988,19 +988,19 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Robin
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Robin.quote' }}
 ```
 
 #### Key - RockBand
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'RockBand.name' }}
 ```
 
 #### Key - Science
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Science.element' }}
 {{ random 'Science.unit' }}
 {{ random 'Science.scientist' }}
@@ -1013,7 +1013,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Shakespeare
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Shakespeare.hamletQuote' }}
 {{ random 'Shakespeare.asYouLikeItQuote' }}
 {{ random 'Shakespeare.kingRichardIIIQuote' }}
@@ -1022,7 +1022,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Sip
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Sip.method' }}
 {{ random 'Sip.rtpPort' }}
 {{ random 'Sip.bodyString' }}
@@ -1046,13 +1046,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Size
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Size.adjective' }}
 ```
 
 #### Key - SlackEmoji
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'SlackEmoji.people' }}
 {{ random 'SlackEmoji.nature' }}
 {{ random 'SlackEmoji.custom' }}
@@ -1066,7 +1066,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Space
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Space.planet' }}
 {{ random 'Space.moon' }}
 {{ random 'Space.galaxy' }}
@@ -1084,14 +1084,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Stock
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Stock.nsdqSymbol' }}
 {{ random 'Stock.nyseSymbol' }}
 ```
 
 #### Key - Subscription
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Subscription.plans' }}
 {{ random 'Subscription.statuses' }}
 {{ random 'Subscription.paymentMethods' }}
@@ -1101,7 +1101,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Superhero
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Superhero.name' }}
 {{ random 'Superhero.prefix' }}
 {{ random 'Superhero.suffix' }}
@@ -1111,7 +1111,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Team
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Team.name' }}
 {{ random 'Team.state' }}
 {{ random 'Team.sport' }}
@@ -1120,7 +1120,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Text
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Text.text' }}
 {{ random 'Text.character' }}
 {{ random 'Text.uppercaseCharacter' }}
@@ -1129,7 +1129,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Tron
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Tron.location' }}
 {{ random 'Tron.quote' }}
 {{ random 'Tron.character' }}
@@ -1141,14 +1141,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Twitter
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Twitter.userName' }}
 {{ random 'Twitter.userId' }}
 ```
 
 #### Key - University
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'University.name' }}
 {{ random 'University.prefix' }}
 {{ random 'University.suffix' }}
@@ -1156,7 +1156,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Vehicle
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Vehicle.make' }}
 {{ random 'Vehicle.color' }}
 {{ random 'Vehicle.style' }}
@@ -1180,7 +1180,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Verb
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Verb.base' }}
 {{ random 'Verb.ingForm' }}
 {{ random 'Verb.past' }}
@@ -1190,7 +1190,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Weather
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Weather.description' }}
 {{ random 'Weather.temperatureCelsius' }}
 {{ random 'Weather.temperatureFahrenheit' }}
@@ -1198,7 +1198,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Yoda
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Yoda.quote' }}
 ```
 
@@ -1206,7 +1206,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Beer
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Beer.name' }}
 {{ random 'Beer.style' }}
 {{ random 'Beer.hop' }}
@@ -1216,7 +1216,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Coffee
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Coffee.descriptor' }}
 {{ random 'Coffee.name1' }}
 {{ random 'Coffee.name2' }}
@@ -1231,7 +1231,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Dessert
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Dessert.variety' }}
 {{ random 'Dessert.topping' }}
 {{ random 'Dessert.flavor' }}
@@ -1239,7 +1239,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Food
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Food.ingredient' }}
 {{ random 'Food.spice' }}
 {{ random 'Food.dish' }}
@@ -1251,7 +1251,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Tea
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Tea.type' }}
 {{ random 'Tea.variety' }}
 ```
@@ -1260,26 +1260,26 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - AquaTeenHungerForce
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'AquaTeenHungerForce.character' }}
 ```
 
 #### Key - Avatar
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Avatar.image' }}
 ```
 
 #### Key - Babylon5
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Babylon5.quote' }}
 {{ random 'Babylon5.character' }}
 ```
 
 #### Key - BackToTheFuture
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'BackToTheFuture.quote' }}
 {{ random 'BackToTheFuture.date' }}
 {{ random 'BackToTheFuture.character' }}
@@ -1287,14 +1287,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - BigBangTheory
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'BigBangTheory.quote' }}
 {{ random 'BigBangTheory.character' }}
 ```
 
 #### Key - BojackHorseman
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'BojackHorseman.characters' }}
 {{ random 'BojackHorseman.quotes' }}
 {{ random 'BojackHorseman.tongueTwisters' }}
@@ -1302,28 +1302,28 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - BossaNova
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'BossaNova.artist' }}
 {{ random 'BossaNova.song' }}
 ```
 
 #### Key - BreakingBad
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'BreakingBad.character' }}
 {{ random 'BreakingBad.episode' }}
 ```
 
 #### Key - BrooklynNineNine
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'BrooklynNineNine.characters' }}
 {{ random 'BrooklynNineNine.quotes' }}
 ```
 
 #### Key - Buffy
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Buffy.characters' }}
 {{ random 'Buffy.quotes' }}
 {{ random 'Buffy.bigBads' }}
@@ -1333,13 +1333,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - ChuckNorris
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'ChuckNorris.fact' }}
 ```
 
 #### Key - DarkSoul
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'DarkSoul.classes' }}
 {{ random 'DarkSoul.stats' }}
 {{ random 'DarkSoul.covenants' }}
@@ -1348,7 +1348,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Departed
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Departed.quote' }}
 {{ random 'Departed.character' }}
 {{ random 'Departed.actor' }}
@@ -1356,7 +1356,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - DetectiveConan
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'DetectiveConan.characters' }}
 {{ random 'DetectiveConan.gadgets' }}
 {{ random 'DetectiveConan.vehicles' }}
@@ -1364,7 +1364,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - DoctorWho
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'DoctorWho.quote' }}
 {{ random 'DoctorWho.character' }}
 {{ random 'DoctorWho.species' }}
@@ -1376,7 +1376,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Doraemon
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Doraemon.location' }}
 {{ random 'Doraemon.character' }}
 {{ random 'Doraemon.gadget' }}
@@ -1384,13 +1384,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - DragonBall
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'DragonBall.character' }}
 ```
 
 #### Key - DumbAndDumber
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'DumbAndDumber.quote' }}
 {{ random 'DumbAndDumber.character' }}
 {{ random 'DumbAndDumber.actor' }}
@@ -1398,7 +1398,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Dune
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Dune.quote' }}
 {{ random 'Dune.character' }}
 {{ random 'Dune.title' }}
@@ -1408,7 +1408,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - FamilyGuy
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'FamilyGuy.location' }}
 {{ random 'FamilyGuy.quote' }}
 {{ random 'FamilyGuy.character' }}
@@ -1416,7 +1416,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - FinalSpace
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'FinalSpace.quote' }}
 {{ random 'FinalSpace.character' }}
 {{ random 'FinalSpace.vehicle' }}
@@ -1424,7 +1424,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Friends
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Friends.location' }}
 {{ random 'Friends.quote' }}
 {{ random 'Friends.character' }}
@@ -1432,7 +1432,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - FullmetalAlchemist
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'FullmetalAlchemist.country' }}
 {{ random 'FullmetalAlchemist.character' }}
 {{ random 'FullmetalAlchemist.city' }}
@@ -1440,7 +1440,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - GameOfThrones
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'GameOfThrones.quote' }}
 {{ random 'GameOfThrones.character' }}
 {{ random 'GameOfThrones.city' }}
@@ -1450,7 +1450,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Ghostbusters
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Ghostbusters.quote' }}
 {{ random 'Ghostbusters.character' }}
 {{ random 'Ghostbusters.actor' }}
@@ -1458,7 +1458,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - HarryPotter
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'HarryPotter.location' }}
 {{ random 'HarryPotter.quote' }}
 {{ random 'HarryPotter.character' }}
@@ -1469,7 +1469,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - HeyArnold
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'HeyArnold.locations' }}
 {{ random 'HeyArnold.characters' }}
 {{ random 'HeyArnold.quotes' }}
@@ -1477,7 +1477,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - HitchhikersGuideToTheGalaxy
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'HitchhikersGuideToTheGalaxy.location' }}
 {{ random 'HitchhikersGuideToTheGalaxy.quote' }}
 {{ random 'HitchhikersGuideToTheGalaxy.character' }}
@@ -1489,7 +1489,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Hobbit
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Hobbit.location' }}
 {{ random 'Hobbit.quote' }}
 {{ random 'Hobbit.character' }}
@@ -1498,7 +1498,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - HowIMetYourMother
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'HowIMetYourMother.quote' }}
 {{ random 'HowIMetYourMother.character' }}
 {{ random 'HowIMetYourMother.highFive' }}
@@ -1507,14 +1507,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Kaamelott
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Kaamelott.quote' }}
 {{ random 'Kaamelott.character' }}
 ```
 
 #### Key - Lebowski
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Lebowski.quote' }}
 {{ random 'Lebowski.character' }}
 {{ random 'Lebowski.actor' }}
@@ -1522,14 +1522,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - LordOfTheRings
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'LordOfTheRings.location' }}
 {{ random 'LordOfTheRings.character' }}
 ```
 
 #### Key - MoneyHeist
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'MoneyHeist.quote' }}
 {{ random 'MoneyHeist.character' }}
 {{ random 'MoneyHeist.heist' }}
@@ -1537,13 +1537,13 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Movie
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Movie.quote' }}
 ```
 
 #### Key - OnePiece
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'OnePiece.location' }}
 {{ random 'OnePiece.quote' }}
 {{ random 'OnePiece.character' }}
@@ -1554,7 +1554,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - OscarMovie
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'OscarMovie.quote' }}
 {{ random 'OscarMovie.getYear' }}
 {{ random 'OscarMovie.character' }}
@@ -1566,7 +1566,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Pokemon
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Pokemon.name' }}
 {{ random 'Pokemon.type' }}
 {{ random 'Pokemon.location' }}
@@ -1575,14 +1575,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - PrincessBride
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'PrincessBride.quote' }}
 {{ random 'PrincessBride.character' }}
 ```
 
 #### Key - ResidentEvil
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'ResidentEvil.location' }}
 {{ random 'ResidentEvil.character' }}
 {{ random 'ResidentEvil.equipment' }}
@@ -1592,7 +1592,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - RickAndMorty
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'RickAndMorty.location' }}
 {{ random 'RickAndMorty.quote' }}
 {{ random 'RickAndMorty.character' }}
@@ -1600,14 +1600,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - RuPaulDragRace
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'RuPaulDragRace.quote' }}
 {{ random 'RuPaulDragRace.queen' }}
 ```
 
 #### Key - Seinfeld
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Seinfeld.quote' }}
 {{ random 'Seinfeld.character' }}
 {{ random 'Seinfeld.business' }}
@@ -1615,7 +1615,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Simpsons
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Simpsons.location' }}
 {{ random 'Simpsons.quote' }}
 {{ random 'Simpsons.character' }}
@@ -1623,7 +1623,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - StarTrek
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'StarTrek.location' }}
 {{ random 'StarTrek.character' }}
 {{ random 'StarTrek.species' }}
@@ -1633,7 +1633,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - StarWars
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'StarWars.character' }}
 {{ random 'StarWars.species' }}
 {{ random 'StarWars.planets' }}
@@ -1647,7 +1647,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - StudioGhibli
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'StudioGhibli.quote' }}
 {{ random 'StudioGhibli.character' }}
 {{ random 'StudioGhibli.movie' }}
@@ -1655,7 +1655,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - TheItCrowd
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'TheItCrowd.characters' }}
 {{ random 'TheItCrowd.quotes' }}
 {{ random 'TheItCrowd.actors' }}
@@ -1664,7 +1664,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - TwinPeaks
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'TwinPeaks.location' }}
 {{ random 'TwinPeaks.quote' }}
 {{ random 'TwinPeaks.character' }}
@@ -1672,7 +1672,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Witcher
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Witcher.location' }}
 {{ random 'Witcher.sign' }}
 {{ random 'Witcher.quote' }}
@@ -1688,7 +1688,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Baseball
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Baseball.positions' }}
 {{ random 'Baseball.players' }}
 {{ random 'Baseball.teams' }}
@@ -1697,7 +1697,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Basketball
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Basketball.positions' }}
 {{ random 'Basketball.players' }}
 {{ random 'Basketball.teams' }}
@@ -1706,7 +1706,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Cricket
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Cricket.formats' }}
 {{ random 'Cricket.players' }}
 {{ random 'Cricket.teams' }}
@@ -1715,14 +1715,14 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - EnglandFootBall
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'EnglandFootBall.team' }}
 {{ random 'EnglandFootBall.league' }}
 ```
 
 #### Key - Football
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Football.positions' }}
 {{ random 'Football.players' }}
 {{ random 'Football.teams' }}
@@ -1732,7 +1732,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Formula1
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Formula1.team' }}
 {{ random 'Formula1.driver' }}
 {{ random 'Formula1.circuit' }}
@@ -1741,7 +1741,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Volleyball
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Volleyball.position' }}
 {{ random 'Volleyball.team' }}
 {{ random 'Volleyball.player' }}
@@ -1753,7 +1753,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Battlefield1
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Battlefield1.map' }}
 {{ random 'Battlefield1.classes' }}
 {{ random 'Battlefield1.weapon' }}
@@ -1763,7 +1763,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - ClashOfClans
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'ClashOfClans.troop' }}
 {{ random 'ClashOfClans.rank' }}
 {{ random 'ClashOfClans.defensiveBuilding' }}
@@ -1771,7 +1771,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Control
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Control.location' }}
 {{ random 'Control.quote' }}
 {{ random 'Control.character' }}
@@ -1784,7 +1784,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - ElderScrolls
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'ElderScrolls.quote' }}
 {{ random 'ElderScrolls.lastName' }}
 {{ random 'ElderScrolls.region' }}
@@ -1797,7 +1797,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Esports
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Esports.event' }}
 {{ random 'Esports.game' }}
 {{ random 'Esports.team' }}
@@ -1807,7 +1807,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Fallout
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Fallout.location' }}
 {{ random 'Fallout.quote' }}
 {{ random 'Fallout.character' }}
@@ -1816,7 +1816,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Hearthstone
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Hearthstone.wildRank' }}
 {{ random 'Hearthstone.mainProfession' }}
 {{ random 'Hearthstone.mainCharacter' }}
@@ -1827,7 +1827,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - HeroesOfTheStorm
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'HeroesOfTheStorm.quote' }}
 {{ random 'HeroesOfTheStorm.hero' }}
 {{ random 'HeroesOfTheStorm.heroClass' }}
@@ -1836,7 +1836,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - LeagueOfLegends
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'LeagueOfLegends.location' }}
 {{ random 'LeagueOfLegends.quote' }}
 {{ random 'LeagueOfLegends.rank' }}
@@ -1847,7 +1847,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - MassEffect
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'MassEffect.quote' }}
 {{ random 'MassEffect.character' }}
 {{ random 'MassEffect.planet' }}
@@ -1857,7 +1857,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Minecraft
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Minecraft.itemName' }}
 {{ random 'Minecraft.tileName' }}
 {{ random 'Minecraft.entityName' }}
@@ -1868,7 +1868,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Overwatch
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Overwatch.location' }}
 {{ random 'Overwatch.quote' }}
 {{ random 'Overwatch.hero' }}
@@ -1876,7 +1876,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - SoulKnight
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'SoulKnight.characters' }}
 {{ random 'SoulKnight.buffs' }}
 {{ random 'SoulKnight.statues' }}
@@ -1887,7 +1887,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - StarCraft
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'StarCraft.unit' }}
 {{ random 'StarCraft.character' }}
 {{ random 'StarCraft.planet' }}
@@ -1896,7 +1896,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - SuperMario
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'SuperMario.locations' }}
 {{ random 'SuperMario.games' }}
 {{ random 'SuperMario.characters' }}
@@ -1904,7 +1904,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Touhou
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Touhou.trackName' }}
 {{ random 'Touhou.gameName' }}
 {{ random 'Touhou.characterName' }}
@@ -1914,8 +1914,7 @@ The following keys are supported for use with the `random` helper:
 
 #### Key - Zelda
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ random 'Zelda.character' }}
 {{ random 'Zelda.game' }}
 ```
-

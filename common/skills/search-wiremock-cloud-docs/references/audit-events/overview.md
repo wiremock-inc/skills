@@ -33,7 +33,7 @@ to save audit events to your bucket.  You can do this in the following way:
   convention but be sure to update the bucket name in the examples below)
 * Create a policy called `wiremock-cloud-put-audit-events` with `s3:PutObject` on `arn:aws:s3:::<your-company-name>-wiremock-cloud-audit-events/*`
 
-```json  theme={null}
+```json theme={null}
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -55,7 +55,7 @@ to save audit events to your bucket.  You can do this in the following way:
   * Name it `wiremock-cloud-put-audit-events`
   * Set the trust policy as so:
 
-```json  theme={null}
+```json theme={null}
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -174,4 +174,3 @@ More information about working with the audit event json can be found [here](./w
 ## Limits
 
 You can read more about [plan limits here](./plan-limits/).
-

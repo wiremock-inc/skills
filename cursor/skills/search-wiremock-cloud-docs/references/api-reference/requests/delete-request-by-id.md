@@ -6,11 +6,13 @@
 
 # Delete request by ID
 
+> Permanently delete a single logged request.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/requests/{requestId}
+````yaml /api-reference/openapi.yaml delete /v1/mock-apis/{mockApiId}/requests/{requestId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Requests
       summary: Delete request by ID
+      description: Permanently delete a single logged request.
       operationId: deleteRequestById
       parameters:
         - description: The UUID of the logged request

@@ -10,7 +10,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/imports
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/imports
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -368,8 +368,11 @@ paths:
                     ID](../stub-mappings/get-stub-mapping-by-id) to view the
                     stub mapping schema.
 
-                    Any response body files referenced in the stub mappings must
-                    be provided in the `__files` sub-directory.
+                    Any response body files referenced via
+                    `response.bodyFileName` in the stub mappings must be
+                    provided in the `__files` sub-directory. Handlebars
+                    templates in `bodyFileName` values are not supported and
+                    will cause the import to fail.
                   type: object
                   patternProperties:
                     ^[^\/]+\/mappings\/[^\/]+.json$:
@@ -958,10 +961,14 @@ components:
                 base64Body, jsonBody or bodyFileName may be specified.
             bodyFileName:
               type: string
-              description: >-
+              description: >
                 The path to the file containing the response body, relative to
                 the configured file root. Only one of body, base64Body, jsonBody
-                or bodyFileName may be specified.
+                or bodyFileName may be specified. **Not supported when creating
+                or importing a single stub** — use a WireMock directory import
+                instead. When importing a WireMock directory, the referenced
+                file must exist under `__files`; Handlebars templates in this
+                value are not supported.
               example: user-profile-responses/user1.json
             fault:
               type: string

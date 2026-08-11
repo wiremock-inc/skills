@@ -36,36 +36,192 @@ Which returns a success response:
 
 Testing this returns the expected XML response:
 
-```
-$ curl -X POST -d '<?xml version="1.0"?>
-<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl -X POST -d '<?xml version="1.0"?>
+  <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
 
-   <soap-env:Body xmlns:m="http://example.company/todo" >
-      <m:AddToDoItem>
-         <m:ToDoItem>Have a wash</m:ToDoItem>
-      </m:AddToDoItem>
-   </soap-env:Body>
+     <soap-env:Body xmlns:m="http://example.company/todo" >
+        <m:AddToDoItem>
+           <m:ToDoItem>Have a wash</m:ToDoItem>
+        </m:AddToDoItem>
+     </soap-env:Body>
 
-</soap-env:Envelope>' -H 'SOAPAction: "http://example.company/todo/AddToDoItem"' http://example.wiremockapi.cloud/soap-example -v
+  </soap-env:Envelope>' -H 'SOAPAction: "http://example.company/todo/AddToDoItem"' http://example.wiremockapi.cloud/soap-example -v
 
-> POST /soap-example HTTP/1.1
-> Host: example.wiremockapi.cloud
-> User-Agent: curl/7.54.0
-> Accept: */*
-> SOAPAction: "http://example.company/todo/AddToDoItem"
-> Content-Length: 355
-> Content-Type: application/x-www-form-urlencoded
->
-* upload completely sent off: 355 out of 355 bytes
-< HTTP/1.1 200 OK
-< Transfer-Encoding: chunked
-<
+  > POST /soap-example HTTP/1.1
+  > Host: example.wiremockapi.cloud
+  > User-Agent: curl/7.54.0
+  > Accept: */*
+  > SOAPAction: "http://example.company/todo/AddToDoItem"
+  > Content-Length: 355
+  > Content-Type: application/x-www-form-urlencoded
+  >
+  * upload completely sent off: 355 out of 355 bytes
+  < HTTP/1.1 200 OK
+  < Transfer-Encoding: chunked
+  <
+  ```
+
+  ```java theme={null}
+  String body = """
+      <?xml version="1.0"?>
+      <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+
+         <soap-env:Body xmlns:m="http://example.company/todo" >
+            <m:AddToDoItem>
+               <m:ToDoItem>Have a wash</m:ToDoItem>
+            </m:AddToDoItem>
+         </soap-env:Body>
+
+      </soap-env:Envelope>""";
+
+  HttpResponse<String> response =
+    Unirest.post("http://example.wiremockapi.cloud/soap-example")
+      .header("SOAPAction", "\"http://example.company/todo/AddToDoItem\"")
+      .body(body)
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const soapBody = `<?xml version="1.0"?>
+  <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+
+     <soap-env:Body xmlns:m="http://example.company/todo" >
+        <m:AddToDoItem>
+           <m:ToDoItem>Have a wash</m:ToDoItem>
+        </m:AddToDoItem>
+     </soap-env:Body>
+
+  </soap-env:Envelope>`;
+
+  const options = {
+    method: 'POST',
+    headers: { 'SOAPAction': '"http://example.company/todo/AddToDoItem"' },
+    body: soapBody
+  };
+
+  fetch('http://example.wiremockapi.cloud/soap-example', options)
+    .then(res => res.text())
+    .then(text => console.log(text));
+  ```
+
+  ```python theme={null}
+  import requests
+
+  body = """<?xml version="1.0"?>
+  <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+
+     <soap-env:Body xmlns:m="http://example.company/todo" >
+        <m:AddToDoItem>
+           <m:ToDoItem>Have a wash</m:ToDoItem>
+        </m:AddToDoItem>
+     </soap-env:Body>
+
+  </soap-env:Envelope>"""
+
+  response = requests.post(
+      'http://example.wiremockapi.cloud/soap-example',
+      headers={'SOAPAction': '"http://example.company/todo/AddToDoItem"'},
+      data=body
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  body = <<~XML
+    <?xml version="1.0"?>
+    <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+
+       <soap-env:Body xmlns:m="http://example.company/todo" >
+          <m:AddToDoItem>
+             <m:ToDoItem>Have a wash</m:ToDoItem>
+          </m:AddToDoItem>
+       </soap-env:Body>
+
+    </soap-env:Envelope>
+  XML
+
+  uri = URI('http://example.wiremockapi.cloud/soap-example')
+
+  http = Net::HTTP.new(uri.host, uri.port)
+
+  request = Net::HTTP::Post.new(uri)
+  request['SOAPAction'] = '"http://example.company/todo/AddToDoItem"'
+  request.body = body
+
+  response = http.request(request)
+  ```
+
+  ```php theme={null}
+  <?php
+  $body = <<<XML
+  <?xml version="1.0"?>
+  <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+
+     <soap-env:Body xmlns:m="http://example.company/todo" >
+        <m:AddToDoItem>
+           <m:ToDoItem>Have a wash</m:ToDoItem>
+        </m:AddToDoItem>
+     </soap-env:Body>
+
+  </soap-env:Envelope>
+  XML;
+
+  $curl = curl_init('http://example.wiremockapi.cloud/soap-example');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => $body,
+      CURLOPT_HTTPHEADER => [
+          'SOAPAction: "http://example.company/todo/AddToDoItem"',
+      ],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "net/http"
+      "strings"
+  )
+
+  body := `<?xml version="1.0"?>
+  <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+
+     <soap-env:Body xmlns:m="http://example.company/todo" >
+        <m:AddToDoItem>
+           <m:ToDoItem>Have a wash</m:ToDoItem>
+        </m:AddToDoItem>
+     </soap-env:Body>
+
+  </soap-env:Envelope>`
+
+  req, _ := http.NewRequest(
+      "POST",
+      "http://example.wiremockapi.cloud/soap-example",
+      strings.NewReader(body),
+  )
+  req.Header.Set("SOAPAction", `"http://example.company/todo/AddToDoItem"`)
+
+  resp, _ := http.DefaultClient.Do(req)
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+The returned XML:
+
+```xml theme={null}
 <?xml version="1.0"?>
 <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope" soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
 
-   <soap-env:Body xmlns:m="http://example.company/todo" >
-      <m:AddToDoResult>Item "Have a wash" successfully added</m:AddToDoResult>
-   </soap-env:Body>
+    <soap-env:Body xmlns:m="http://example.company/todo" >
+        <m:AddToDoResult>Item "Have a wash" successfully added</m:AddToDoResult>
+    </soap-env:Body>
 
 </soap-env:Envelope>
 ```
@@ -81,7 +237,7 @@ One way to do this is to use [placeholders](./advanced-stubbing/#xml-placeholder
 Let's assume the request body of our API now contains a `TransactionId` element, which
 must be a unique value for each request e.g.:
 
-```xml  theme={null}
+```xml theme={null}
 <?xml version="1.0"?>
 <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope"
   soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
@@ -99,7 +255,7 @@ must be a unique value for each request e.g.:
 We can ignore this value by ticking the "Enable XMLUnit placeholders" box and
 putting an ignore token into the expected XML in the form:
 
-```xml  theme={null}
+```xml theme={null}
 <m:TransactionId>${xmlunit.ignore}</m:TransactionId>
 ```
 
@@ -119,7 +275,7 @@ to reliably distinguish between requests.
 Given the same request body as in the previous section, we could use the following
 XPath to match just on the value of the `m:ToDoItem` element:
 
-```xpath  theme={null}
+```xpath theme={null}
 //AddToDoItem/ToDoItem[text()='Have a wash']
 ```
 
@@ -133,7 +289,7 @@ often it can be easier to use multiple body matchers each targeting a single ele
 
 Suppose we added a `UserId` field that we also wanted to target:
 
-```xml  theme={null}
+```xml theme={null}
 <?xml version="1.0"?>
 <soap-env:Envelope xmlns:soap-env="http://www.w3.org/2001/12/soap-envelope"
   soap-env:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
@@ -159,7 +315,7 @@ care about:
 Given the above XML document, you might expect the following XPath expression to
 produce a match:
 
-```xpath  theme={null}
+```xpath theme={null}
 //UserId[text()='abc123']
 ```
 
@@ -167,7 +323,6 @@ However, due to a quirk of how XML documents with namespaces are evaluated this 
 Ensuring that you select at least one node beneath the element searched for recursively
 will fix this, so the above XPath can be corrected like this:
 
-```xpath  theme={null}
+```xpath theme={null}
 //UserId/text()[.='abc123']
 ```
-

@@ -24,7 +24,7 @@ Renders the current date/time with optional formatting and offset.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{now}}
 {{now offset='3 days'}}
 {{now offset='-24 seconds'}}
@@ -51,7 +51,7 @@ Manipulates existing date values with offset, timezone, and format changes.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{date myDate offset='-1 days' timezone='America/New_York' format='yyyy-MM-dd'}}
 ```
 
@@ -70,7 +70,7 @@ Parses date strings into date objects.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{parseDate request.headers.MyDate}}
 {{parseDate '10/11/2021' format="dd/MM/yyyy"}}
 {{parseDate '1577964091000' format="epoch"}}
@@ -93,7 +93,7 @@ Formats date values to strings using predefined or custom formats.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{dateFormat (parseDate '2020-01-01T11:11:11Z') 'full'}}
 {{dateFormat (parseDate '2020-01-01T11:11:11Z') format='yyyy-MM-dd'}}
 ```
@@ -124,7 +124,7 @@ Truncates date/times to specific points.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{truncateDate (parseDate '2021-06-14T00:00:00Z') 'last day of month'}}
 ```
 
@@ -143,16 +143,40 @@ Extracts values from strings using regular expressions.
 * First parameter: Input string
 * Second parameter: Regular expression pattern
 * Third parameter (optional): Variable name to assign captured groups
+* `default`: Default value if there is no match
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{regexExtract request.body '[A-Z]+'}}
 {{regexExtract request.body '([a-z]+)-([A-Z]+)-([0-9]+)' 'parts'}}
 {{parts.0}},{{parts.1}},{{parts.2}}
+
+{{regexExtract 'abc' '[0-9]+' default='my default value'}}
 ```
 
 See [String Helpers](./string-helpers#regular-expression-extract) for more details.
+
+***
+
+### regexReplace
+
+Replaces all matches of a regular expression in a string with a replacement value.
+
+**Parameters:**
+
+* First parameter: Input string
+* Second parameter: Regular expression pattern
+* Third parameter: Replacement string (may reference capture groups with `$1`, `$2`, etc.)
+
+**Usage:**
+
+```handlebars theme={null}
+{{regexReplace 'a1b2c3' '[0-9]' '-'}}              // a-b-c-
+{{regexReplace 'user@host' '(\w+)@(\w+)' '$2:$1'}} // host:user
+```
+
+See [String Helpers](./string-helpers#regular-expression-replace) for more details.
 
 ***
 
@@ -162,7 +186,7 @@ Removes whitespace from the start and end of strings.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{trim request.headers.X-Padded-Header}}
 
 {{#trim}}
@@ -185,7 +209,7 @@ Truncates strings that exceed a specified length, adding ellipsis.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{abbreviate 'Mocking APIs helps you develop faster' 21}}
 ```
 
@@ -205,7 +229,7 @@ Capitalizes the first letter of each word.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{capitalize 'mock my stuff'}}
 ```
 
@@ -225,7 +249,7 @@ Capitalizes only the first character of the string.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{capitalizeFirst 'mock my stuff'}}
 ```
 
@@ -247,7 +271,7 @@ Centers text in a field of given width.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{center 'hello' size=21}}
 {{center 'hello' size=21 pad='#'}}
 ```
@@ -267,7 +291,7 @@ Removes all instances of a specified substring.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{cut 'mocking, stubbing, faults' ','}}
 ```
 
@@ -288,7 +312,7 @@ Returns the input value if not empty, otherwise returns a default.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{defaultIfEmpty 'my value' 'default'}}
 {{defaultIfEmpty '' 'default'}}
 ```
@@ -310,7 +334,7 @@ Joins multiple values or collections into a single string.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{join 'Mark' 'Rob' 'Dan' ', '}}
 {{join 'Mark' 'Rob' 'Dan' ', ' prefix='[' suffix=']'}}
 ```
@@ -331,7 +355,7 @@ Left-aligns text in a field of given width.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{ljust 'things' size=20}}
 {{ljust 'things' size=20 pad='#'}}
 ```
@@ -352,7 +376,7 @@ Right-aligns text in a field of given width.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{rjust 'things' size=20}}
 {{rjust 'things' size=20 pad='#'}}
 ```
@@ -371,7 +395,7 @@ Converts string to lowercase.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{lower 'WireMock Cloud'}}
 ```
 
@@ -391,7 +415,7 @@ Converts string to uppercase.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{upper 'WireMock Cloud'}}
 ```
 
@@ -413,7 +437,7 @@ Replaces all occurrences of a substring with another.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{replace 'the wrong way' 'wrong' 'right'}}
 ```
 
@@ -433,13 +457,33 @@ Converts text to URL-friendly slug format.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{slugify 'Mock my APIs'}}
 ```
 
 Output: `mock-my-apis`
 
 See [String Helpers](./string-helpers#slugify) for more details.
+
+***
+
+### split
+
+Divides a string into a list of substrings using a delimiter.
+
+**Parameters:**
+
+* First parameter: Input string
+* Second parameter: Delimiter (treated as a literal string, not a regular expression)
+
+**Usage:**
+
+```handlebars theme={null}
+{{split 'a,b,c' ','}}                 // ['a', 'b', 'c']
+{{arrayJoin '|' (split 'a,b,c' ',')}} // a|b|c
+```
+
+See [String Helpers](./string-helpers#split) for more details.
 
 ***
 
@@ -453,7 +497,7 @@ Removes all HTML/XML tags from string.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{stripTags '<greeting>hi</greeting>'}}
 ```
 
@@ -475,7 +519,7 @@ Extracts a portion of a string between indices.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{substring 'one two' 4}}
 {{substring 'one two' 0 3}}
 ```
@@ -495,7 +539,7 @@ Wraps text at specified line length.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{wordWrap 'one two three' 4}}
 ```
 
@@ -516,7 +560,7 @@ Maps boolean/null values to customizable yes/no/maybe strings.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{yesno true}}
 {{yesno false}}
 {{yesno null}}
@@ -543,7 +587,7 @@ Encodes or decodes Base64 strings.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{base64 request.headers.X-Plain-Header}}}
 {{{base64 request.headers.X-Plain-Header padding=false}}}
 {{{base64 request.headers.X-Encoded-Header decode=true}}}
@@ -568,7 +612,7 @@ Encodes or decodes URL strings according to HTTP URL encoding standard.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{urlEncode request.headers.X-Plain-Header}}}
 {{{urlEncode request.headers.X-Encoded-Header decode=true}}}
 
@@ -593,7 +637,7 @@ Parses HTTP form data into an object.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{formData request.body 'form' urlDecode=true}}{{{form.formField3}}}
 {{formData request.body 'form' urlDecode=true}}{{{form.multiValueField.1}}}
 {{formData request.body 'form' urlDecode=true}}{{{form.multiValueField.first}}}
@@ -625,7 +669,7 @@ Performs arithmetic operations.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{math 1 '+' 2}}
 {{math 4 '-' 2}}
 {{math 2 '*' 3}}
@@ -655,7 +699,7 @@ Formats numbers with control over style, decimal places, and locale.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{numberFormat 123.4567 'currency' 'en_GB'}}}
 {{{numberFormat 123.4567 'percent' 'en_GB'}}}
 {{{numberFormat 123.4567 '###.000000' 'en_GB'}}}
@@ -691,7 +735,7 @@ Generates random strings of specified type and length.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{randomValue length=33 type='ALPHANUMERIC'}}
 {{randomValue length=12 type='ALPHANUMERIC' uppercase=true}}
 {{randomValue length=55 type='ALPHABETIC'}}
@@ -717,7 +761,7 @@ Generates random integers with optional bounds.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{randomInt}}
 {{randomInt lower=5 upper=9}}
 {{randomInt upper=54323}}
@@ -739,7 +783,7 @@ Generates random decimal numbers with optional bounds.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{randomDecimal}}
 {{randomDecimal lower=-10.1 upper=-0.9}}
 {{randomDecimal upper=12.5}}
@@ -762,7 +806,7 @@ Randomly selects a value from parameters or collection.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{pickRandom '1' '2' '3'}}
 {{pickRandom numberList}}
 {{pickRandom 1 2 3 4 5 count=3}}
@@ -782,7 +826,7 @@ Generates random test data using Faker library.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{random 'Name.firstName'}}
 {{random 'Name.lastName'}}
 {{random 'Internet.emailAddress'}}
@@ -807,7 +851,7 @@ Extracts values from JSON documents using JSONPath expressions.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonPath request.body '$.outer.inner'}}
 {{jsonPath request.body '$.things[0].id'}}
 ```
@@ -830,7 +874,7 @@ Appends elements to a JSON array.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonArrayAdd existingArray newItem}}
 
 {{#jsonArrayAdd existingArray}}
@@ -874,7 +918,7 @@ Removes elements from JSON arrays or keys from objects using JSONPath.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonRemove existingArray '$.[?(@.id == 123)]'}}
 {{jsonRemove existingObject '$.name'}}
 ```
@@ -895,7 +939,7 @@ Merges two JSON objects recursively.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{jsonMerge object1 object2}}
 
 {{#jsonMerge object1}}
@@ -927,7 +971,7 @@ Formats JSON in pretty or compact style.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{formatJson object1}}
 {{formatJson object1 format='compact'}}
 
@@ -951,7 +995,7 @@ Parses JSON string into object and assigns to variable.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#parseJson 'newVariableName'}}
     [ "shoes", "socks" ]
 {{/parseJson}}
@@ -973,11 +1017,35 @@ Converts any object to JSON string.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{toJson (array 1 2 3)}}
 ```
 
 See [Working with JSON](./json#writing-data-as-a-json-string) for more details.
+
+***
+
+### jsonSort
+
+Sorts a JSON array by a specified field using a JSONPath expression.
+
+**Parameters:**
+
+* First parameter: JSON array or object
+* Second parameter: JSONPath expression referencing the sort field
+* `order`: Sort direction (`asc` or `desc`, defaults to `asc`)
+* `nulls`: Placement of null/missing values (`first` or `last`, defaults to `first`)
+
+**Usage:**
+
+```handlebars theme={null}
+{{jsonSort '[{"id":1,"name":"sam"},{"id":2,"name":"alice"}]' '$[*].name'}}                       // Output : `[{"id":2,"name":"alice"},{"id":1,"name":"sam"}]`
+{{jsonSort '[{"id":1,"name":"sam"},{"id":2,"name":"alice"}]' '$[*].id' order='desc'}}            // Output : `[{"id":2,"name":"alice"},{"id":1,"name":"sam"}]`
+{{jsonSort '[{"id":1,"name":"alice"},{"id":2},{"id":3,"name":"bob"}]' '$[*].name' nulls='last'}} // Output : `[{"id":1,"name":"alice"},{"id":3,"name":"bob"},{"id":2}]`
+{{jsonSort '{"users":[{"name":"fred"},{"name":"bob"}]}' '$.users[*].name'}}                      // Output : `{"users":[{"name":"bob"},{"name":"fred"}]}`
+```
+
+See [Working with JSON](./json#sorting-json-arrays) for more details.
 
 ***
 
@@ -994,7 +1062,7 @@ Extracts values or sub-documents from XML using XPath 1.0 expressions.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{xPath request.body '/outer/inner/text()'}}}
 {{{xPath request.body '/outer/inner/@id'}}}
 ```
@@ -1014,7 +1082,7 @@ Convenience helper for extracting values from SOAP body elements.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{soapXPath request.body '/a/test/text()'}}}
 ```
 
@@ -1033,7 +1101,7 @@ Formats XML in pretty or compact style.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{formatXml object1}}
 {{formatXml object1 format='compact'}}
 
@@ -1065,12 +1133,74 @@ Creates cryptographic hashes of text.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#hash algorithm='sha-256' encoding='hex'}}text to hash{{/hash}}
 {{#hash algorithm='md5' encoding='base64'}}text to hash{{/hash}}
 ```
 
-See [Cryptographic Helpers](./cryptographic-helpers) for more details.
+See [Cryptographic Helpers](./cryptographic-helpers#hashing) for more details.
+
+***
+
+### sign
+
+Digitally signs data using a configured key.
+
+**Parameters:**
+
+* First parameter (inline form) or block content: Data to sign
+* `algorithm`: Signing algorithm (`rsa-sha256` or `hmac-sha256`, defaults to `rsa-sha256`)
+* `encoding`: Output encoding (`hex` or `base64`, defaults to `base64`)
+
+**Usage:**
+
+```handlebars theme={null}
+{{{ sign "text to sign" }}}
+{{{ sign "text to sign" encoding="hex" }}}
+{{{ sign "text to sign" algorithm="hmac-sha256" }}}
+{{{ sign myVariable }}}
+
+{{#sign}}text to sign{{/sign}}
+```
+
+See [Cryptographic Helpers](./cryptographic-helpers#signing) for more details.
+
+***
+
+### x509Certificate
+
+Outputs the X.509 certificate configured in your [certificate settings](/api-reference/settings/get-mock-api-certificate-settings).
+
+**Parameters:**
+
+* `format`: Output format (`pem` or `base64`, defaults to `pem`)
+
+**Usage:**
+
+```handlebars theme={null}
+{{ x509Certificate }}
+{{ x509Certificate format="base64" }}
+```
+
+See [Cryptographic Helpers](./cryptographic-helpers#x-509-certificate) for more details.
+
+***
+
+### base64Inflate
+
+Decodes a Base64-encoded, DEFLATE-compressed string in a single operation. Primarily used for decoding SAML requests sent via the HTTP-Redirect binding.
+
+**Parameters:**
+
+* First parameter: Base64-encoded, DEFLATE-compressed string
+
+**Usage:**
+
+```handlebars theme={null}
+{{ base64Inflate request.query.SAMLRequest }}
+```
+
+See [Cryptographic Helpers](./cryptographic-helpers#base64-inflate) for more details.
 
 ***
 
@@ -1093,7 +1223,7 @@ Generates signed JSON Web Tokens.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwt maxAge='12 days'}}}
 {{{jwt exp=(parseDate '2040-02-23T21:22:23Z')}}}
 {{{jwt nbf=(parseDate '2018-02-23T21:22:23Z')}}}
@@ -1119,7 +1249,7 @@ Generates JSON Web Key Set for RS256 public keys.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{jwks}}}
 ```
 
@@ -1140,7 +1270,7 @@ Retrieves a state value stored in a context by its key.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{state 'itemName'}}
 {{state 'userId' context='v1_users'}}
 {{state 'id' context=collectionContext}}
@@ -1160,7 +1290,7 @@ Sets the default context for all `state` helpers within its block, avoiding repe
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#stateContext request.headers.x-test-id}}
   The current itemName is {{state 'itemName'}}
   The current userId is {{state 'userId'}}
@@ -1187,7 +1317,7 @@ Returns all state values within a given context as a collection.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{listState request.headers.x-test-id}}
 {{listState collectionContext}}
 
@@ -1220,7 +1350,7 @@ Creates a string variable for later use.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#assign 'myCapitalisedQuery'}}{{capitalize request.query.search}}{{/assign}}
 
 Capitalised query: {{myCapitalisedQuery}}
@@ -1242,7 +1372,7 @@ Accesses values with default fallback, maintains type (unlike assign).
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{val request.query.search or='default'}}
 {{val request.query.search default='default'}}
 {{val request.query.search}}
@@ -1267,7 +1397,7 @@ Returns the size of a string, list, or map.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{size 'abcde'}}
 {{size request.query.things}}
 ```
@@ -1286,7 +1416,7 @@ Creates a nested scope for accessing object properties.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#with myObject}}
   ID: {{{id}}}
   Position: {{{position}}}
@@ -1308,7 +1438,7 @@ Generates an array of integers between two bounds.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{range 3 8}}
 {{range -2 2}}
 {{#each (range 0 (randomInt lower=1 upper=10)) as |index|}}
@@ -1330,7 +1460,7 @@ Creates an array containing the specified values.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{array 1 'two' true}}
 {{array}}
 ```
@@ -1351,7 +1481,7 @@ Adds an element to an array at specified position.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{arrayAdd (array 1 'three') 2 position=1}}
 {{arrayAdd (array 1 'three') 2 position='start'}}
 {{arrayAdd (array 1 'three') 2 position='end'}}
@@ -1373,7 +1503,7 @@ Removes an element from an array at specified position.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{arrayRemove (array 1 2 'three') position=1}}
 {{arrayRemove (array 1 2 'three') position='start'}}
 {{arrayRemove (array 1 2 'three') position='end'}}
@@ -1397,7 +1527,7 @@ Concatenates array values with a separator.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{arrayJoin ',' (array 'One' 'Two' 'Three')}}
 {{arrayJoin ' - ' 'a' 'b' 'c'}}
 {{arrayJoin ', ' (range 1 5)}}
@@ -1426,7 +1556,7 @@ Returns the hostname of the mock API.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{hostname}}
 ```
 
@@ -1440,7 +1570,7 @@ Evaluates condition and renders block if true.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if showDetails}}
   <div id="details">...</div>
 {{/if}}
@@ -1464,7 +1594,7 @@ Evaluates condition and renders block if false.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#unless hideDetails}}
   <div id="details">...</div>
 {{/unless}}
@@ -1485,7 +1615,7 @@ Tests equality.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#eq name 'Dan'}}
   <div id="dan">...</div>
 {{/eq}}
@@ -1510,7 +1640,7 @@ Tests inequality.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#neq name 'Jeff'}}...{{/neq}}
 ```
 
@@ -1529,7 +1659,7 @@ Tests greater than.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#gt itemCount 3}}...{{/gt}}
 ```
 
@@ -1548,7 +1678,7 @@ Tests greater than or equal to.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#gte itemCount 3}}...{{/gte}}
 ```
 
@@ -1567,7 +1697,7 @@ Tests less than.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#lt itemCount 3}}...{{/lt}}
 ```
 
@@ -1586,7 +1716,7 @@ Tests less than or equal to.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#lte itemCount 3}}...{{/lte}}
 ```
 
@@ -1604,7 +1734,7 @@ Logical AND operation.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#and (lt itemCount 10) (gt itemCount 5)}}...{{/and}}
 ```
 
@@ -1622,7 +1752,7 @@ Logical OR operation.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#or (eq itemCount 1) (eq itemCount 2)}}...{{/or}}
 ```
 
@@ -1640,7 +1770,7 @@ Logical NOT operation.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#not (eq itemCount 1)}}...{{/not}}
 ```
 
@@ -1659,7 +1789,7 @@ Tests if string or array contains a value.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if (contains 'abcde' 'abc')}}YES{{/if}}
 {{#if (contains (array 'a' 'b' 'c') 'a')}}YES{{/if}}
 
@@ -1682,7 +1812,7 @@ Tests if string matches a regular expression.
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#if (matches '123' '[0-9]+')}}YES{{/if}}
 
 {{#matches '123' '[0-9]+'}}YES{{/matches}}
@@ -1700,7 +1830,7 @@ Iterates over collections (arrays or objects).
 
 **Usage:**
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#each request.query.things as |thing|}}
   thing: {{{thing}}}
 {{/each}}
@@ -1725,4 +1855,3 @@ Iterates over collections (arrays or objects).
 See [Conditional Logic](./conditional-logic-and-iteration#iteration) for more details.
 
 ***
-

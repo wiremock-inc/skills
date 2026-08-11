@@ -111,8 +111,8 @@ Fetches stub mappings for a given Mock API. Supports pagination and filtering to
 
 `mockApiId` (string): The ID of the mock API
 `name` (string, optional): Regex pattern to match against the stub mapping name
-`method` (string, optional): Regex pattern to match against the HTTP method (e.g. \"GET\", \"POST|PUT\")
-`url` (string, optional): Regex pattern to match against the request URL pattern (e.g. \"/api/.*\", \"/users/\\d+\")
+`method` (string, optional): Regex pattern to match against the HTTP method (e.g. "GET", "POST|PUT")
+`url` (string, optional): Regex pattern to match against the request URL pattern (e.g. "/api/.\*", "/users/\d+")
 `responseStatus` (integer, optional): Match stubs with this exact response HTTP status code (e.g. 200, 404)
 `page` (integer, optional): Page number for pagination (1-based). If not specified, returns all stubs.
 `limit` (integer, optional): Maximum number of stubs to return per page. If not specified, returns all stubs.
@@ -156,7 +156,7 @@ Pushes a stub-mapping file, OpenAPI specification, GraphQL schema, or gRPC descr
 
 **Input**
 
-`type` (string): the type of document to push to the mock API (one of 'stub_mappings', 'openapi_description', 'graphql_schema', 'grpc_descriptor')
+`type` (string): the type of document to push to the mock API (one of 'stub\_mappings', 'openapi\_description', 'graphql\_schema', 'grpc\_descriptor')
 `mockApiId` (string): The ID of the mock API to push the document to
 `filePath` (string): The local file path to read the data from
 
@@ -170,7 +170,7 @@ Fetches stub mappings, OpenAPI specification, GraphQL schema, or gRPC descriptor
 
 **Input**
 
-`type` (string): the type of document to pull from the mock API (one of 'stub_mappings', 'openapi_description', 'graphql_schema', 'grpc_descriptor')
+`type` (string): the type of document to pull from the mock API (one of 'stub\_mappings', 'openapi\_description', 'graphql\_schema', 'grpc\_descriptor')
 `mockApiId` (string): The ID of the mock API to pull data from
 `filePath` (string): The local file path to write the pulled data to
 
@@ -187,8 +187,8 @@ Fetches the request journal for a mock API. Supports filtering to avoid token li
 **Input**
 
 `mockApiId` (string): The ID of the mock API to fetch the request journal from
-`method` (string, optional): Regex pattern to match against the HTTP method (e.g. \"GET\", \"POST|PUT\")
-`url` (string, optional): Regex pattern to match against the request URL path (e.g. \"/api/.*\", \"/users/\\d+\")
+`method` (string, optional): Regex pattern to match against the HTTP method (e.g. "GET", "POST|PUT")
+`url` (string, optional): Regex pattern to match against the request URL path (e.g. "/api/.\*", "/users/\d+")
 `headerName` (string, optional): Case-insensitive header name to match. Must be used together with headerValuePattern.
 `headerValuePattern` (string, optional): Regex pattern to match against the value of the header specified by headerName. Requires `headerName`.
 `bodyPattern` (string, optional): Regex pattern to match against the raw request body string
@@ -308,16 +308,18 @@ CSV data content
 Creates a new data source in WireMock Cloud. Supports both CSV and DATABASE data source types.
 
 For CSV data sources, you must provide:
-- name: Display name for the data source
-- type: "CSV"
-- columnsMetadata: Array of column definitions with name and type information
-- rows: Array of data rows, where each row is an array of string values
+
+* name: Display name for the data source
+* type: "CSV"
+* columnsMetadata: Array of column definitions with name and type information
+* rows: Array of data rows, where each row is an array of string values
 
 For DATABASE data sources, you must provide:
-- name: Display name for the data source
-- type: "DATABASE"
-- databaseConnection: ID of the database connection to use
-- tableName: Name of the table or view to retrieve data from
+
+* name: Display name for the data source
+* type: "DATABASE"
+* databaseConnection: ID of the database connection to use
+* tableName: Name of the table or view to retrieve data from
 
 **Input**
 

@@ -12,7 +12,7 @@
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/requests/remove
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/requests/remove
 openapi: 3.1.0
 info:
   title: WireMock Cloud

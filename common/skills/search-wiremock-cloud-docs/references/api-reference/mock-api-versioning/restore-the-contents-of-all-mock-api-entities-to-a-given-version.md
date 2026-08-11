@@ -4,11 +4,13 @@
 
 # Restore the contents of all mock API entities to a given version
 
+> Restore every entity in a mock API to its contents at a given version.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/restore
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/restore
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -88,6 +90,7 @@ paths:
       tags:
         - Mock API versioning
       summary: Restore the contents of all mock API entities to a given version
+      description: Restore every entity in a mock API to its contents at a given version.
       operationId: restoreEntireMockApiToVersionHistoryCommit
       responses:
         '200':

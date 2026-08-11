@@ -105,7 +105,7 @@ therefore supports placeholder syntax, allowing looser specification of fields w
 For instance, consider a request body like this, where `transaction_id` is unique to
 each request:
 
-```json  theme={null}
+```json theme={null}
 {
   "event": "details-updated",
   "transaction_id": "abc-123-def"
@@ -117,7 +117,7 @@ the same transaction ID would never be repeated.
 
 This can be solved using a placeholder:
 
-```json  theme={null}
+```json theme={null}
 {
   "event": "details-updated",
   "transaction_id": "${json-unit.ignore}"
@@ -141,7 +141,7 @@ It is also possible to simply assert that the expression returns something, by s
 
 The expression in the above screenshot (`$.event` `equal to` `description-updated`) would match a request body of
 
-```json  theme={null}
+```json theme={null}
 {
   "event": "description-updated"
 }
@@ -149,7 +149,7 @@ The expression in the above screenshot (`$.event` `equal to` `description-update
 
 but not
 
-```json  theme={null}
+```json theme={null}
 {
   "event": "document-created"
 }
@@ -168,7 +168,7 @@ As with JSON matching, there are two match types available for working with XML:
 When using `equalToXml` it is possible to ignore the value of specific elements using [XMLUnit](https://github.com/xmlunit/user-guide/wiki/Placeholders)'s placeholder syntax. For instance if you
 expected to receive an XML request body containing a transaction ID that changed on every request you could ignore that value like this:
 
-```xml  theme={null}
+```xml theme={null}
 <transaction>
   <id>${xmlunit.ignore}</id>
   <value>1234</value>
@@ -185,7 +185,7 @@ To use XML placeholders you must enable them by ticking the box:
 
 For instance, an XML request body like
 
-```xml  theme={null}
+```xml theme={null}
 <stuff>
   <id>abc123</id>
 </stuff>
@@ -211,4 +211,3 @@ Headers can be set on the response:
 
 A response body can optionally be specified. If [response templating](/response-templating/)
 is enabled, certain parts can be dynamically generated using request attributes and random data.
-

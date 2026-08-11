@@ -41,7 +41,7 @@ Non-interactive recording sessions respond to the standard **SIGTERM** Unix sign
 
 The recommended approach for terminating recording processes is using `pkill` with the SIGTERM signal:
 
-```bash  theme={null}
+```bash theme={null}
 # Start recording in background
 wiremock record --to=cloud:<mock_api_id> https://api.example.com > wiremock.log 2>&1 &
 WIREMOCK_PID=$!
@@ -52,7 +52,7 @@ pkill -TERM -P $WIREMOCK_PID
 
 ### Example Termination Script
 
-```bash  theme={null}
+```bash theme={null}
 #!/bin/bash
 
 # Start WireMock recording
@@ -84,4 +84,3 @@ echo ""
 
 The above examples show the `record` command, but the same approach applies to `record-many`.  They also show output
 redirection to a log file.
-

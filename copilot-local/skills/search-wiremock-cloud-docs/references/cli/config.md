@@ -27,7 +27,7 @@ Your API token is used to authenticate with WireMock Cloud when performing actio
 Setting your API token using the `config` subcommand is an alternative to [the login command](/cli/overview#login).
 To set your API token, execute the following command
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config set api_token <API_TOKEN>
 ```
 
@@ -47,7 +47,7 @@ By default, this endpoint is [https://api.wiremock.cloud](https://api.wiremock.c
 information on using WireMock Cloud's API can be found in the [API reference](/api-reference)).
 To set your API endpoint to a custom URL, execute the following command
 
-```shell  theme={null}
+```shell theme={null}
 wiremock config set api_endpoint <API_ENDPOINT>
 ```
 
@@ -59,4 +59,3 @@ of the exact URL to use.
   If you have set your API endpoint to a custom endpoint, `wiremock login` will no longer work. Please authenticate by
   [setting your API token using the config subcommand](#configuring-your-api-token) instead.
 </Warning>
-

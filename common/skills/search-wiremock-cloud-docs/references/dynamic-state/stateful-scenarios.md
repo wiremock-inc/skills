@@ -11,7 +11,7 @@ Some testing activities require that different responses be served for a sequenc
 Assuming there is a "list to-do items" API call used to fetch the list, this must be called twice during the above test, returning no items on the first invocation, and the newly added item on the second. Since both of these requests will be identical (same URL, method, request headers), something additional is required for WireMock Cloud to differentiate the first and
 second cases.
 
-WireMock Cloud's Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions.
+WireMock Cloud's Scenarios solve this problem by providing finite state machines that can be used as additional stub matching conditions. This is the same Scenarios mechanism [documented for WireMock OSS](https://wiremock.org/docs/stateful-behaviour/), with WireMock Cloud adding dynamic state on top (see [Dynamic State Basics](/dynamic-state/overview)).
 
 They allow more than one definition of an otherwise identical stub with different responses based on the current state of the machine.
 
@@ -41,8 +41,54 @@ Finally, create a stub to return the list containing one item, which is matched 
 First, make a `GET` request to fetch the list, which should be empty. You should be able to do this any number of times
 without the result changing:
 
-```
-$ curl http://example.wiremockapi.cloud/todo-items
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl http://example.wiremockapi.cloud/todo-items
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("http://example.wiremockapi.cloud/todo-items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('http://example.wiremockapi.cloud/todo-items').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('http://example.wiremockapi.cloud/todo-items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://example.wiremockapi.cloud/todo-items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('http://example.wiremockapi.cloud/todo-items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("http://example.wiremockapi.cloud/todo-items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+```json theme={null}
 {
   "items": []
 }
@@ -50,14 +96,106 @@ $ curl http://example.wiremockapi.cloud/todo-items
 
 Now `POST` a new item (it actually doesn't matter what the request body contains, since we didn't specify a body matcher in the stub):
 
-```
-$ curl http://example.wiremockapi.cloud/todo-items -X POST
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl http://example.wiremockapi.cloud/todo-items -X POST
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("http://example.wiremockapi.cloud/todo-items").asString();
+  ```
+
+  ```javascript theme={null}
+  const options = { method: 'POST' }
+
+  fetch('http://example.wiremockapi.cloud/todo-items', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post('http://example.wiremockapi.cloud/todo-items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://example.wiremockapi.cloud/todo-items')
+  response = Net::HTTP.post(uri, '')
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('http://example.wiremockapi.cloud/todo-items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Post("http://example.wiremockapi.cloud/todo-items", "", nil)
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 This should now have moved the scenario state to "First item added". Getting the list of items again should now return one item:
 
-```
-$ curl http://example.wiremockapi.cloud/todo-items
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl http://example.wiremockapi.cloud/todo-items
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.get("http://example.wiremockapi.cloud/todo-items").asString();
+  ```
+
+  ```javascript theme={null}
+  fetch('http://example.wiremockapi.cloud/todo-items').then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.get('http://example.wiremockapi.cloud/todo-items')
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+
+  uri = URI('http://example.wiremockapi.cloud/todo-items')
+  response = Net::HTTP.get_response(uri)
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('http://example.wiremockapi.cloud/todo-items');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import "net/http"
+
+  resp, _ := http.Get("http://example.wiremockapi.cloud/todo-items")
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+```json theme={null}
 {
   "items": [
     {
@@ -71,4 +209,3 @@ $ curl http://example.wiremockapi.cloud/todo-items
 ## Scenario reset
 
 All scenarios can be reset to their "Started" state by clicking Reset.
-

@@ -6,7 +6,7 @@
 
 # Response Templating - Random Values
 
-> Generating random values
+> Generate random strings and pick random values in response templates using randomValue and pickRandom.
 
 WireMock Cloud provides two random value helpers - `randomValue` and `pickRandom`.
 
@@ -15,7 +15,7 @@ WireMock Cloud provides two random value helpers - `randomValue` and `pickRandom
 The `randomValue` helper generates random strings of a specific type and length.
 Optionally, values containing alphabetic characters can be made upper case via the `uppercase` parameter.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{randomValue length=33 type='ALPHANUMERIC'}}
 
 {{randomValue length=12 type='ALPHANUMERIC' uppercase=true}}
@@ -42,7 +42,7 @@ with the `math` helper or can serve as input to the `range` helper, among other 
 
 The `randomInt` helper emits random integers with one, both or neither bound specified.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{randomInt}}
 {{randomInt lower=5 upper=9}}
 {{randomInt upper=54323}}
@@ -51,7 +51,7 @@ The `randomInt` helper emits random integers with one, both or neither bound spe
 
 Likewise `randomDecimal` will emit random decimals:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{randomDecimal}}
 {{randomDecimal lower=-10.1 upper=-0.9}}
 {{randomDecimal upper=12.5}}
@@ -65,7 +65,7 @@ The `pickRandom` helper randomly selects a value from its parameters.
 If the first parameter is a collection then the value will be randomly selected
 from within this:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{#parseJson 'numberList'}}
     [1,2,3]
 {{/parseJson}}
@@ -75,7 +75,7 @@ from within this:
 
 Otherwise a value will be picked from the list of parameters provided:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{pickRandom '1' '2' '3'}} // One of 1, 2 or 3
 ```
 
@@ -93,4 +93,3 @@ will produce a list similar to the following:
 ```
 [3, 5, 2]
 ```
-

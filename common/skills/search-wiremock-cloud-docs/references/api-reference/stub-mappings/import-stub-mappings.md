@@ -12,7 +12,7 @@ Note: a more flexible import operation is available at the [Import endpoint](../
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/mappings/import
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/mappings/import
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -819,10 +819,14 @@ components:
                 base64Body, jsonBody or bodyFileName may be specified.
             bodyFileName:
               type: string
-              description: >-
+              description: >
                 The path to the file containing the response body, relative to
                 the configured file root. Only one of body, base64Body, jsonBody
-                or bodyFileName may be specified.
+                or bodyFileName may be specified. **Not supported when creating
+                or importing a single stub** — use a WireMock directory import
+                instead. When importing a WireMock directory, the referenced
+                file must exist under `__files`; Handlebars templates in this
+                value are not supported.
               example: user-profile-responses/user1.json
             fault:
               type: string

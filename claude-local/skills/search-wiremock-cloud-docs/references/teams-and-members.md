@@ -38,4 +38,3 @@ Follow these steps to find a specific user and team, then add the user to the te
 
 A user can be removed from a team by first following the data collection steps described above, then calling
 [delete a team member](/api-reference/teams/delete-a-team-member).
-

@@ -23,7 +23,7 @@ Ensure that you have Java 8+ installed and the `java` executable on your shell's
 
 Clone the WireMock Cloud demo project and change the working directory to the newly checked out project:
 
-```bash  theme={null}
+```bash theme={null}
 git clone git@github.com:wiremock/wiremock-cloud-demo-app.git
 cd wiremock-cloud-demo-app
 ```
@@ -32,7 +32,7 @@ Edit `src/main/resources/application.properties` changing the `todo-api.baseurl`
 
 Run the app:
 
-```bash  theme={null}
+```bash theme={null}
 ./gradlew bootRun
 ```
 
@@ -42,7 +42,7 @@ This should start the app locally on port `9000`.
 
 Navigate to the Stubs page and create a new stub with method `GET`, URL `/todo-items`, response `Content-Type` header `application/json` and the following JSON in the response body:
 
-```json  theme={null}
+```json theme={null}
 {
   "items": [
     {
@@ -86,7 +86,7 @@ Next we're going to simulate a new item being added to the list via a POST reque
 
 For this you'll need another new stub, this time for `POST` to `/todo-items` , response `Content-Type` header `application/json` and the following JSON in the response body:
 
-```json  theme={null}
+```json theme={null}
 { "message": "Successfully sent new item." }
 ```
 
@@ -122,4 +122,3 @@ In the response section change the response code to 502 and the message in the J
 Now try adding a new to-do item as you did in Step 2. When after submitting it, you should see an error page like this:
 
 <img title="To do error" src="https://mintcdn.com/wiremockinc/0mURIwCv-YEN_f3M/images/screenshots/to-do-error-page.png?fit=max&auto=format&n=0mURIwCv-YEN_f3M&q=85&s=e65c44e69f6dbdd6a027bce79ad336c5" width="694" height="358" data-path="images/screenshots/to-do-error-page.png" />
-

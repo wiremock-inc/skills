@@ -32,7 +32,7 @@ testImplementation 'org.wiremock:wiremock-standalone:3.12.1' // standalone JAR
 
 Or if you're using Maven, choose one of:
 
-```xml  theme={null}
+```xml theme={null}
 <!-- Thin JAR -->
 <dependency>
     <groupId>org.wiremock</groupId>
@@ -55,7 +55,7 @@ Or if you're using Maven, choose one of:
 After you've created a mock API in the WireMock Cloud UI, setting up a WireMock client to it is a one-line task (you can copy-paste this from
 your mock API's Settings page):
 
-```java  theme={null}
+```java theme={null}
 // If admin API security disabled
 WireMock paymentGatewayMock = new WireMock("https", "payments-example.wiremockapi.cloud", 443);
 
@@ -70,13 +70,13 @@ WireMock paymentGatewayMock = new WireMockBuilder()
 
 Then in your test cases you can create stubs as [documented on the WireMock site](http://wiremock.org/docs/stubbing/):
 
-```java  theme={null}
+```java theme={null}
 paymentGatewayMock.register(post("/send-payment").willReturn(created()));
 ```
 
 And make assertions about received requests:
 
-```java  theme={null}
+```java theme={null}
 paymentGatewayMock.verifyThat(postRequestedFor(urlPathEqualTo("/send-payment")));
 ```
 
@@ -90,7 +90,7 @@ The example in the previous section creates an ephemeral stub i.e. one that isn'
 stored persistently and will be deleted when the API is reset. To ensure that stubs
 created programmatically are saved, simply call `persistent()` during creation:
 
-```java  theme={null}
+```java theme={null}
 myMockApi.register(get(urlPathEqualTo("/persist-this"))
     .persistent()
     .willReturn(ok("Some body content"))
@@ -100,4 +100,3 @@ myMockApi.register(get(urlPathEqualTo("/persist-this"))
 ## Example project
 
 For a complete, working example of a Java web project using WireMock Cloud with automated tests see [the WireMock Cloud demo app](https://github.com/wiremock/wiremock-cloud-demo-app).
-

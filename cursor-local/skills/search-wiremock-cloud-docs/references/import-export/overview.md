@@ -47,4 +47,3 @@ To export the current mock API's stubs in WireMock Cloud/WireMock JSON format, c
 Then click the download link:
 
 <img alt="Export dialog" src="https://mintcdn.com/wiremockinc/I2C6ZJ3TgEtYucxf/images/screenshots/export-stubs.png?fit=max&auto=format&n=I2C6ZJ3TgEtYucxf&q=85&s=5a866e2cdee0b23b3df73c2cc93824f5" width="60%" data-path="images/screenshots/export-stubs.png" />
-

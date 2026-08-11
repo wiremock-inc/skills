@@ -6,11 +6,13 @@
 
 # Update user
 
+> Update a user's account information.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/users/{userId}
+````yaml /api-reference/openapi.yaml put /v1/users/{userId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -94,6 +96,7 @@ paths:
       tags:
         - Users
       summary: Update user
+      description: Update a user's account information.
       operationId: updateUser
       requestBody:
         content:

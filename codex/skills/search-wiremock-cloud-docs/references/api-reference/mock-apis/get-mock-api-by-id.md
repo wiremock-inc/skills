@@ -6,11 +6,13 @@
 
 # Get mock API by ID
 
+> Retrieve a single mock API's metadata, such as its name, mock host and configuration.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,9 @@ paths:
       tags:
         - Mock APIs
       summary: Get mock API by ID
+      description: >-
+        Retrieve a single mock API's metadata, such as its name, mock host and
+        configuration.
       operationId: getMockApiById
       responses:
         '200':

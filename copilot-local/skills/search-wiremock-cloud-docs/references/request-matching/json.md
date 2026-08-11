@@ -6,7 +6,7 @@
 
 # Request Matching - Matching JSON requests
 
-> Matching JSON
+> Match stub requests against JSON request bodies using equalToJson and matchesJsonPath.
 
 When stubbing API functions that accept JSON request bodies we may want to
 return different responses based on the JSON sent. WireMock Cloud provides two match types
@@ -35,71 +35,304 @@ For instance, given an expected JSON document like
 You would need to send in the request body for the stub to match exactly that JSON
 in order for the stub to be matched:
 
-```
-$ curl https://example.wiremockapi.cloud/json -d '{
-  "itemId": 102938,
-  "sizes": ["S", "M", "L"]
-}'
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl https://example.wiremockapi.cloud/json -d '{
+    "itemId": 102938,
+    "sizes": ["S", "M", "L"]
+  }'
+  ```
 
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("https://example.wiremockapi.cloud/json")
+      .header("Content-Type", "application/json")
+      .body("{ \"itemId\": 102938, \"sizes\": [\"S\", \"M\", \"L\"] }")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ itemId: 102938, sizes: ['S', 'M', 'L'] })
+  };
+
+  fetch('https://example.wiremockapi.cloud/json', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post(
+      'https://example.wiremockapi.cloud/json',
+      json={'itemId': 102938, 'sizes': ['S', 'M', 'L']}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://example.wiremockapi.cloud/json')
+  response = Net::HTTP.post(
+    uri,
+    { itemId: 102938, sizes: ['S', 'M', 'L'] }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://example.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'itemId' => 102938,
+          'sizes' => ['S', 'M', 'L']
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "itemId": 102938,
+      "sizes":  []string{"S", "M", "L"},
+  })
+
+  resp, _ := http.Post("https://example.wiremockapi.cloud/json", "application/json", bytes.NewReader(body))
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+```json theme={null}
 { "result": "OK" }
 ```
 
 Changing the `sizes` order would cause a non-match:
 
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl https://example.wiremockapi.cloud/json -d '{
+    "itemId": 102938,
+    "sizes": ["L", "M", "S"]
+  }'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("https://example.wiremockapi.cloud/json")
+      .header("Content-Type", "application/json")
+      .body("{ \"itemId\": 102938, \"sizes\": [\"L\", \"M\", \"S\"] }")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ itemId: 102938, sizes: ['L', 'M', 'S'] })
+  };
+
+  fetch('https://example.wiremockapi.cloud/json', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post(
+      'https://example.wiremockapi.cloud/json',
+      json={'itemId': 102938, 'sizes': ['L', 'M', 'S']}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://example.wiremockapi.cloud/json')
+  response = Net::HTTP.post(
+    uri,
+    { itemId: 102938, sizes: ['L', 'M', 'S'] }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://example.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'itemId' => 102938,
+          'sizes' => ['L', 'M', 'S']
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "itemId": 102938,
+      "sizes":  []string{"L", "M", "S"},
+  })
+
+  resp, _ := http.Post("https://example.wiremockapi.cloud/json", "application/json", bytes.NewReader(body))
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
 ```
-$ curl https://example.wiremockapi.cloud/json -d '{
-  "itemId": 102938,
-  "sizes": ["L", "M", "S"]
-}'
+                            Request was not matched
+                            =======================
 
-                                               Request was not matched
-                                               =======================
-
------------------------------------------------------------------------------------------------------------------------
-| Closest stub                                             | Request                                                  |
------------------------------------------------------------------------------------------------------------------------
-                                                           |
-JSON body matching                                         |
-                                                           |
-POST                                                       | POST
-/json                                                      | /json
-                                                           |
-{                                                          | {                                                   <<<<< Body does not match
-  "itemId" : 102938,                                       |   "itemId" : 102938,
-  "sizes" : [ "S", "M", "L" ]                              |   "sizes" : [ "L", "M", "S" ]
-}                                                          | }
-                                                           |
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+| Closest stub                         | Request                              |
+-------------------------------------------------------------------------------
+                                       |
+JSON body matching                     |
+                                       |
+POST                                   | POST
+/json                                  | /json
+                                       |
+{                                      | {                               <<<<< Body does not match
+  "itemId" : 102938,                   |   "itemId" : 102938,
+  "sizes" : [ "S", "M", "L" ]          |   "sizes" : [ "L", "M", "S" ]
+}                                      | }
+                                       |
+-------------------------------------------------------------------------------
 ```
 
 Adding an extra attribute would also cause a non-match:
 
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl https://example.wiremockapi.cloud/json -d '{
+    "itemId": 102938,
+    "sizes": ["S", "M", "L"],
+    "tag": "essentials"
+  }'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("https://example.wiremockapi.cloud/json")
+      .header("Content-Type", "application/json")
+      .body("{ \"itemId\": 102938, \"sizes\": [\"S\", \"M\", \"L\"], \"tag\": \"essentials\" }")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ itemId: 102938, sizes: ['S', 'M', 'L'], tag: 'essentials' })
+  };
+
+  fetch('https://example.wiremockapi.cloud/json', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post(
+      'https://example.wiremockapi.cloud/json',
+      json={'itemId': 102938, 'sizes': ['S', 'M', 'L'], 'tag': 'essentials'}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://example.wiremockapi.cloud/json')
+  response = Net::HTTP.post(
+    uri,
+    { itemId: 102938, sizes: ['S', 'M', 'L'], tag: 'essentials' }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://example.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'itemId' => 102938,
+          'sizes' => ['S', 'M', 'L'],
+          'tag' => 'essentials'
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "itemId": 102938,
+      "sizes":  []string{"S", "M", "L"},
+      "tag":    "essentials",
+  })
+
+  resp, _ := http.Post("https://example.wiremockapi.cloud/json", "application/json", bytes.NewReader(body))
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
 ```
-$ curl https://example.wiremockapi.cloud/json -d '{
-  "itemId": 102938,
-  "sizes": ["S", "M", "L"],
-  "tag": "essentials"
-}'
+                           Request was not matched
+                           =======================
 
-                                               Request was not matched
-                                               =======================
-
------------------------------------------------------------------------------------------------------------------------
-| Closest stub                                             | Request                                                  |
------------------------------------------------------------------------------------------------------------------------
-                                                           |
-JSON body matching                                         |
-                                                           |
-POST                                                       | POST
-/json                                                      | /json
-                                                           |
-{                                                          | {                                                   <<<<< Body does not match
-  "itemId" : 102938,                                       |   "itemId" : 102938,
-  "sizes" : [ "S", "M", "L" ]                              |   "sizes" : [ "S", "M", "L" ],
-}                                                          |   "tag" : "essentials"
-                                                           | }
-                                                           |
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+| Closest stub                         | Request                              |
+-------------------------------------------------------------------------------
+                                       |
+JSON body matching                     |
+                                       |
+POST                                   | POST
+/json                                  | /json
+                                       |
+{                                      | {                               <<<<< Body does not match
+  "itemId" : 102938,                   |   "itemId" : 102938,
+  "sizes" : [ "S", "M", "L" ]          |   "sizes" : [ "S", "M", "L" ],
+}                                      |   "tag" : "essentials"
+                                       | }
+                                       |
+-------------------------------------------------------------------------------
 ```
 
 ### Ignoring array order
@@ -112,12 +345,89 @@ due to array order, so to remedy this you can simply tick "Ignore array order".
 
 This will allow requests like the following to succeed:
 
-```
-$ curl https://example.wiremockapi.cloud/json -d '{
-  "itemId": 102938,
-  "sizes": ["S", "L", "M"]
-}'                   
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl https://example.wiremockapi.cloud/json -d '{
+    "itemId": 102938,
+    "sizes": ["S", "L", "M"]
+  }'
+  ```
 
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("https://example.wiremockapi.cloud/json")
+      .header("Content-Type", "application/json")
+      .body("{ \"itemId\": 102938, \"sizes\": [\"S\", \"L\", \"M\"] }")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ itemId: 102938, sizes: ['S', 'L', 'M'] })
+  };
+
+  fetch('https://example.wiremockapi.cloud/json', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post(
+      'https://example.wiremockapi.cloud/json',
+      json={'itemId': 102938, 'sizes': ['S', 'L', 'M']}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://example.wiremockapi.cloud/json')
+  response = Net::HTTP.post(
+    uri,
+    { itemId: 102938, sizes: ['S', 'L', 'M'] }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://example.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'itemId' => 102938,
+          'sizes' => ['S', 'L', 'M']
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "itemId": 102938,
+      "sizes":  []string{"S", "L", "M"},
+  })
+
+  resp, _ := http.Post("https://example.wiremockapi.cloud/json", "application/json", bytes.NewReader(body))
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
+
+```json theme={null}
 { "result": "OK" }
 ```
 
@@ -130,13 +440,90 @@ if additional elements are present you can tick "Ignore extra elements".
 
 This would permit the following to match:
 
-```
-$ curl https://example.wiremockapi.cloud/json -d '{
-  "itemId": 102938,
-  "sizes": ["S", "M", "L"],
-  "tag": "essentials"
-}'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl https://example.wiremockapi.cloud/json -d '{
+    "itemId": 102938,
+    "sizes": ["S", "M", "L"],
+    "tag": "essentials"
+  }'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("https://example.wiremockapi.cloud/json")
+      .header("Content-Type", "application/json")
+      .body("{ \"itemId\": 102938, \"sizes\": [\"S\", \"M\", \"L\"], \"tag\": \"essentials\" }")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ itemId: 102938, sizes: ['S', 'M', 'L'], tag: 'essentials' })
+  };
+
+  fetch('https://example.wiremockapi.cloud/json', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post(
+      'https://example.wiremockapi.cloud/json',
+      json={'itemId': 102938, 'sizes': ['S', 'M', 'L'], 'tag': 'essentials'}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://example.wiremockapi.cloud/json')
+  response = Net::HTTP.post(
+    uri,
+    { itemId: 102938, sizes: ['S', 'M', 'L'], tag: 'essentials' }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://example.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'itemId' => 102938,
+          'sizes' => ['S', 'M', 'L'],
+          'tag' => 'essentials'
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "itemId": 102938,
+      "sizes":  []string{"S", "M", "L"},
+      "tag":    "essentials",
+  })
+
+  resp, _ := http.Post("https://example.wiremockapi.cloud/json", "application/json", bytes.NewReader(body))
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 ### Using placeholders to ignore specific JSON attributes
 
@@ -151,13 +538,90 @@ For instance, given the following configuration:
 
 This would permit the the following to match:
 
-```
-$ curl https://example.wiremockapi.cloud/json -d '{
-  "itemId": 8888888888,
-  "sizes": ["S", "M", "L"],
-  "tag": "essentials"
-}'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  $ curl https://example.wiremockapi.cloud/json -d '{
+    "itemId": 8888888888,
+    "sizes": ["S", "M", "L"],
+    "tag": "essentials"
+  }'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("https://example.wiremockapi.cloud/json")
+      .header("Content-Type", "application/json")
+      .body("{ \"itemId\": 8888888888, \"sizes\": [\"S\", \"M\", \"L\"], \"tag\": \"essentials\" }")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ itemId: 8888888888, sizes: ['S', 'M', 'L'], tag: 'essentials' })
+  };
+
+  fetch('https://example.wiremockapi.cloud/json', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post(
+      'https://example.wiremockapi.cloud/json',
+      json={'itemId': 8888888888, 'sizes': ['S', 'M', 'L'], 'tag': 'essentials'}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://example.wiremockapi.cloud/json')
+  response = Net::HTTP.post(
+    uri,
+    { itemId: 8888888888, sizes: ['S', 'M', 'L'], tag: 'essentials' }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://example.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'itemId' => 8888888888,
+          'sizes' => ['S', 'M', 'L'],
+          'tag' => 'essentials'
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  ]);
+
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "itemId": 8888888888,
+      "sizes":  []string{"S", "M", "L"},
+      "tag":    "essentials",
+  })
+
+  resp, _ := http.Post("https://example.wiremockapi.cloud/json", "application/json", bytes.NewReader(body))
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 When using `${json-unit.ignore}`, the element's type is also ignored (in addition to its value),
 so in the above case a string, boolean etc. could have been used in place of the numeric ID.
@@ -185,12 +649,85 @@ Given the following configration:
 
 The following JSON will be matched:
 
-```
-$ curl https://example.wiremockapi.cloud/json -d '{
-  "itemId": 102938,
-  "itemName": "Socks"
-}'
-```
+<CodeGroup dropdown>
+  ```bash theme={null}
+  curl https://example.wiremockapi.cloud/json -d '{
+    "itemId": 102938,
+    "itemName": "Socks"
+  }'
+  ```
+
+  ```java theme={null}
+  HttpResponse<String> response =
+    Unirest.post("https://example.wiremockapi.cloud/json")
+      .header("Content-Type", "application/json")
+      .body("{ \"itemId\": 102938, \"itemName\": \"Socks\" }")
+      .asString();
+  ```
+
+  ```javascript theme={null}
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ itemId: 102938, itemName: 'Socks' })
+  };
+
+  fetch('https://example.wiremockapi.cloud/json', options).then(res => ...);
+  ```
+
+  ```python theme={null}
+  import requests
+
+  response = requests.post(
+      'https://example.wiremockapi.cloud/json',
+      json={'itemId': 102938, 'itemName': 'Socks'}
+  )
+  ```
+
+  ```ruby theme={null}
+  require 'uri'
+  require 'net/http'
+  require 'json'
+
+  uri = URI('https://example.wiremockapi.cloud/json')
+  response = Net::HTTP.post(
+    uri,
+    { itemId: 102938, itemName: 'Socks' }.to_json,
+    'Content-Type' => 'application/json'
+  )
+  ```
+
+  ```php theme={null}
+  <?php
+  $curl = curl_init('https://example.wiremockapi.cloud/json');
+
+  curl_setopt_array($curl, [
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => json_encode([
+          'itemId' => 102938,
+          'itemName' => 'Socks'
+      ]),
+      CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+  $response = curl_exec($curl);
+  ```
+
+  ```go theme={null}
+  import (
+      "bytes"
+      "encoding/json"
+      "net/http"
+  )
+
+  body, _ := json.Marshal(map[string]any{
+      "itemId":   102938,
+      "itemName": "Socks",
+  })
+
+  resp, _ := http.Post("https://example.wiremockapi.cloud/json", "application/json", bytes.NewReader(body))
+  defer resp.Body.Close()
+  ```
+</CodeGroup>
 
 ### Expression only vs. expression + sub-match
 
@@ -214,7 +751,7 @@ Matching on a specific array element by position.
 
 would match:
 
-```json  theme={null}
+```json theme={null}
 {
   "sizes": ["S", "M", "L"]
 }
@@ -226,7 +763,7 @@ Matching on an element of an object found via another element.
 
 would match:
 
-```json  theme={null}
+```json theme={null}
 {
   "addresses": [
     {
@@ -251,7 +788,7 @@ Matching an element found recursively.
 
 would match:
 
-```json  theme={null}
+```json theme={null}
 {
   "addresses": [
     {
@@ -268,7 +805,7 @@ would match:
 
 and would also match:
 
-```json  theme={null}
+```json theme={null}
 {
   "address": {
     "type": "business",
@@ -276,4 +813,3 @@ and would also match:
   }
 }
 ```
-

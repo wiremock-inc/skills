@@ -6,7 +6,7 @@
 
 # Response Templating - Number Helpers
 
-> Working with numbers
+> Perform arithmetic and format numbers in response templates using the math and numberFormat helpers.
 
 ## Math helper
 
@@ -15,7 +15,7 @@ or strings as its operands and will always yield a number as its output rather t
 
 Addition, subtraction, multiplication, division and remainder (mod) are supported.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{math 1 '+' 2}}
 {{math 4 '-' 2}}
 {{math 2 '*' 3}}
@@ -42,7 +42,7 @@ specify this.
 
 For example, to format a decimal number as currency, specifically British pounds:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{numberFormat 123.4567 'currency' 'en_GB'}}}
 ```
 
@@ -50,7 +50,7 @@ Output: `£123.46`.
 
 Alternatively, if we wanted to output the number as a percentage:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{numberFormat 123.4567 'percent' 'en_GB'}}}
 ```
 
@@ -60,7 +60,7 @@ Output: `12,346%`.
 
 For maximum control over the number format you can specify a format string:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{numberFormat 123.4567 '###.000000' 'en_GB'}}}
 ```
 
@@ -75,7 +75,7 @@ Separate from the format parameter, the number of digits before and after the
 decimal place can be bounded using one or more of four parameters:
 `maximumFractionDigits`, `minimumFractionDigits`, `maximumIntegerDigits`, `minimumIntegerDigits`.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{numberFormat 1234.567 maximumIntegerDigits=3 minimumFractionDigits=6}}}
 ```
 
@@ -88,7 +88,7 @@ groups of digits e.g. `1,234.5`.
 
 This behaviour can be disabled with `groupingUsed`.
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{numberFormat 12345.678 groupingUsed=false}}}
 ```
 
@@ -101,7 +101,7 @@ it's necessary to do so.
 
 For instance, to always round down:
 
-```handlebars  theme={null}
+```handlebars theme={null}
 {{{numberFormat 1.239 roundingMode='down' maximumFractionDigits=2}}}
 ```
 
@@ -118,4 +118,3 @@ Available rounding modes are:
 * `floor`.
 
 See the [Java RoundingMode documentation](https://docs.oracle.com/javase/8/docs/api/java/math/RoundingMode.html) for the exact meaning of each of these.
-

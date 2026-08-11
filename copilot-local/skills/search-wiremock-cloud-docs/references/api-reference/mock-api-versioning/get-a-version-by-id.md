@@ -6,11 +6,13 @@
 
 # Get a version by ID
 
+> Retrieve a single version history commit by ID.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -90,6 +92,7 @@ paths:
       tags:
         - Mock API versioning
       summary: Get a version by ID
+      description: Retrieve a single version history commit by ID.
       operationId: getMockApiVersionHistoryCommitById
       responses:
         '200':

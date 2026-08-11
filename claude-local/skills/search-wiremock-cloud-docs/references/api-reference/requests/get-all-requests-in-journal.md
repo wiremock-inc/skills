@@ -6,11 +6,13 @@
 
 # Get all requests in journal
 
+> List every request logged in a mock API's request journal.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/requests
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/requests
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Requests
       summary: Get all requests in journal
+      description: List every request logged in a mock API's request journal.
       operationId: getAllRequestsInJournal
       parameters:
         - description: The maximum number of results to return

@@ -25,4 +25,3 @@ These are configured per stub, so it is possible to respond to specific requests
 Faults are configured when creating or editing a stub by selecting the Fault tab in the response and choosing the fault type:
 
 <img src="https://mintcdn.com/wiremockinc/m5hvbZSijetQGAV3/images/screenshots/fault-response.png?fit=max&auto=format&n=m5hvbZSijetQGAV3&q=85&s=f35340456d874f3ed5c306f0650d7151" title="Fault response" width="424" height="244" data-path="images/screenshots/fault-response.png" />
-

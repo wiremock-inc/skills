@@ -6,11 +6,13 @@
 
 # Get all entities in a given version
 
+> List every entity (stub, setting, etc.) captured in a given version.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/items
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/version-history/commits/{versionCommitId}/items
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -90,6 +92,7 @@ paths:
       tags:
         - Mock API versioning
       summary: Get all entities in a given version
+      description: List every entity (stub, setting, etc.) captured in a given version.
       operationId: getMockApiVersionHistoryCommitItems
       responses:
         '200':

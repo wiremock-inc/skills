@@ -6,11 +6,13 @@
 
 # Empty the request journal
 
+> Clear all requests from a mock API's request journal.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/requests/reset
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/requests/reset
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -89,6 +91,7 @@ paths:
       tags:
         - Requests
       summary: Empty the request journal
+      description: Clear all requests from a mock API's request journal.
       operationId: emptyRequestJournal
       responses:
         '200':

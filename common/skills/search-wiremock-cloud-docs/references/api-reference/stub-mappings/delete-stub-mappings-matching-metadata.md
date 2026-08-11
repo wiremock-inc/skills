@@ -4,11 +4,13 @@
 
 # Delete stub mappings matching metadata
 
+> Delete stub mappings whose metadata matches the given criteria.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/mappings/remove-by-metadata
+````yaml /api-reference/openapi.yaml post /v1/mock-apis/{mockApiId}/mappings/remove-by-metadata
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - Stub Mappings
       summary: Delete stub mappings matching metadata
+      description: Delete stub mappings whose metadata matches the given criteria.
       operationId: removeStubMappingsByMetadata
       requestBody:
         content:

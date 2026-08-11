@@ -127,4 +127,3 @@ For `DATE`, `TIME` and `DATETIME` types, you can specify your own format string 
 | z      | Time zone                                        | General time zone  | Pacific Standard Time; PST; GMT-08:00 |
 | Z      | Time zone                                        | RFC 822 time zone  | -0800                                 |
 | X      | Time zone                                        | ISO 8601 time zone | -08; -0800;  -08:00                   |
-

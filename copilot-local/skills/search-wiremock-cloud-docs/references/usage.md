@@ -17,7 +17,7 @@
 </RequestExample>
 
 <ResponseExample>
-  ```json  theme={null}
+  ```json theme={null}
   {
     "usage": {
       "id": "kl1g9",
@@ -65,4 +65,3 @@ to retrive product usage data:
     We can then use the subscription ID as the path parameter when calling [get usage](/api-reference/usage/get-usage) to get the actual usage data.
   </Step>
 </Steps>
-

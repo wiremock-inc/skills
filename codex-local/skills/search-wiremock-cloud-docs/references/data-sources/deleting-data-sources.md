@@ -62,4 +62,3 @@ will continue to match incoming requests, but the data source will not be querie
 
 If a data source is deleted, any response templates that are using the data source will no longer be able to access the
 data source data. The response template will still be rendered, but the data source data will not be available.
-

@@ -6,11 +6,13 @@
 
 # Retrieve a mock host by ID
 
+> Retrieve a single mock host's details by ID.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/hosts/{mockHostId}
+````yaml /api-reference/openapi.yaml get /v1/hosts/{mockHostId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -94,6 +96,7 @@ paths:
       tags:
         - Mock Hosts
       summary: Retrieve a mock host by ID
+      description: Retrieve a single mock host's details by ID.
       operationId: getMockHostById
       responses:
         '200':
@@ -126,6 +129,14 @@ components:
         friendlyHostname:
           description: A domain that addresses the mock host.
           type: string
+        role:
+          description: >-
+            If DEFAULT, new Mock APIs will be automatically assigned to this
+            host if it has fewer than any other host with role DEFAULT
+          type: string
+          enum:
+            - DEFAULT
+            - SPECIFIC
         links:
           type: object
           properties:

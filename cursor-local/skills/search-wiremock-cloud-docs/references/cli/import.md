@@ -21,7 +21,7 @@ This is useful when migrating from other tools to WireMock Cloud, reusing existi
 
 To import stubs from a file or directory, use the following command:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import <file_or_directory> --to=<mock-api-id>
 ```
 
@@ -60,7 +60,7 @@ my-wiremock-project/
 
 You should import by pointing to the parent directory:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import ./my-wiremock-project --to=33eye3l9
 ```
 
@@ -70,7 +70,7 @@ The CLI will automatically look for the `mappings` subdirectory within the speci
 
 To import a single stub mapping file:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import my-stub.json --to=33eye3l9
 ```
 
@@ -80,7 +80,7 @@ HAR files are JSON files that contain recorded HTTP traffic, typically captured 
 
 To import a HAR file:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import recording.har --to=33eye3l9
 ```
 
@@ -88,7 +88,7 @@ The CLI will convert each HTTP request/response pair in the HAR file into a Wire
 
 **Example HAR file structure:**
 
-```json  theme={null}
+```json theme={null}
 {
   "log": {
     "entries": [
@@ -115,7 +115,7 @@ Postman collections can be exported from Postman and imported into WireMock Clou
 
 To import a Postman collection:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import my-collection.postman_collection.json --to=33eye3l9
 ```
 
@@ -130,13 +130,13 @@ OpenAPI (formerly Swagger) specifications can be imported to automatically gener
 
 To import an OpenAPI specification:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import openapi-spec.yaml --to=33eye3l9
 ```
 
 Or for JSON format:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import openapi-spec.json --to=33eye3l9
 ```
 
@@ -166,7 +166,7 @@ The `import` command supports advanced configuration through an import configura
 
 To use an import configuration file:
 
-```shell  theme={null}
+```shell theme={null}
 wiremock import <file_or_directory> \
   --to=<mock-api-id> \
   --import-config-file=<path>
@@ -186,11 +186,10 @@ For details on the configuration file format, see the [Advanced Recording Config
 ## Notes
 
 * The import command **adds** stubs to the specified Mock API without removing existing stubs
-* If you want to replace all stubs in a Mock API, the [push](/cli/push-pull-mock-api) command may be more suitable
+* If you want to replace all stubs in a Mock API, the [mock-apis push](/cli/push-pull-mock-api) command may be more suitable
 
 ## See Also
 
 * [Advanced Recording Configuration](/cli/recording-configuration) - for details on transformation rules
 * [Import Config File Schema](/cli/import-config-file-schema) - for the complete schema reference
 * [Pushing and Pulling Mock APIs](/cli/push-pull-mock-api) - for alternative ways to manage Mock API content
-

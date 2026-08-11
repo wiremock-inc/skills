@@ -6,11 +6,13 @@
 
 # Create a database connection
 
+> Register a new database connection so its tables can be used as data sources for mock API responses.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml post /v1/users/{userId}/database-connections
+````yaml /api-reference/openapi.yaml post /v1/users/{userId}/database-connections
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -93,6 +95,9 @@ paths:
       tags:
         - Database connections
       summary: Create a database connection
+      description: >-
+        Register a new database connection so its tables can be used as data
+        sources for mock API responses.
       operationId: createDatabaseConnection
       requestBody:
         $ref: '#/components/requestBodies/CreateDatabaseConnectionRequestBody'

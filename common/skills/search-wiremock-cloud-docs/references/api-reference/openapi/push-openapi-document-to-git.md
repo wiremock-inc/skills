@@ -4,11 +4,13 @@
 
 # Push OpenAPI document to Git
 
+> Push a mock API's OpenAPI document to its connected Git repository.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/open-api/push
+````yaml /api-reference/openapi.yaml put /v1/mock-apis/{mockApiId}/open-api/push
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -87,6 +89,7 @@ paths:
       tags:
         - OpenAPI
       summary: Push OpenAPI document to Git
+      description: Push a mock API's OpenAPI document to its connected Git repository.
       operationId: pushOpenApiDocumentToGit
       requestBody:
         content:

@@ -6,11 +6,13 @@
 
 # Get a rate limit by ID
 
+> Retrieve a single rate limit by ID.
+
 
 
 ## OpenAPI
 
-````yaml api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/rateLimits/{rateLimitId}
+````yaml /api-reference/openapi.yaml get /v1/mock-apis/{mockApiId}/settings/rateLimits/{rateLimitId}
 openapi: 3.1.0
 info:
   title: WireMock Cloud
@@ -96,6 +98,7 @@ paths:
       tags:
         - Settings
       summary: Get a rate limit by ID
+      description: Retrieve a single rate limit by ID.
       operationId: getRateLimitById
       responses:
         '200':

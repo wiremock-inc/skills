@@ -26,4 +26,3 @@ To assign a role to a user/team for a data source, simply navigate to the desire
 
 Once you have selected the desired subject and picked the appropriate role for that subject, click the "Invite"/ "Share" button.
 The subject(s) should not be able to view the data source from their WireMock Cloud account.
-
