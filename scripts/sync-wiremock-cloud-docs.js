@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { execFileSync } = require('child_process');
 
 const {
   formatBytes,
@@ -24,6 +25,7 @@ const LLMS_TXT_URL = 'https://docs.wiremock.io/llms.txt';
 const BASE_URL = 'https://docs.wiremock.io/';
 const SKILL_DIR = path.join(__dirname, '..', 'common', 'skills', 'search-wiremock-cloud-docs');
 const DOCS_DIR = path.join(SKILL_DIR, 'references');
+const BUILD_SCRIPT = path.join(__dirname, 'build-plugins.js');
 
 // Concurrency limit for parallel downloads
 const CONCURRENCY_LIMIT = 5;
@@ -60,8 +62,10 @@ function fetchUrl(url) {
 }
 
 /**
- * Parse markdown links from llms.txt content
- * Only parses links in the "## Docs" section (stops at "## Optional")
+ * Parse markdown links from llms.txt content.
+ * llms.txt groups links under several "## <Category>" headings (e.g. "Concepts",
+ * "AI & agents", "API reference") rather than a single section, so every heading's
+ * links are collected; only the URL scheme/extension filters below decide inclusion.
  * @param {string} content - llms.txt content
  * @returns {Array<{title: string, url: string, path: string}>}
  */
@@ -69,22 +73,7 @@ function parseDocLinks(content) {
   const links = [];
   const lines = content.split('\n');
 
-  let inDocsSection = false;
-
   for (const line of lines) {
-    // Start of Docs section
-    if (line.trim() === '## Docs') {
-      inDocsSection = true;
-      continue;
-    }
-
-    // End of Docs section (start of Optional or other section)
-    if (line.startsWith('## ') && inDocsSection) {
-      break;
-    }
-
-    if (!inDocsSection) continue;
-
     // Parse markdown links: - [Title](url): description
     const match = line.match(/^\s*-\s*\[([^\]]+)\]\(([^)]+)\)/);
     if (match) {
@@ -236,9 +225,6 @@ async function main() {
     console.log(`   - Directories: ${subdirs.join(', ')}`);
   }
 
-  console.log('');
-  console.log('💡 Documentation is now ready for the wiremock-cloud skill');
-
   // Report failures if any
   if (failures.length > 0) {
     console.log('');
@@ -247,6 +233,15 @@ async function main() {
       console.log(`   - ${failure.path}: ${failure.error}`);
     }
   }
+
+  // Step 7: Propagate the refreshed docs from common/skills/ into every plugin variant
+  console.log('');
+  console.log('🔧 Rebuilding plugin variants from common/skills/...');
+  console.log('');
+  execFileSync('node', [BUILD_SCRIPT], { stdio: 'inherit' });
+
+  console.log('');
+  console.log('💡 Documentation is now up to date in common/skills/ and all plugin variants');
 }
 
 // Run the script
