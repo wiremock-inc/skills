@@ -12,7 +12,23 @@
     {
       "name": "wiremock-cloud",
       "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
-      "source": "./",
+      "source": "./claude",
+      "strict": false,
+      "skills": [
+        "./skills/search-wiremock-cloud-docs",
+        "./skills/build-api-simulation",
+        "./skills/create-stubs",
+        "./skills/convert-to-stateful",
+        "./skills/convert-to-data-driven",
+        "./skills/validate-and-fix-stubs",
+        "./skills/author-response-templates",
+        "./skills/review-api-simulation"
+      ]
+    },
+    {
+      "name": "wiremock-cloud-local",
+      "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud, using a local WireMock CLI-based MCP server.",
+      "source": "./claude-local",
       "strict": false,
       "skills": [
         "./skills/search-wiremock-cloud-docs",

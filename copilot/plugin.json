@@ -1,0 +1,7 @@
+{
+  "name": "wiremock-cloud",
+  "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
+  "version": "1.0.0",
+  "skills": "skills/",
+  "mcpServers": ".mcp.json"
+}
