@@ -1,0 +1,7 @@
+{
+  "pluginName": "wiremock-cloud-local",
+  "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud, using a local WireMock CLI-based MCP server.",
+  "kind": "standalone",
+  "backend": "local",
+  "outputRoot": "local-skills"
+}

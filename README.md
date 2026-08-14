@@ -71,9 +71,13 @@ or, for the local MCP server variant, `copilot plugin install wiremock-cloud-loc
 
 > The Cursor/Codex/Copilot plugins carry the same skill instructions as the Claude Code ones, minus two Claude-only `SKILL.md` frontmatter fields (`allowed-tools`, `model`) that aren't part of the portable [Agent Skills](https://agentskills.io/home) standard those tools share.
 
+### Other tools
+
+For any agent that reads the open [Agent Skills](https://agentskills.io/home) format directly but that we don't build a dedicated plugin for, copy `skills/` (remote, WireMock Cloud-hosted MCP server — pair with the `.mcp.json` alongside it) or `local-skills/` (local WireMock CLI-based MCP server — configure that yourself, see the [installation guide](https://docs.wiremock.io/ai-mcp/installation)) straight into your tool's skills directory.
+
 ## Repository structure
 
-Skill content is authored once in `common/skills/` and built into all plugins by `npm run build` (`scripts/build-plugins.js`), which resolves `{{WIREMOCK_TOOL_PREFIX}}` tokens and `# @variant:remote` / `# @variant:local` blocks per variant, and — for the Cursor/Codex/Copilot variants — strips Claude-only `SKILL.md` frontmatter (`allowed-tools`, `model`) and rewrites the Claude-only `${CLAUDE_SKILL_DIR}` script path prefix. The generated output is committed to the repo; edit `common/skills/` and re-run the build rather than editing the generated files directly:
+Skill content is authored once in `common/skills/` and built into all plugins by `npm run build` (`scripts/build-plugins.js`), which resolves `{{WIREMOCK_TOOL_PREFIX}}` tokens and `# @variant:remote` / `# @variant:local` blocks per variant, and — for the Cursor/Codex/Copilot/standalone variants — strips Claude-only `SKILL.md` frontmatter (`allowed-tools`, `model`) and rewrites the Claude-only `${CLAUDE_SKILL_DIR}` script path prefix. The generated output is committed to the repo; edit `common/skills/` and re-run the build rather than editing the generated files directly:
 
 | Tool | Remote plugin | Local plugin | Marketplace manifest |
 |------|---------------|--------------|-----------------------|
@@ -81,3 +85,4 @@ Skill content is authored once in `common/skills/` and built into all plugins by
 | Cursor | `cursor/` | `cursor-local/` | `.cursor-plugin/marketplace.json` |
 | Codex CLI | `codex/` | `codex-local/` | `.agents/plugins/marketplace.json` |
 | GitHub Copilot | `copilot/` | `copilot-local/` | `.github/plugin/marketplace.json` |
+| Other tools (manual copy) | `skills/` (+ `.mcp.json`) | `local-skills/` | _none — not plugin-packaged_ |
