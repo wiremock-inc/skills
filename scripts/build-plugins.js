@@ -4,7 +4,7 @@
  * Builds installable plugins from the shared source in common/skills/, applying each
  * variant's tool-prefix token and resolving `# @variant:<name>` ... `# @endvariant` blocks.
  *
- * Two kinds of variant:
+ * Three kinds of variant:
  *   - "claude-plugin"  (default): the existing wiremock-cloud / wiremock-cloud-local
  *     Claude Code plugins — skill frontmatter (incl. `allowed-tools`, `model`) is passed
  *     through untouched.
@@ -14,6 +14,9 @@
  *     Agent Skills standard those tools share. Each also gets a per-tool `plugin.json`
  *     manifest, and all variants sharing a `target` are aggregated into that tool's
  *     `marketplace.json`.
+ *   - "standalone": a bare, unwrapped `skills/` tree (same portable transform as
+ *     "open-standard", no plugin.json/marketplace) for dropping into any agent that reads
+ *     the open Agent Skills format directly but that we don't build a dedicated plugin for.
  */
 
 const fs = require('fs');
@@ -91,6 +94,10 @@ const TARGET_DEFAULTS = {
   }
 };
 
+// Kinds whose skill content gets the portable transform (Claude-only frontmatter/env var
+// stripped) because they're not Claude Code plugins.
+const PORTABLE_KINDS = new Set(['open-standard', 'standalone']);
+
 const MARKETPLACE_NAME = 'wiremock-inc-skills';
 const MARKETPLACE_OWNER = { name: 'WireMock Inc', email: 'info@wiremock.io' };
 const MARKETPLACE_METADATA = { description: 'Agent skills for API simulation and testing with WireMock Cloud', version: '1.0.0' };
@@ -143,15 +150,22 @@ function loadVariants() {
       throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, 'missing/invalid "backend" (must be "remote" or "local" — selects which `# @variant:` body block this variant resolves to)');
     }
 
-    let mcpJsonPath = path.join(VARIANTS_DIR, name, 'mcp.json');
-    if (config.mcpSource) {
-      if (!configs.has(config.mcpSource)) {
-        throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `mcpSource "${config.mcpSource}" is not a known variant`);
+    // "standalone" variants only need an mcp.json if they declare where to put one
+    // (mcpDest) — e.g. the local-skills variant deliberately ships without one.
+    const needsMcp = !(kind === 'standalone' && !config.mcpDest);
+
+    let mcpJsonPath = null;
+    if (needsMcp) {
+      mcpJsonPath = path.join(VARIANTS_DIR, name, 'mcp.json');
+      if (config.mcpSource) {
+        if (!configs.has(config.mcpSource)) {
+          throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `mcpSource "${config.mcpSource}" is not a known variant`);
+        }
+        mcpJsonPath = path.join(VARIANTS_DIR, config.mcpSource, 'mcp.json');
       }
-      mcpJsonPath = path.join(VARIANTS_DIR, config.mcpSource, 'mcp.json');
-    }
-    if (!fs.existsSync(mcpJsonPath)) {
-      throw new BuildError(mcpJsonPath, name, 'missing mcp.json');
+      if (!fs.existsSync(mcpJsonPath)) {
+        throw new BuildError(mcpJsonPath, name, 'missing mcp.json');
+      }
     }
 
     return {
@@ -167,7 +181,10 @@ function loadVariants() {
       toolPrefix: config.toolPrefix,
       outputRootAbs: path.join(ROOT, config.outputRoot),
       outputRoot: config.outputRoot,
-      mcpJsonPath
+      mcpJsonPath,
+      // Relative to ROOT — only set for "standalone" variants that want an mcp.json written
+      // alongside their skills/ (see kind === 'standalone' handling in buildVariant).
+      mcpDest: config.mcpDest || null
     };
   });
 }
@@ -292,7 +309,7 @@ function assertNoLeftoverMarkers(content, filePath, variant) {
   if (/# @variant:|# @endvariant/.test(content)) {
     throw new BuildError(filePath, variant.name, 'unresolved/orphan @variant marker remains after build');
   }
-  if (variant.kind === 'open-standard') {
+  if (PORTABLE_KINDS.has(variant.kind)) {
     if (/^allowed-tools:/m.test(content)) {
       throw new BuildError(filePath, variant.name, 'allowed-tools frontmatter survived the open-standard transform');
     }
@@ -327,7 +344,7 @@ function processFile(srcPath, destPath, variant) {
   }
 
   let content = fs.readFileSync(srcPath, 'utf8');
-  if (variant.kind === 'open-standard') {
+  if (PORTABLE_KINDS.has(variant.kind)) {
     content = applyOpenStandardTransform(content);
   }
   content = resolveVariantBlocks(content, variant.backend, srcPath);
@@ -359,17 +376,21 @@ function copyTree(srcDir, destDir, variant) {
 // ============================================================================
 
 function buildVariant(variant) {
-  const outSkillsDir = path.join(variant.outputRootAbs, 'skills');
+  // "standalone" variants ARE a bare skills/ tree — no nested skills/ subfolder, no
+  // plugin.json, no marketplace entry.
+  const outSkillsDir = variant.kind === 'standalone'
+    ? variant.outputRootAbs
+    : path.join(variant.outputRootAbs, 'skills');
   fs.rmSync(outSkillsDir, { recursive: true, force: true });
   copyTree(COMMON_SKILLS_DIR, outSkillsDir, variant);
 
-  const mcpDescriptor = fs.readFileSync(variant.mcpJsonPath, 'utf8');
-
   if (variant.kind === 'claude-plugin') {
+    const mcpDescriptor = fs.readFileSync(variant.mcpJsonPath, 'utf8');
     const mcpDest = path.join(variant.outputRootAbs, '.mcp.json');
     ensureDir(path.dirname(mcpDest));
     fs.writeFileSync(mcpDest, mcpDescriptor, 'utf8');
-  } else {
+  } else if (variant.kind === 'open-standard') {
+    const mcpDescriptor = fs.readFileSync(variant.mcpJsonPath, 'utf8');
     const targetDefaults = TARGET_DEFAULTS[variant.target];
 
     const mcpDest = path.join(variant.outputRootAbs, targetDefaults.mcpOutputPath);
@@ -379,6 +400,11 @@ function buildVariant(variant) {
     const manifestDest = path.join(variant.outputRootAbs, targetDefaults.manifestRelPath);
     ensureDir(path.dirname(manifestDest));
     fs.writeFileSync(manifestDest, JSON.stringify(targetDefaults.buildManifest(variant), null, 2) + '\n', 'utf8');
+  } else if (variant.mcpDest) {
+    const mcpDescriptor = fs.readFileSync(variant.mcpJsonPath, 'utf8');
+    const mcpDest = path.join(ROOT, variant.mcpDest);
+    ensureDir(path.dirname(mcpDest));
+    fs.writeFileSync(mcpDest, mcpDescriptor, 'utf8');
   }
 
   console.log(`   ✓ ${variant.pluginName} → ${path.relative(ROOT, variant.outputRootAbs) || '.'}`);
