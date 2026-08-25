@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.wiremock/wiremock-cloud",
+  "title": "WireMock Cloud",
+  "description": "Build, validate, and manage API simulations in WireMock Cloud from MCP-compatible AI agents.",
+  "version": "1.0.0",
+  "websiteUrl": "https://docs.wiremock.io/ai-mcp/agent-skills",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.wiremock.cloud/mcp"
+    }
+  ]
+}
