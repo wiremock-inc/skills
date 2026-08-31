@@ -14,6 +14,7 @@
       "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
       "source": "./claude",
       "strict": false,
+      "mcpServers": "./.mcp.json",
       "skills": [
         "./skills/search-wiremock-cloud-docs",
         "./skills/build-api-simulation",
@@ -30,6 +31,7 @@
       "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud, using a local WireMock CLI-based MCP server.",
       "source": "./claude-local",
       "strict": false,
+      "mcpServers": "./.mcp.json",
       "skills": [
         "./skills/search-wiremock-cloud-docs",
         "./skills/build-api-simulation",
