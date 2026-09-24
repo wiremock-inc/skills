@@ -156,13 +156,15 @@ For the **not found** case, use `require-state` with `absent: true` at `priority
     "headers": {
       "grpc-status-name": "NOT_FOUND",
       "grpc-status-reason": "order not found"
-    }
+    },
+    "body": "null"
   },
   "persistent": true
 }
 ```
 
 Notes:
+- Error responses must use `"body": "null"` — see [gRPC Stub Rules](grpc-stub-rules.md).
 - The `require-state` stub uses `priority: 2` so it matches before the no-priority success stub
   (which defaults to priority 5) when the key is absent.
 - The success stub has **no `customMatcher`** — let the not-found stub act as the guard.

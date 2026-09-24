@@ -144,7 +144,7 @@ All generated files must follow the WireMock Runner layout inside the chosen pro
     ├── wiremock.yaml              # Runner config with cloud_id
     └── <service-name>/            # Lower-kebab-case, derived from the service
         ├── grpc.dsc               # Descriptor set (CLI-compatible name)
-        └── stub-mappings.yaml     # All stub mappings (can be JSON format)
+        └── stub-mappings.json     # All stub mappings (JSON — required by push)
 ```
 
 Create the `.wiremock/wiremock.yaml` file early (in Step 5 after creating the mock API). All
@@ -159,7 +159,7 @@ From the service information discovered in Step 1 and the user inputs, establish
 - `project-folder`: the chosen project folder (e.g. `./order-service`)
 - `service-dir`: `<project-folder>/.wiremock/<service-name>` (e.g. `./order-service/.wiremock/order-service`)
 - `dsc-path`: `<service-dir>/grpc.dsc` — named `grpc.dsc` for WireMock CLI compatibility; WireMock Cloud itself does not require this name
-- `stubs-path`: `<service-dir>/stub-mappings.yaml`
+- `stubs-path`: `<service-dir>/stub-mappings.json`
 - `wiremock-yaml`: `<project-folder>/.wiremock/wiremock.yaml`
 
 Create `<service-dir>` (and its `.wiremock` parent) if it does not already exist.

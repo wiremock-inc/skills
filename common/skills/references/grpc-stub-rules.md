@@ -42,11 +42,15 @@ which gRPC status code to return to the caller.
 "headers": {
   "grpc-status-name": "NOT_FOUND",
   "grpc-status-reason": "order not found"
-}
+},
+"body": "null"
 ```
 
-Error responses must NOT include a response body — the body is ignored by WireMock Cloud when
-`grpc-status-name` is anything other than `OK`.
+Error responses must set `"body": "null"` (the JSON null literal as a string). Omitting the body
+triggers a `GRPC_VALIDATION` error (`unknown found, [object, null] expected`) even though the
+client still receives the gRPC status. Do **not** use an empty object (`"{}"`) or a message-shaped
+body — WireMock Cloud ignores non-null bodies when `grpc-status-name` is anything other than `OK`,
+and a non-null body can still fail schema validation.
 
 Valid `grpc-status-name` values (from the gRPC status code set): `OK`, `CANCELLED`, `UNKNOWN`,
 `INVALID_ARGUMENT`, `NOT_FOUND`, `ALREADY_EXISTS`, `PERMISSION_DENIED`, `UNAUTHENTICATED`,
@@ -186,7 +190,8 @@ For methods that return a single resource (e.g. `GetOrder`), the fallback return
     "headers": {
       "grpc-status-name": "NOT_FOUND",
       "grpc-status-reason": "order not found"
-    }
+    },
+    "body": "null"
   }
 }
 ```
@@ -229,6 +234,12 @@ folder. WireMock Cloud itself does not care what the file is named on disk.
 Generating or copying the descriptor set into place is owned by the calling skill (e.g.
 `build-grpc-simulation` Step 4) — do not invent an alternate layout here.
 
+## Stub Mappings File
+
+Save stub mappings as **JSON** at `.wiremock/<service-name>/stub-mappings.json` (root key
+`mappings`). The MCP `push` tool (`type: "stub_mappings"`) parses the file as JSON — YAML
+content will fail with a parse error even if the filename ends in `.yaml`.
+
 ## wiremock.yaml
 
 For a gRPC mock API, the service `type` in `wiremock.yaml` must be `gRPC` (not `REST`). See the
@@ -241,5 +252,5 @@ calling skill's Project Folder Layout for the full file structure.
 - Do NOT omit `grpc-status-name` from response headers — WireMock Cloud will not know how to
   encode the gRPC response.
 - Do NOT use body patterns without `"priority": 1` — they will silently lose to the fallback stub.
-- Do NOT add a body to error responses (`grpc-status-name` ≠ `OK`) — the body is ignored and
-  may trigger a `GRPC_VALIDATION` error.
+- Do NOT omit `body` on error responses (`grpc-status-name` ≠ `OK`) — use `"body": "null"`.
+  Omitting it triggers `GRPC_VALIDATION`; a message-shaped body is also wrong.
