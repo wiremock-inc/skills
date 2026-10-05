@@ -4,6 +4,8 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-plugins.js"
+    "build": "node scripts/build-plugins.js",
+    "test": "node scripts/test-example-secrets.js",
+    "check-version": "node scripts/check-version-bump.js"
   }
 }

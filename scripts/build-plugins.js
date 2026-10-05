@@ -35,6 +35,8 @@ const { findExampleSecrets } = require('./utils/example-secrets');
 const ROOT = path.join(__dirname, '..');
 const COMMON_SKILLS_DIR = path.join(ROOT, 'common', 'skills');
 const VARIANTS_DIR = path.join(ROOT, 'variants');
+// Top-level folders a variant's outputRoot may never be, since the build deletes it wholesale.
+const RESERVED_ROOTS = new Set(['common', 'variants', 'scripts', 'node_modules', 'todos', 'assets']);
 const PACKAGE = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 
 // Copied into each Claude plugin root when present: the license is shared by every plugin,
@@ -54,7 +56,8 @@ const VARIANT_SECTION_RE = /^[ \t]*# @variant:(\S+)/;
 const GENERATED_BANNER =
   '<!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->\n';
 
-// Per-target conventions for the "open-standard" plugin kind. `mcpOutputPath` and
+// Per-target conventions: `claude` for the "claude-plugin" kind, the rest for "open-standard".
+// `mcpOutputPath` and
 // `manifestRelPath` are relative to the variant's own outputRoot; `marketplacePath` is
 // relative to the repo root and shared by every variant with that target.
 const TARGET_DEFAULTS = {
@@ -83,7 +86,8 @@ const TARGET_DEFAULTS = {
     buildMarketplace: (entries) => ({
       name: MARKETPLACE_NAME,
       owner: MARKETPLACE_OWNER,
-      metadata: MARKETPLACE_METADATA,
+      // Claude Code pins installs to plugin.json's version, so the marketplace reports the same one
+      metadata: { ...MARKETPLACE_METADATA, version: PACKAGE.version },
       plugins: entries.map(e => ({ name: e.pluginName, description: e.description, source: `./${e.outputRoot}` }))
     })
   },
@@ -173,6 +177,20 @@ function loadVariants() {
     configs.set(name, JSON.parse(fs.readFileSync(configPath, 'utf8')));
   }
 
+  // Each build wipes every variant's whole outputRoot, so it must be its own top-level folder:
+  // never the repo root, a source folder, outside the repo, or shared with another variant.
+  const outputRoots = new Map();
+  for (const [name, config] of configs) {
+    const outputRoot = config.outputRoot;
+    if (typeof outputRoot !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(outputRoot) || RESERVED_ROOTS.has(outputRoot)) {
+      throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `"outputRoot" must be a single non-reserved top-level folder name, got ${JSON.stringify(outputRoot)}`);
+    }
+    if (outputRoots.has(outputRoot)) {
+      throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `"outputRoot" "${outputRoot}" is also used by variant "${outputRoots.get(outputRoot)}"`);
+    }
+    outputRoots.set(outputRoot, name);
+  }
+
   return names.map(name => {
     const config = configs.get(name);
     const kind = config.kind || 'claude-plugin';
@@ -194,6 +212,9 @@ function loadVariants() {
       if (!fs.existsSync(path.join(VARIANTS_DIR, name, 'README.md'))) {
         throw new BuildError(path.join(VARIANTS_DIR, name, 'README.md'), name, 'missing README.md (copied to the plugin root)');
       }
+    }
+    if (kind !== 'claude-plugin' && config.target === 'claude') {
+      throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, '"target": "claude" is only valid for claude-plugin variants');
     }
     if (kind === 'open-standard' && !TARGET_DEFAULTS[config.target]) {
       throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `missing/unknown "target" (expected one of: ${Object.keys(TARGET_DEFAULTS).join(', ')})`);
@@ -471,9 +492,6 @@ function buildVariant(variant) {
   // plugin.json, no marketplace entry.
   // Every output root is fully generated, so clear the whole thing: a file dropped from the
   // build (or renamed) must not linger in the published plugin.
-  if (path.resolve(variant.outputRootAbs) === path.resolve(ROOT)) {
-    throw new BuildError(variant.outputRootAbs, variant.name, 'outputRoot must not be the repo root');
-  }
   fs.rmSync(variant.outputRootAbs, { recursive: true, force: true });
 
   const outSkillsDir = variant.kind === 'standalone'

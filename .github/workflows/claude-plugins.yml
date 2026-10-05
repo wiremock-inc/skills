@@ -1,0 +1,32 @@
+name: Claude plugins
+
+on:
+  pull_request:
+    paths:
+      - 'common/**'
+      - 'variants/**'
+      - 'scripts/**'
+      - 'claude/**'
+      - 'claude-local/**'
+      - '.claude-plugin/**'
+      - 'package.json'
+      - 'LICENSE'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Test example-secret redaction
+        run: npm test
+      - name: Build is up to date
+        run: |
+          npm run build
+          git diff --exit-code || { echo "::error::Generated output is stale. Run npm run build and commit the result."; exit 1; }
+      - name: Version bumped when Claude plugins change
+        run: npm run check-version -- origin/${{ github.base_ref }}

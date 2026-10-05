@@ -89,9 +89,9 @@ Skill content is authored once in `common/skills/` and built into all plugins by
 
 Each Claude plugin folder is self-contained, as Anthropic's plugin directory requires: the build writes its `.claude-plugin/plugin.json`, copies its `README.md` from `variants/<variant>/README.md`, and copies the shared root `LICENSE` and `assets/icon.svg` (or `icon.png`) when they exist. The build owns every plugin output folder entirely and clears it on each run, so put hand-written content in `common/` or `variants/`, never in the generated folders.
 
-The Claude plugin version comes from `version` in `package.json`. Claude Code keeps users on an installed version until it changes, so bump it whenever you ship changes to the Claude plugins.
+The Claude plugin version comes from `version` in `package.json`. Claude Code keeps users on an installed version until it changes, so bump it whenever the Claude plugins change. `npm run check-version` (run in CI on pull requests) fails if `claude/`, `claude-local/` or `.claude-plugin/` changed without a version increase.
 
-Docs synced by `scripts/sync-wiremock-cloud-docs.js` have credential-like example values (PEM bodies, API keys, passwords, tokens) rewritten to placeholders such as `<YOUR_API_KEY>` by `scripts/utils/example-secrets.js`, and the build fails if any remain.
+Docs synced by `scripts/sync-wiremock-cloud-docs.js` have credential-like example values (PEM bodies, API keys, passwords, tokens, and recognisable formats such as JWTs and AWS/GitHub keys) rewritten to placeholders such as `<YOUR_API_KEY>` by `scripts/utils/example-secrets.js`. The build fails if any value matching those rules remains in `common/skills/`. `npm test` checks the rules against known examples; add a case there when you change them.
 
 ## License
 
