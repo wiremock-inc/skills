@@ -60,3 +60,7 @@ The hosted MCP server needs nothing installed on your machine. If you'd rather r
 - Support: https://www.wiremock.io/contact-now or support@wiremock.io
 - Privacy policy: https://www.wiremock.io/privacy-policy
 - Source: https://github.com/wiremock-inc/skills
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).

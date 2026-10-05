@@ -92,3 +92,7 @@ Each Claude plugin folder is self-contained, as Anthropic's plugin directory req
 The Claude plugin version comes from `version` in `package.json`. Claude Code keeps users on an installed version until it changes, so bump it whenever you ship changes to the Claude plugins.
 
 Docs synced by `scripts/sync-wiremock-cloud-docs.js` have credential-like example values (PEM bodies, API keys, passwords, tokens) rewritten to placeholders such as `<YOUR_API_KEY>` by `scripts/utils/example-secrets.js`, and the build fails if any remain.
+
+## License
+
+This repository and the plugins built from it are licensed under the [Apache License 2.0](LICENSE).

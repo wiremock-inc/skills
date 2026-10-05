@@ -37,3 +37,7 @@ The documentation under `skills/search-wiremock-cloud-docs/references/` is refer
 - Support: https://www.wiremock.io/contact-now or support@wiremock.io
 - Privacy policy: https://www.wiremock.io/privacy-policy
 - Source: https://github.com/wiremock-inc/skills
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).

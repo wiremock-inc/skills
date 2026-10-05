@@ -10,6 +10,7 @@
   },
   "homepage": "https://docs.wiremock.io",
   "repository": "https://github.com/wiremock-inc/skills",
+  "license": "Apache-2.0",
   "keywords": [
     "wiremock",
     "api-mocking",
