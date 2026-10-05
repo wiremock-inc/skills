@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Fails when the built Claude, Codex/OpenAI or Cursor plugins changed relative to a base ref but
- * package.json's version didn't increase. Claude Code, Codex and Cursor keep users on the version in
+ * Fails when the built Claude, Codex/OpenAI, Cursor or Copilot plugins changed relative to a base ref but
+ * package.json's version didn't increase. Plugin clients use that version to detect updates (Claude Code
+ * and Codex pin installs to it)
  * plugin.json, so shipping changed plugin content under an unchanged version means existing
  * installs never receive it.
  *
@@ -14,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const VERSIONED_PLUGIN_PATHS = ['claude', 'claude-local', '.claude-plugin', 'codex', 'codex-local', '.agents/plugins', 'cursor', 'cursor-local', '.cursor-plugin'];
+const VERSIONED_PLUGIN_PATHS = ['claude', 'claude-local', '.claude-plugin', 'codex', 'codex-local', '.agents/plugins', 'cursor', 'cursor-local', '.cursor-plugin', 'copilot', 'copilot-local', '.github/plugin'];
 
 function git(...args) {
   return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();

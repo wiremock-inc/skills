@@ -18,6 +18,7 @@
     "mcp",
     "testing"
   ],
+  "icon": "./icon.png",
   "documentationUrl": "https://docs.wiremock.io",
   "supportUrl": "https://www.wiremock.io/contact-now",
   "privacyPolicyUrl": "https://www.wiremock.io/privacy-policy"

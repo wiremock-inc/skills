@@ -39,13 +39,8 @@ const VARIANTS_DIR = path.join(ROOT, 'variants');
 const RESERVED_ROOTS = new Set(['common', 'variants', 'scripts', 'node_modules', 'todos', 'assets', 'docs', 'dist']);
 const PACKAGE = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 
-// Copied into each Claude plugin root when present: the license is shared by every plugin,
-// the icon is the directory-listing icon referenced from plugin.json.
-const CLAUDE_SHARED_FILES = [
-  { from: path.join(ROOT, 'LICENSE'), to: 'LICENSE' },
-  { from: path.join(ROOT, 'assets', 'icon.svg'), to: 'icon.svg', manifestKey: 'icon' },
-  { from: path.join(ROOT, 'assets', 'icon.png'), to: 'icon.png', manifestKey: 'icon' }
-];
+// The approved WireMock logo mark (see assets/README.md): the one source for every listing logo/icon.
+const SHARED_LOGO = path.join(ROOT, 'assets', 'wiremock-logo.png');
 
 const TEXT_EXTENSIONS = new Set(['.md', '.json', '.yaml', '.yml', '.py', '.sh']);
 
@@ -86,8 +81,7 @@ const TARGET_DEFAULTS = {
     buildMarketplace: (entries) => ({
       name: MARKETPLACE_NAME,
       owner: MARKETPLACE_OWNER,
-      // Claude Code pins installs to plugin.json's version, so the marketplace reports the same one
-      metadata: { ...MARKETPLACE_METADATA, version: PACKAGE.version },
+      metadata: MARKETPLACE_METADATA,
       plugins: entries.map(e => ({ name: e.pluginName, description: e.description, source: `./${e.outputRoot}` }))
     })
   },
@@ -115,7 +109,7 @@ const TARGET_DEFAULTS = {
     buildMarketplace: (entries) => ({
       name: MARKETPLACE_NAME,
       owner: MARKETPLACE_OWNER,
-      metadata: { ...MARKETPLACE_METADATA, version: PACKAGE.version },
+      metadata: MARKETPLACE_METADATA,
       // The official schema allows only name/source/description (+minClientVersions) per entry;
       // the version lives in each plugin.json.
       plugins: entries.map(e => ({ name: e.pluginName, description: e.description, source: `./${e.outputRoot}` }))
@@ -157,12 +151,12 @@ const TARGET_DEFAULTS = {
     manifestRelPath: 'plugin.json',
     mcpOutputPath: '.mcp.json',
     marketplacePath: path.join(ROOT, '.github', 'plugin', 'marketplace.json'),
-    buildManifest: (v) => ({ name: v.pluginName, description: v.description, version: '1.0.0', skills: 'skills/', mcpServers: '.mcp.json' }),
+    buildManifest: (v) => ({ name: v.pluginName, description: v.description, version: PACKAGE.version, skills: 'skills/', mcpServers: '.mcp.json' }),
     buildMarketplace: (entries) => ({
       name: MARKETPLACE_NAME,
       owner: MARKETPLACE_OWNER,
       metadata: MARKETPLACE_METADATA,
-      plugins: entries.map(e => ({ name: e.pluginName, description: e.description, version: '1.0.0', source: `./${e.outputRoot}` }))
+      plugins: entries.map(e => ({ name: e.pluginName, description: e.description, version: PACKAGE.version, source: `./${e.outputRoot}` }))
     })
   }
 };
@@ -173,7 +167,7 @@ const PORTABLE_KINDS = new Set(['open-standard', 'standalone']);
 
 const MARKETPLACE_NAME = 'wiremock-inc-skills';
 const MARKETPLACE_OWNER = { name: 'WireMock Inc', email: 'info@wiremock.io' };
-const MARKETPLACE_METADATA = { description: 'Agent skills for API simulation and testing with WireMock Cloud', version: '1.0.0' };
+const MARKETPLACE_METADATA = { description: 'Agent skills for API simulation and testing with WireMock Cloud', version: PACKAGE.version };
 
 class BuildError extends Error {
   constructor(filePath, variantName, message) {
@@ -487,22 +481,13 @@ function copyTree(srcDir, destDir, variant) {
 
 /**
  * Copy the plugin-root files a Claude plugin ships besides skills/ and .mcp.json: the variant's
- * own README.md, plus the shared LICENSE / icon when they exist.
- * @returns {Object<string, string>} manifest fields pointing at the copied files (e.g. icon)
+ * own README.md, the shared LICENSE, and the shared logo as the directory-listing icon.
+ * @returns {{icon: string}} the icon path plugin.json references
  */
 function writeClaudeRootFiles(variant) {
   fs.copyFileSync(path.join(VARIANTS_DIR, variant.name, 'README.md'), path.join(variant.outputRootAbs, 'README.md'));
-
-  const extras = {};
-  for (const { from, to, manifestKey } of CLAUDE_SHARED_FILES) {
-    if (!fs.existsSync(from)) continue;
-    if (manifestKey && extras[manifestKey]) {
-      throw new BuildError(from, variant.name, `more than one file provides "${manifestKey}"`);
-    }
-    fs.copyFileSync(from, path.join(variant.outputRootAbs, to));
-    if (manifestKey) extras[manifestKey] = `./${to}`;
-  }
-  return extras;
+  fs.copyFileSync(path.join(ROOT, 'LICENSE'), path.join(variant.outputRootAbs, 'LICENSE'));
+  return { icon: `./${copySharedLogo(variant, 'icon.png')}` };
 }
 
 /**
@@ -525,9 +510,6 @@ function assertNoExampleSecrets(dir) {
 
 const AGENT_PLUGINS_SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json';
 const AGENT_PLUGINS_MCP_SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json';
-
-// The approved WireMock logo mark (see assets/README.md): the one source for every listing logo.
-const SHARED_LOGO = path.join(ROOT, 'assets', 'wiremock-logo.png');
 
 /**
  * Copy the shared logo into a plugin at `rel` (relative to its root).
