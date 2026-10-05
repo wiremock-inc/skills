@@ -86,3 +86,9 @@ Skill content is authored once in `common/skills/` and built into all plugins by
 | Codex CLI | `codex/` | `codex-local/` | `.agents/plugins/marketplace.json` |
 | GitHub Copilot | `copilot/` | `copilot-local/` | `.github/plugin/marketplace.json` |
 | Other tools (manual copy) | `skills/` (+ `.mcp.json`) | `local-skills/` | _none — not plugin-packaged_ |
+
+Each Claude plugin folder is self-contained, as Anthropic's plugin directory requires: the build writes its `.claude-plugin/plugin.json`, copies its `README.md` from `variants/<variant>/README.md`, and copies the shared root `LICENSE` and `assets/icon.svg` (or `icon.png`) when they exist. The build owns every plugin output folder entirely and clears it on each run, so put hand-written content in `common/` or `variants/`, never in the generated folders.
+
+The Claude plugin version comes from `version` in `package.json`. Claude Code keeps users on an installed version until it changes, so bump it whenever you ship changes to the Claude plugins.
+
+Docs synced by `scripts/sync-wiremock-cloud-docs.js` have credential-like example values (PEM bodies, API keys, passwords, tokens) rewritten to placeholders such as `<YOUR_API_KEY>` by `scripts/utils/example-secrets.js`, and the build fails if any remain.

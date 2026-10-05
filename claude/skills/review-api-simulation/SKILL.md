@@ -14,7 +14,7 @@ allowed-tools:
   - "mcp__plugin_wiremock-cloud_wiremock__get_mock_api_settings"
   - "mcp__plugin_wiremock-cloud_wiremock__pull"
   - "mcp__plugin_wiremock-cloud_wiremock__update_mock_api_settings"
-  - Bash(npx @wiremock/arazzo-runner:*)
+  - Bash(npx @wiremock/arazzo-runner@1.4.0:*)
 ---
 
 <!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
@@ -40,7 +40,7 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 Whenever this skill says to "run the Arazzo workflows", invoke the CLI directly:
 
 ```
-npx @wiremock/arazzo-runner run <arazzo-path> -b <source-name>=<base-url> [-a <auth-config-file>]... -r <report-path> --no-interactive
+npx @wiremock/arazzo-runner@1.4.0 run <arazzo-path> -b <source-name>=<base-url> [-a <auth-config-file>]... -r <report-path> --no-interactive
 ```
 
 - `<source-name>` must match a name in the Arazzo document's `sourceDescriptions`. Pass `-b` once per source if there are multiple.

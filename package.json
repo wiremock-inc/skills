@@ -1,5 +1,6 @@
 {
   "name": "wiremock-cloud-skills",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "build": "node scripts/build-plugins.js"

@@ -162,7 +162,7 @@ will output the full PEM-encoded certificate including headers:
 
 ```
 -----BEGIN CERTIFICATE-----
-MIIBkTCB+wIGAZO...
+<YOUR_CERTIFICATE_BASE64>
 -----END CERTIFICATE-----
 ```
 

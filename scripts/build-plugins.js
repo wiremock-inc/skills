@@ -7,7 +7,10 @@
  * Three kinds of variant:
  *   - "claude-plugin"  (default): the existing wiremock-cloud / wiremock-cloud-local
  *     Claude Code plugins — skill frontmatter (incl. `allowed-tools`, `model`) is passed
- *     through untouched.
+ *     through untouched. Each is a self-contained plugin folder (the Claude directory
+ *     submits one folder at a time): `.claude-plugin/plugin.json`, the variant's README.md,
+ *     and the shared LICENSE / assets/icon.* when present, aggregated into the root
+ *     `.claude-plugin/marketplace.json` by name/source only.
  *   - "open-standard": portable plugins for Cursor / Codex CLI / GitHub Copilot, built from
  *     the same source but with Claude-only frontmatter (`allowed-tools`, `model`) and the
  *     Claude-only `${CLAUDE_SKILL_DIR}` env var stripped, since neither is part of the open
@@ -23,6 +26,7 @@ const fs = require('fs');
 const path = require('path');
 
 const { ensureDir } = require('./utils/docs-utils');
+const { findExampleSecrets } = require('./utils/example-secrets');
 
 // ============================================================================
 // CONFIGURATION
@@ -31,6 +35,15 @@ const { ensureDir } = require('./utils/docs-utils');
 const ROOT = path.join(__dirname, '..');
 const COMMON_SKILLS_DIR = path.join(ROOT, 'common', 'skills');
 const VARIANTS_DIR = path.join(ROOT, 'variants');
+const PACKAGE = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+
+// Copied into each Claude plugin root when present: the license is shared by every plugin,
+// the icon is the directory-listing icon referenced from plugin.json.
+const CLAUDE_SHARED_FILES = [
+  { from: path.join(ROOT, 'LICENSE'), to: 'LICENSE' },
+  { from: path.join(ROOT, 'assets', 'icon.svg'), to: 'icon.svg', manifestKey: 'icon' },
+  { from: path.join(ROOT, 'assets', 'icon.png'), to: 'icon.png', manifestKey: 'icon' }
+];
 
 const TEXT_EXTENSIONS = new Set(['.md', '.json', '.yaml', '.yml', '.py', '.sh']);
 
@@ -45,6 +58,35 @@ const GENERATED_BANNER =
 // `manifestRelPath` are relative to the variant's own outputRoot; `marketplacePath` is
 // relative to the repo root and shared by every variant with that target.
 const TARGET_DEFAULTS = {
+  // Claude Code plugins. Directory-listing fields (icon, privacyPolicyUrl, ...) are only valid
+  // in plugin.json, so the marketplace entry carries nothing but name/description/source;
+  // skills/ and .mcp.json sit at their default locations and need no manifest key.
+  claude: {
+    manifestRelPath: path.join('.claude-plugin', 'plugin.json'),
+    mcpOutputPath: '.mcp.json',
+    marketplacePath: path.join(ROOT, '.claude-plugin', 'marketplace.json'),
+    buildManifest: (v, extras) => ({
+      name: v.pluginName,
+      displayName: v.displayName,
+      version: PACKAGE.version,
+      description: v.description,
+      author: { name: MARKETPLACE_OWNER.name, email: MARKETPLACE_OWNER.email, url: 'https://www.wiremock.io' },
+      homepage: 'https://docs.wiremock.io',
+      repository: 'https://github.com/wiremock-inc/skills',
+      license: PACKAGE.license,
+      keywords: ['wiremock', 'api-mocking', 'api-simulation', 'mcp', 'testing'],
+      icon: extras.icon,
+      documentationUrl: 'https://docs.wiremock.io',
+      supportUrl: 'https://www.wiremock.io/contact-now',
+      privacyPolicyUrl: 'https://www.wiremock.io/privacy-policy'
+    }),
+    buildMarketplace: (entries) => ({
+      name: MARKETPLACE_NAME,
+      owner: MARKETPLACE_OWNER,
+      metadata: MARKETPLACE_METADATA,
+      plugins: entries.map(e => ({ name: e.pluginName, description: e.description, source: `./${e.outputRoot}` }))
+    })
+  },
   cursor: {
     manifestRelPath: path.join('.cursor-plugin', 'plugin.json'),
     mcpOutputPath: 'mcp.json',
@@ -140,8 +182,18 @@ function loadVariants() {
         throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `missing required field "${field}"`);
       }
     }
-    if (kind === 'claude-plugin' && !config.toolPrefix) {
-      throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, 'missing required field "toolPrefix"');
+    if (kind === 'claude-plugin') {
+      for (const field of ['toolPrefix', 'displayName', 'description']) {
+        if (!config[field]) {
+          throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `missing required field "${field}"`);
+        }
+      }
+      if (config.target !== 'claude') {
+        throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, '"target" must be "claude" for claude-plugin variants');
+      }
+      if (!fs.existsSync(path.join(VARIANTS_DIR, name, 'README.md'))) {
+        throw new BuildError(path.join(VARIANTS_DIR, name, 'README.md'), name, 'missing README.md (copied to the plugin root)');
+      }
     }
     if (kind === 'open-standard' && !TARGET_DEFAULTS[config.target]) {
       throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, `missing/unknown "target" (expected one of: ${Object.keys(TARGET_DEFAULTS).join(', ')})`);
@@ -177,6 +229,7 @@ function loadVariants() {
       // `backend` field.
       backend: config.backend,
       pluginName: config.pluginName,
+      displayName: config.displayName,
       description: config.description,
       toolPrefix: config.toolPrefix,
       outputRootAbs: path.join(ROOT, config.outputRoot),
@@ -375,21 +428,60 @@ function copyTree(srcDir, destDir, variant) {
 // MAIN
 // ============================================================================
 
+/**
+ * Copy the plugin-root files a Claude plugin ships besides skills/ and .mcp.json: the variant's
+ * own README.md, plus the shared LICENSE / icon when they exist.
+ * @returns {Object<string, string>} manifest fields pointing at the copied files (e.g. icon)
+ */
+function writeClaudeRootFiles(variant) {
+  fs.copyFileSync(path.join(VARIANTS_DIR, variant.name, 'README.md'), path.join(variant.outputRootAbs, 'README.md'));
+
+  const extras = {};
+  for (const { from, to, manifestKey } of CLAUDE_SHARED_FILES) {
+    if (!fs.existsSync(from)) continue;
+    if (manifestKey && extras[manifestKey]) {
+      throw new BuildError(from, variant.name, `more than one file provides "${manifestKey}"`);
+    }
+    fs.copyFileSync(from, path.join(variant.outputRootAbs, to));
+    if (manifestKey) extras[manifestKey] = `./${to}`;
+  }
+  return extras;
+}
+
+/**
+ * Fail before any output is touched if a source file still carries a credential-like example
+ * value (normally redacted at docs-sync time — see scripts/utils/example-secrets.js).
+ */
+function assertNoExampleSecrets(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const srcPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      assertNoExampleSecrets(srcPath);
+    } else if (isTextFile(srcPath)) {
+      const secrets = findExampleSecrets(fs.readFileSync(srcPath, 'utf8'));
+      if (secrets.length > 0) {
+        throw new BuildError(srcPath, null, `credential-like example value(s) must be placeholders: ${secrets.join(' | ')}`);
+      }
+    }
+  }
+}
+
 function buildVariant(variant) {
   // "standalone" variants ARE a bare skills/ tree — no nested skills/ subfolder, no
   // plugin.json, no marketplace entry.
+  // Every output root is fully generated, so clear the whole thing: a file dropped from the
+  // build (or renamed) must not linger in the published plugin.
+  if (path.resolve(variant.outputRootAbs) === path.resolve(ROOT)) {
+    throw new BuildError(variant.outputRootAbs, variant.name, 'outputRoot must not be the repo root');
+  }
+  fs.rmSync(variant.outputRootAbs, { recursive: true, force: true });
+
   const outSkillsDir = variant.kind === 'standalone'
     ? variant.outputRootAbs
     : path.join(variant.outputRootAbs, 'skills');
-  fs.rmSync(outSkillsDir, { recursive: true, force: true });
   copyTree(COMMON_SKILLS_DIR, outSkillsDir, variant);
 
-  if (variant.kind === 'claude-plugin') {
-    const mcpDescriptor = fs.readFileSync(variant.mcpJsonPath, 'utf8');
-    const mcpDest = path.join(variant.outputRootAbs, '.mcp.json');
-    ensureDir(path.dirname(mcpDest));
-    fs.writeFileSync(mcpDest, mcpDescriptor, 'utf8');
-  } else if (variant.kind === 'open-standard') {
+  if (variant.kind === 'claude-plugin' || variant.kind === 'open-standard') {
     const mcpDescriptor = fs.readFileSync(variant.mcpJsonPath, 'utf8');
     const targetDefaults = TARGET_DEFAULTS[variant.target];
 
@@ -397,9 +489,11 @@ function buildVariant(variant) {
     ensureDir(path.dirname(mcpDest));
     fs.writeFileSync(mcpDest, mcpDescriptor, 'utf8');
 
+    const extras = variant.kind === 'claude-plugin' ? writeClaudeRootFiles(variant) : {};
+
     const manifestDest = path.join(variant.outputRootAbs, targetDefaults.manifestRelPath);
     ensureDir(path.dirname(manifestDest));
-    fs.writeFileSync(manifestDest, JSON.stringify(targetDefaults.buildManifest(variant), null, 2) + '\n', 'utf8');
+    fs.writeFileSync(manifestDest, JSON.stringify(targetDefaults.buildManifest(variant, extras), null, 2) + '\n', 'utf8');
   } else if (variant.mcpDest) {
     const mcpDescriptor = fs.readFileSync(variant.mcpJsonPath, 'utf8');
     const mcpDest = path.join(ROOT, variant.mcpDest);
@@ -411,9 +505,9 @@ function buildVariant(variant) {
 }
 
 function writeMarketplaces(variants) {
-  const openStandardVariants = variants.filter(v => v.kind === 'open-standard');
+  const pluginVariants = variants.filter(v => v.kind === 'claude-plugin' || v.kind === 'open-standard');
   const byTarget = new Map();
-  for (const variant of openStandardVariants) {
+  for (const variant of pluginVariants) {
     if (!byTarget.has(variant.target)) byTarget.set(variant.target, []);
     byTarget.get(variant.target).push(variant);
   }
@@ -437,6 +531,7 @@ function main() {
     process.exit(1);
   }
 
+  assertNoExampleSecrets(COMMON_SKILLS_DIR);
   for (const variant of variants) {
     buildVariant(variant);
   }

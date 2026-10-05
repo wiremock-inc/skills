@@ -113,7 +113,7 @@ paths:
                   port: 5432
                   databaseName: my-test-data
                   username: alice
-                  password: mysecretpassword
+                  password: <YOUR_PASSWORD>
       responses:
         '200':
           $ref: '#/components/responses/TestDatabaseConnectionResponse'

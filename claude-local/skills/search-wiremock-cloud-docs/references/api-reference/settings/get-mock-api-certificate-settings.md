@@ -153,17 +153,17 @@ paths:
                 certificate:
                   rsa256PublicKey: |-
                     -----BEGIN RSA PUBLIC KEY-----
-                    MIIBIjANBg...kCAwEAAQ==
+                    <YOUR_RSA_PUBLIC_KEY_BASE64>
                     -----END RSA PUBLIC KEY-----
                   rsa256PrivateKey: |-
                     -----BEGIN RSA PRIVATE KEY-----
-                    MIIEvQIBAD...eXuQIDAQAB
+                    <YOUR_RSA_PRIVATE_KEY_BASE64>
                     -----END RSA PRIVATE KEY-----
                   x509Certificate: |-
                     -----BEGIN CERTIFICATE-----
-                    MIICpDCCAY...AwggEKAgEA
+                    <YOUR_CERTIFICATE_BASE64>
                     -----END CERTIFICATE-----
-                  hmacSecret: sup3r-s3cr3t-hmac-k3y
+                  hmacSecret: <YOUR_HMAC_SECRET>
         '401':
           $ref: '#/components/responses/401'
         '403':

@@ -52,13 +52,13 @@ authenticators:
     type: "header_token"
     headerName: "Authorization"
     prefix: "Bearer"
-    token: "your-secret-token"
+    token: "<YOUR_TOKEN>"
   
   "internal-api.company.com:8080":
     type: "header_token"
     headerName: "x-api-key"
     prefix: "Token"
-    token: "very-secret-123"
+    token: "<YOUR_TOKEN>"
 ```
 
 ## Supported Authenticator Types
@@ -83,16 +83,16 @@ authenticators:
     type: "header_token"
     headerName: "Authorization"
     prefix: "Bearer"
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    token: "<YOUR_TOKEN>"
   
   "api.service.com":
     type: "header_token"
     headerName: "X-API-Key"
     prefix: ""
-    token: "sk-1234567890abcdef"
+    token: "<YOUR_TOKEN>"
 ```
 
 **Generated Header Examples**:
 
-* With prefix: `Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
-* Without prefix: `X-API-Key: sk-1234567890abcdef`
+* With prefix: `Authorization: Bearer <YOUR_TOKEN>`
+* Without prefix: `X-API-Key: <YOUR_API_KEY>`
