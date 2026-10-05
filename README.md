@@ -52,6 +52,25 @@ or, for the local MCP server variant:
 
 or, for the local MCP server variant, `/plugin install wiremock-cloud-local@wiremock-inc-skills`. Run `/reload-plugins` afterwards.
 
+Install either `wiremock-cloud` or `wiremock-cloud-local`, not both. Both register an MCP server named `wiremock`.
+
+**Hosted plugin (`wiremock-cloud`).** Nothing needs installing locally. The plugin connects to `https://mcp.wiremock.cloud/mcp`.
+
+1. Install `wiremock-cloud` as above.
+2. Reload plugins (`/reload-plugins`) or restart Cursor.
+3. Open **Customize** (or Cursor's MCP settings) and select the `wiremock` MCP server.
+4. Choose **Authenticate** and complete the WireMock Cloud OAuth sign-in in your browser.
+5. Return to Cursor and confirm the server shows as **Connected**.
+
+**Local plugin (`wiremock-cloud-local`).** The MCP server runs on your machine through the WireMock CLI.
+
+1. Install the CLI with `npm i -g @wiremock/cli`, then sign in with `wiremock login`.
+2. Install `wiremock-cloud-local` as above, then reload plugins or restart Cursor. Cursor starts `wiremock mcp` for you.
+
+**Smoke test.** Ask *"List my WireMock Cloud mock APIs"*. This is a read-only call, so it creates nothing. Then ask *"How do I add a delay to a WireMock stub?"*, which the docs skill should answer from the WireMock Cloud documentation. You should see your mock APIs and a grounded answer.
+
+[MCP installation docs](https://docs.wiremock.io/ai-mcp/installation) · [Support](https://www.wiremock.io/contact-now) · [Report an issue](https://github.com/wiremock-inc/skills/issues) · [Privacy policy](https://www.wiremock.io/privacy-policy) · [Terms](https://www.wiremock.io/terms-and-conditions)
+
 ### Codex CLI
 
 ```

@@ -8,9 +8,11 @@
     "test": "node scripts/test-example-secrets.js && node scripts/test-validate-openai-plugin.mjs",
     "check-version": "node scripts/check-version-bump.js",
     "validate:openai": "node scripts/validate-openai-plugin.mjs",
-    "package:openai": "npm run build && node scripts/validate-openai-plugin.mjs --release && node scripts/package-openai-plugin.mjs"
+    "package:openai": "npm run build && node scripts/validate-openai-plugin.mjs --release && node scripts/package-openai-plugin.mjs",
+    "validate:cursor": "node scripts/validate-cursor-plugins.mjs"
   },
   "devDependencies": {
-    "ajv": "8.20.0"
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
   }
 }

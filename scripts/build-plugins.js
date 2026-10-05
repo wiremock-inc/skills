@@ -91,17 +91,36 @@ const TARGET_DEFAULTS = {
       plugins: entries.map(e => ({ name: e.pluginName, description: e.description, source: `./${e.outputRoot}` }))
     })
   },
+  // Cursor Marketplace. Validated against the pinned official schema by scripts/validate-cursor-plugins.mjs.
   cursor: {
     manifestRelPath: path.join('.cursor-plugin', 'plugin.json'),
     mcpOutputPath: 'mcp.json',
     marketplacePath: path.join(ROOT, '.cursor-plugin', 'marketplace.json'),
-    buildManifest: (v) => ({ name: v.pluginName, description: v.description, version: '1.0.0' }),
+    buildManifest: (v, extras) => ({
+      name: v.pluginName,
+      displayName: v.displayName,
+      description: v.description,
+      version: PACKAGE.version,
+      author: { name: MARKETPLACE_OWNER.name, email: MARKETPLACE_OWNER.email },
+      publisher: MARKETPLACE_OWNER.name,
+      homepage: 'https://www.wiremock.io',
+      repository: 'https://github.com/wiremock-inc/skills',
+      license: PACKAGE.license,
+      logo: extras.logo,
+      keywords: ['wiremock', 'api-mocking', 'api-simulation', 'testing', 'mcp'],
+      category: 'developer-tools',
+      skills: './skills/',
+      mcpServers: './mcp.json'
+    }),
     buildMarketplace: (entries) => ({
       name: MARKETPLACE_NAME,
       owner: MARKETPLACE_OWNER,
-      metadata: MARKETPLACE_METADATA,
-      plugins: entries.map(e => ({ name: e.pluginName, description: e.description, version: '1.0.0', source: `./${e.outputRoot}` }))
-    })
+      metadata: { ...MARKETPLACE_METADATA, version: PACKAGE.version },
+      // The official schema allows only name/source/description (+minClientVersions) per entry;
+      // the version lives in each plugin.json.
+      plugins: entries.map(e => ({ name: e.pluginName, description: e.description, source: `./${e.outputRoot}` }))
+    }),
+    writeExtraFiles: (v) => ({ logo: copySharedLogo(v, 'assets/logo.png') })
   },
   // Codex CLI / OpenAI. `.codex-plugin/plugin.json` + `.mcp.json` are the legacy layout older Codex
   // clients read; a variant with an `openai.json` also gets the portable Agent Plugins 1.0.0 layout
@@ -507,11 +526,28 @@ function assertNoExampleSecrets(dir) {
 const AGENT_PLUGINS_SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json';
 const AGENT_PLUGINS_MCP_SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json';
 
-// Listing images the OpenAI interface references, copied from variants/<variant>/assets/ when the
-// approved artwork exists (scripts/validate-openai-plugin.mjs --release requires both).
+// The approved WireMock logo mark (see assets/README.md): the one source for every listing logo.
+const SHARED_LOGO = path.join(ROOT, 'assets', 'wiremock-logo.png');
+
+/**
+ * Copy the shared logo into a plugin at `rel` (relative to its root).
+ * @returns {string} the copied path, as the manifest references it
+ */
+function copySharedLogo(variant, rel) {
+  if (!fs.existsSync(SHARED_LOGO)) {
+    throw new BuildError(SHARED_LOGO, variant.name, 'missing shared listing logo');
+  }
+  const dest = path.join(variant.outputRootAbs, rel);
+  ensureDir(path.dirname(dest));
+  fs.copyFileSync(SHARED_LOGO, dest);
+  return rel;
+}
+
+// Listing images the OpenAI interface references: the shared logo plus the codex variant's
+// composer icon (scripts/validate-openai-plugin.mjs --release requires both).
 const OPENAI_ASSETS = [
-  { file: 'logo.png', interfaceKey: 'logo' },
-  { file: 'composer-icon.png', interfaceKey: 'composerIcon' }
+  { src: () => SHARED_LOGO, file: 'logo.png', interfaceKey: 'logo' },
+  { src: (v) => path.join(VARIANTS_DIR, v.name, 'assets', 'composer-icon.png'), file: 'composer-icon.png', interfaceKey: 'composerIcon' }
 ];
 
 /**
@@ -524,8 +560,8 @@ function writeOpenAIPortableFiles(variant) {
   const { keywords, 'com.openai': openai } = variant.openai;
 
   const iface = { ...openai.interface };
-  for (const { file, interfaceKey } of OPENAI_ASSETS) {
-    const src = path.join(VARIANTS_DIR, variant.name, 'assets', file);
+  for (const { src: srcFor, file, interfaceKey } of OPENAI_ASSETS) {
+    const src = srcFor(variant);
     if (!fs.existsSync(src)) continue;
     ensureDir(path.join(variant.outputRootAbs, 'assets'));
     fs.copyFileSync(src, path.join(variant.outputRootAbs, 'assets', file));

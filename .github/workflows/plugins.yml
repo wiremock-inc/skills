@@ -12,6 +12,10 @@ on:
       - 'codex/**'
       - 'codex-local/**'
       - '.agents/**'
+      - 'cursor/**'
+      - 'cursor-local/**'
+      - '.cursor-plugin/**'
+      - 'assets/**'
       - 'package.json'
       - 'package-lock.json'
       - 'LICENSE'
@@ -37,5 +41,7 @@ jobs:
       # listing images and live review cases, so it runs at release time rather than on every PR.
       - name: OpenAI plugin package is valid
         run: npm run validate:openai
+      - name: Cursor plugins are valid
+        run: npm run validate:cursor
       - name: Version bumped when plugins change
         run: npm run check-version -- origin/${{ github.base_ref }}
