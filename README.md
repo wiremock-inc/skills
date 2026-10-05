@@ -60,6 +60,8 @@ codex plugin marketplace add wiremock-inc/skills
 
 then install `wiremock-cloud` (or `wiremock-cloud-local`) from the `/plugins` picker, or your Codex CLI version's equivalent install command.
 
+`codex/` is also the package submitted to OpenAI's plugin directory for ChatGPT and Codex.
+
 ### GitHub Copilot
 
 ```
@@ -86,6 +88,8 @@ Skill content is authored once in `common/skills/` and built into all plugins by
 | Codex CLI | `codex/` | `codex-local/` | `.agents/plugins/marketplace.json` |
 | GitHub Copilot | `copilot/` | `copilot-local/` | `.github/plugin/marketplace.json` |
 | Other tools (manual copy) | `skills/` (+ `.mcp.json`) | `local-skills/` | _none — not plugin-packaged_ |
+
+`codex/` has two layouts. The legacy `.codex-plugin/plugin.json` and `.mcp.json` serve existing Codex installs. The portable Agent Plugins 1.0.0 `plugin.json`, `mcp.json` and `assets/` are what the OpenAI plugin directory reads. The build generates the portable files from `variants/codex/openai.json` (listing text, links and review cases) and `variants/codex/assets/` (listing images). Both MCP files come from the same endpoint source. `npm run validate:openai` checks the package against the vendored schemas in `scripts/schemas/`, and `npm run package:openai` produces the upload ZIP in `dist/`.
 
 Each Claude plugin folder is self-contained, as Anthropic's plugin directory requires: the build writes its `.claude-plugin/plugin.json`, copies its `README.md` from `variants/<variant>/README.md`, and copies the shared root `LICENSE` and `assets/icon.svg` (or `icon.png`) when they exist. The build owns every plugin output folder entirely and clears it on each run, so put hand-written content in `common/` or `variants/`, never in the generated folders.
 

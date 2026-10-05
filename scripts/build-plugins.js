@@ -36,7 +36,7 @@ const ROOT = path.join(__dirname, '..');
 const COMMON_SKILLS_DIR = path.join(ROOT, 'common', 'skills');
 const VARIANTS_DIR = path.join(ROOT, 'variants');
 // Top-level folders a variant's outputRoot may never be, since the build deletes it wholesale.
-const RESERVED_ROOTS = new Set(['common', 'variants', 'scripts', 'node_modules', 'todos', 'assets']);
+const RESERVED_ROOTS = new Set(['common', 'variants', 'scripts', 'node_modules', 'todos', 'assets', 'docs', 'dist']);
 const PACKAGE = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 
 // Copied into each Claude plugin root when present: the license is shared by every plugin,
@@ -103,16 +103,21 @@ const TARGET_DEFAULTS = {
       plugins: entries.map(e => ({ name: e.pluginName, description: e.description, version: '1.0.0', source: `./${e.outputRoot}` }))
     })
   },
+  // Codex CLI / OpenAI. `.codex-plugin/plugin.json` + `.mcp.json` are the legacy layout older Codex
+  // clients read; a variant with an `openai.json` also gets the portable Agent Plugins 1.0.0 layout
+  // (root plugin.json + mcp.json + assets/) that the OpenAI plugin directory packages from — see
+  // writeOpenAIPortableFiles. When both exist, OpenAI reads the root plugin.json.
   codex: {
     manifestRelPath: path.join('.codex-plugin', 'plugin.json'),
     mcpOutputPath: '.mcp.json',
     marketplacePath: path.join(ROOT, '.agents', 'plugins', 'marketplace.json'),
-    buildManifest: (v) => ({
+    buildManifest: (v, extras) => ({
       name: v.pluginName,
-      version: '1.0.0',
+      version: PACKAGE.version,
       description: v.description,
       skills: './skills',
-      mcpServers: './.mcp.json'
+      mcpServers: './.mcp.json',
+      interface: extras.openaiInterface
     }),
     buildMarketplace: (entries) => ({
       name: MARKETPLACE_NAME,
@@ -120,11 +125,14 @@ const TARGET_DEFAULTS = {
       plugins: entries.map(e => ({
         name: e.pluginName,
         description: e.description,
-        version: '1.0.0',
+        version: PACKAGE.version,
         source: { source: 'local', path: `./${e.outputRoot}` },
+        // The hosted server authenticates with OAuth, so sign in when the plugin is installed
+        policy: e.backend === 'remote' ? { installation: 'AVAILABLE', authentication: 'ON_INSTALL' } : undefined,
         category: 'Productivity'
       }))
-    })
+    }),
+    writeExtraFiles: (v) => (v.openai ? writeOpenAIPortableFiles(v) : {})
   },
   copilot: {
     manifestRelPath: 'plugin.json',
@@ -162,6 +170,10 @@ class BuildError extends Error {
  * Load every variant under variants/<name>/ (config.json + mcp.json, or config.json alone
  * with `mcpSource` pointing at another variant's mcp.json).
  */
+function readOptionalJson(filePath) {
+  return fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : null;
+}
+
 function loadVariants() {
   const names = fs.readdirSync(VARIANTS_DIR, { withFileTypes: true })
     .filter(entry => entry.isDirectory())
@@ -213,6 +225,9 @@ function loadVariants() {
         throw new BuildError(path.join(VARIANTS_DIR, name, 'README.md'), name, 'missing README.md (copied to the plugin root)');
       }
     }
+    if (fs.existsSync(path.join(VARIANTS_DIR, name, 'openai.json')) && config.target !== 'codex') {
+      throw new BuildError(path.join(VARIANTS_DIR, name, 'openai.json'), name, 'openai.json is only used by codex-target variants');
+    }
     if (kind !== 'claude-plugin' && config.target === 'claude') {
       throw new BuildError(path.join(VARIANTS_DIR, name, 'config.json'), name, '"target": "claude" is only valid for claude-plugin variants');
     }
@@ -251,6 +266,8 @@ function loadVariants() {
       backend: config.backend,
       pluginName: config.pluginName,
       displayName: config.displayName,
+      // OpenAI plugin directory listing (portable Agent Plugins layout); only the codex variant has one
+      openai: readOptionalJson(path.join(VARIANTS_DIR, name, 'openai.json')),
       description: config.description,
       toolPrefix: config.toolPrefix,
       outputRootAbs: path.join(ROOT, config.outputRoot),
@@ -487,6 +504,65 @@ function assertNoExampleSecrets(dir) {
   }
 }
 
+const AGENT_PLUGINS_SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json';
+const AGENT_PLUGINS_MCP_SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json';
+
+// Listing images the OpenAI interface references, copied from variants/<variant>/assets/ when the
+// approved artwork exists (scripts/validate-openai-plugin.mjs --release requires both).
+const OPENAI_ASSETS = [
+  { file: 'logo.png', interfaceKey: 'logo' },
+  { file: 'composer-icon.png', interfaceKey: 'composerIcon' }
+];
+
+/**
+ * Write the portable Agent Plugins layout for the OpenAI plugin directory: root plugin.json (with
+ * the `extensions.com.openai` listing from variants/<variant>/openai.json), mcp.json and assets/.
+ * mcp.json is rendered from the same source as the legacy .mcp.json, so the endpoint can't drift.
+ * @returns {{openaiInterface: Object}} the listing interface, mirrored into the legacy manifest
+ */
+function writeOpenAIPortableFiles(variant) {
+  const { keywords, 'com.openai': openai } = variant.openai;
+
+  const iface = { ...openai.interface };
+  for (const { file, interfaceKey } of OPENAI_ASSETS) {
+    const src = path.join(VARIANTS_DIR, variant.name, 'assets', file);
+    if (!fs.existsSync(src)) continue;
+    ensureDir(path.join(variant.outputRootAbs, 'assets'));
+    fs.copyFileSync(src, path.join(variant.outputRootAbs, 'assets', file));
+    iface[interfaceKey] = `./assets/${file}`;
+  }
+
+  const legacyMcp = JSON.parse(fs.readFileSync(variant.mcpJsonPath, 'utf8'));
+  const mcpServers = {};
+  for (const [name, server] of Object.entries(legacyMcp.mcpServers)) {
+    if (server.type !== 'http') {
+      throw new BuildError(variant.mcpJsonPath, variant.name, `server "${name}" must be a remote "http" server for the portable mcp.json`);
+    }
+    mcpServers[name] = { ...server, type: 'streamable-http' };
+  }
+  writeJson(path.join(variant.outputRootAbs, 'mcp.json'), { $schema: AGENT_PLUGINS_MCP_SCHEMA, mcpServers });
+
+  writeJson(path.join(variant.outputRootAbs, 'plugin.json'), {
+    $schema: AGENT_PLUGINS_SCHEMA,
+    name: variant.pluginName,
+    version: PACKAGE.version,
+    description: variant.description,
+    author: { name: 'WireMock Inc.', email: MARKETPLACE_OWNER.email, url: 'https://www.wiremock.io' },
+    homepage: 'https://www.wiremock.io',
+    repository: 'https://github.com/wiremock-inc/skills',
+    license: PACKAGE.license,
+    keywords,
+    extensions: { 'com.openai': { ...openai, interface: iface } }
+  });
+
+  return { openaiInterface: iface };
+}
+
+function writeJson(dest, value) {
+  ensureDir(path.dirname(dest));
+  fs.writeFileSync(dest, JSON.stringify(value, null, 2) + '\n', 'utf8');
+}
+
 function buildVariant(variant) {
   // "standalone" variants ARE a bare skills/ tree — no nested skills/ subfolder, no
   // plugin.json, no marketplace entry.
@@ -507,7 +583,9 @@ function buildVariant(variant) {
     ensureDir(path.dirname(mcpDest));
     fs.writeFileSync(mcpDest, mcpDescriptor, 'utf8');
 
-    const extras = variant.kind === 'claude-plugin' ? writeClaudeRootFiles(variant) : {};
+    const extras = variant.kind === 'claude-plugin'
+      ? writeClaudeRootFiles(variant)
+      : (targetDefaults.writeExtraFiles ? targetDefaults.writeExtraFiles(variant) : {});
 
     const manifestDest = path.join(variant.outputRootAbs, targetDefaults.manifestRelPath);
     ensureDir(path.dirname(manifestDest));

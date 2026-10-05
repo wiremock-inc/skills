@@ -1,6 +1,7 @@
 {
   "pluginName": "wiremock-cloud",
-  "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
+  "displayName": "WireMock Cloud",
+  "description": "Build, validate, and manage WireMock Cloud API simulations with reusable agent skills and the hosted MCP server.",
   "kind": "open-standard",
   "target": "codex",
   "backend": "remote",

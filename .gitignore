@@ -1,2 +1,8 @@
 .claude
 .DS_Store
+node_modules/
+dist/
+
+# OpenAI submission runbook and review evidence: kept locally, never committed
+docs/openai-submission.md
+docs/openai-review-cases.md

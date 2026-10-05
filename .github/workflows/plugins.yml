@@ -1,4 +1,4 @@
-name: Claude plugins
+name: Plugins
 
 on:
   pull_request:
@@ -9,7 +9,11 @@ on:
       - 'claude/**'
       - 'claude-local/**'
       - '.claude-plugin/**'
+      - 'codex/**'
+      - 'codex-local/**'
+      - '.agents/**'
       - 'package.json'
+      - 'package-lock.json'
       - 'LICENSE'
 
 jobs:
@@ -22,11 +26,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Test example-secret redaction
+      - run: npm ci
+      - name: Tests (secret redaction, OpenAI validator)
         run: npm test
       - name: Build is up to date
         run: |
           npm run build
           git diff --exit-code || { echo "::error::Generated output is stale. Run npm run build and commit the result."; exit 1; }
-      - name: Version bumped when Claude plugins change
+      # Structure only: `npm run package:openai` (validate --release) needs owner inputs such as
+      # listing images and live review cases, so it runs at release time rather than on every PR.
+      - name: OpenAI plugin package is valid
+        run: npm run validate:openai
+      - name: Version bumped when plugins change
         run: npm run check-version -- origin/${{ github.base_ref }}

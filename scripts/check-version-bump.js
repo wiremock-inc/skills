@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Fails when the built Claude plugins changed relative to a base ref but package.json's version
- * didn't increase. Claude Code keeps users on the version in plugin.json, so shipping changed
- * plugin content under an unchanged version means existing installs never receive it.
+ * Fails when the built Claude or Codex/OpenAI plugins changed relative to a base ref but
+ * package.json's version didn't increase. Claude Code and Codex keep users on the version in
+ * plugin.json, so shipping changed plugin content under an unchanged version means existing
+ * installs never receive it.
  *
  * Usage: node scripts/check-version-bump.js [base-ref]   (default: origin/main)
  */
@@ -13,7 +14,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const CLAUDE_PLUGIN_PATHS = ['claude', 'claude-local', '.claude-plugin'];
+const VERSIONED_PLUGIN_PATHS = ['claude', 'claude-local', '.claude-plugin', 'codex', 'codex-local', '.agents/plugins'];
 
 function git(...args) {
   return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
@@ -36,9 +37,9 @@ function main() {
   const mergeBase = git('merge-base', baseRef, 'HEAD');
 
   // Compare the working tree, not just HEAD, so the check also covers uncommitted builds.
-  const changed = git('diff', '--name-only', mergeBase, '--', ...CLAUDE_PLUGIN_PATHS);
+  const changed = git('diff', '--name-only', mergeBase, '--', ...VERSIONED_PLUGIN_PATHS);
   if (!changed) {
-    console.log(`✅ Claude plugins unchanged since ${baseRef}; no version bump needed`);
+    console.log(`✅ Versioned plugins unchanged since ${baseRef}; no version bump needed`);
     return;
   }
 
@@ -52,11 +53,11 @@ function main() {
   if (baseParts && !isGreater(currentParts, baseParts)) {
     const files = changed.split('\n');
     throw new Error(
-      `Claude plugin content changed since ${baseRef} (${files.length} file(s), e.g. ${files[0]}) ` +
+      `Plugin content changed since ${baseRef} (${files.length} file(s), e.g. ${files[0]}) ` +
       `but package.json version is still ${current}. Bump "version" in package.json and run \`npm run build\`.`
     );
   }
-  console.log(`✅ Claude plugins changed and version bumped ${base || '(none)'} → ${current}`);
+  console.log(`✅ Versioned plugins changed and version bumped ${base || '(none)'} → ${current}`);
 }
 
 try {
