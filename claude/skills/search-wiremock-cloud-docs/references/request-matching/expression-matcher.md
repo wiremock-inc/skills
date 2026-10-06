@@ -172,7 +172,7 @@ want a stub that matches requests with EITHER a valid `X-API-Key` header OR a va
 
 ```
 POST /payments
-X-API-Key: <YOUR_API_KEY><your-api-key-here>
+X-API-Key: sk_live_<your-api-key-here>
 Content-Type: application/json
 
 {

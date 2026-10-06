@@ -50,7 +50,7 @@ authenticators:
     type: "header_token"
     headerName: "Authorization"
     prefix: "Bearer"
-    token: "<YOUR_TOKEN>"
+    token: "your-secret-token"
   
   "internal-api.company.com:8080":
     type: "header_token"

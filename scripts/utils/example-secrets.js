@@ -57,9 +57,11 @@ function pemPlaceholder(label) {
 function placeholderFor(match) {
   const key = match.split(/[:=]/)[0].toLowerCase();
   if (/password|passwd/.test(key)) return '<YOUR_PASSWORD>';
+  if (/hmac/.test(key)) return '<YOUR_HMAC_SECRET>';
   if (/secret/.test(key)) return '<YOUR_SECRET>';
   if (/private_?key/.test(key)) return '<YOUR_PRIVATE_KEY>';
   if (/api_?key|x-api-key/.test(key)) return '<YOUR_API_KEY>';
+  if (/api_?token/.test(key)) return '<YOUR_API_TOKEN>';
   return '<YOUR_TOKEN>';
 }
 
