@@ -18,6 +18,7 @@
       "skills": [
         "./skills/search-wiremock-cloud-docs",
         "./skills/build-api-simulation",
+        "./skills/build-environment",
         "./skills/create-stubs",
         "./skills/convert-to-stateful",
         "./skills/convert-to-data-driven",
@@ -35,6 +36,7 @@
       "skills": [
         "./skills/search-wiremock-cloud-docs",
         "./skills/build-api-simulation",
+        "./skills/build-environment",
         "./skills/create-stubs",
         "./skills/convert-to-stateful",
         "./skills/convert-to-data-driven",

@@ -65,6 +65,19 @@ The API name is: **$ARGUMENTS**
 
 If `$ARGUMENTS` is empty, ask the user for the API name first.
 
+### Check for an existing API template first
+
+Before anything else, check whether a ready-made API template already covers this API. A template is faster and more complete than building a simulation from scratch.
+
+1. Call `search_api_templates` with the API's provider or product name (e.g. "stripe", "plaid transactions"). The search covers the public catalogue and the user's own organisation's catalogue.
+2. If that returns nothing, call `search_api_templates` once more with no query and look through the full list — the API may be listed under a different name.
+3. **If a template matches**, tell the user which template it is (its reference, e.g. `public/stripe`, and what it covers) and use `AskUserQuestion` to offer it instead of a custom build. If they accept:
+   - **In WireMock Cloud:** call `create_mock_api` with `fromTemplate` set to the template's reference and a suitable `name`. The mock API is created fully populated.
+   - **Locally:** run `wiremock mock-apis pull --from-template=<reference>` in the project directory, then `wiremock run`.
+
+   Report the mock API's base URL and **stop** — do not continue to Step 2.
+4. **If nothing matches, or the user wants a custom build anyway**, carry on below.
+
 Only skip asking if the name unambiguously denotes a well-known public API with real, findable documentation (e.g. "Stripe", "GitHub", "Twilio") — proceed on that basis without asking. For everything else, ask the user directly whether an API by this name already exists, even if the name sounds plausible or internal (e.g. "internal invoicing service", "orders-api") — it may be an existing internal microservice within the user's own systems rather than something to invent, and that isn't something to guess at from the name alone.
 
 This determines how Step 2 and Step 3 proceed:
