@@ -1,6 +1,9 @@
 {
   "pluginName": "wiremock-cloud",
+  "displayName": "WireMock Cloud",
+  "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
   "toolPrefix": "mcp__plugin_wiremock-cloud_wiremock__",
+  "target": "claude",
   "backend": "remote",
   "outputRoot": "claude"
 }

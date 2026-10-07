@@ -146,7 +146,7 @@ components:
                   port: 5432
                   databaseName: my-test-data
                   username: alice
-                  password: mysecretpassword
+                  password: <YOUR_PASSWORD>
   responses:
     '400':
       description: 400 Bad Request response

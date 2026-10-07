@@ -21,7 +21,7 @@ Follow this process when a live sandbox/test environment is available for record
 
 1. Run the Arazzo workflows via the CLI (see Running Arazzo Workflows in the SKILL.md), overriding the source's base URL to point at the recorder:
    ```
-   npx @wiremock/arazzo-runner run <arazzo-path> -b <source-name>=http://localhost:<recorder-port> -a auth-config.yaml -r <report-path> --no-interactive
+   npx @wiremock/arazzo-runner@1.4.0 run <arazzo-path> -b <source-name>=http://localhost:<recorder-port> -a auth-config.yaml -r <report-path> --no-interactive
    ```
 
 2. **If the run fails:**

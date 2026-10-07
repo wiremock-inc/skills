@@ -1,7 +1,20 @@
 {
   "name": "wiremock-cloud-skills",
+  "version": "1.1.0",
+  "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-plugins.js"
+    "build": "node scripts/build-plugins.js",
+    "test": "node scripts/test-example-secrets.js && node scripts/test-validate-openai-plugin.mjs",
+    "validate": "npm run validate:openai && npm run validate:cursor && npm run validate:copilot",
+    "validate:openai": "node scripts/validate-openai-plugin.mjs",
+    "validate:cursor": "node scripts/validate-cursor-plugins.mjs",
+    "validate:copilot": "node scripts/validate-copilot-plugins.mjs",
+    "check-version": "node scripts/check-version-bump.js",
+    "package:openai": "npm run build && node scripts/validate-openai-plugin.mjs --release && node scripts/package-openai-plugin.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
   }
 }

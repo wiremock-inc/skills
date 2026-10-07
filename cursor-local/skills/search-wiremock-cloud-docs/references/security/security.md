@@ -20,11 +20,11 @@ By default this is secured using the API token that can be found in [https://app
 
 The token can either be sent in an Authorization header e.g.
 
-`Authorization:Token 1kj3h98f7sihjfsf`
+`Authorization:Token <YOUR_TOKEN>`
 
 or as a query parameter e.g.
 
-`https://example.wiremockapi.cloud/__admin/mappings?apiToken=1kj3h98f7sihjfsf`.
+`https://example.wiremockapi.cloud/__admin/mappings?apiToken=<YOUR_API_TOKEN>`.
 
 It is recommended that you use the header approach where possible as this reduces the risk of the key appearing in log files an browser histories.
 

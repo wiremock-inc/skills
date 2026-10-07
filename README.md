@@ -52,6 +52,25 @@ or, for the local MCP server variant:
 
 or, for the local MCP server variant, `/plugin install wiremock-cloud-local@wiremock-inc-skills`. Run `/reload-plugins` afterwards.
 
+Install either `wiremock-cloud` or `wiremock-cloud-local`, not both. Both register an MCP server named `wiremock`.
+
+**Hosted plugin (`wiremock-cloud`).** Nothing needs installing locally. The plugin connects to `https://mcp.wiremock.cloud/mcp`.
+
+1. Install `wiremock-cloud` as above.
+2. Reload plugins (`/reload-plugins`) or restart Cursor.
+3. Open **Customize** (or Cursor's MCP settings) and select the `wiremock` MCP server.
+4. Choose **Authenticate** and complete the WireMock Cloud OAuth sign-in in your browser.
+5. Return to Cursor and confirm the server shows as **Connected**.
+
+**Local plugin (`wiremock-cloud-local`).** The MCP server runs on your machine through the WireMock CLI.
+
+1. Install the CLI with `npm i -g @wiremock/cli`, then sign in with `wiremock login`.
+2. Install `wiremock-cloud-local` as above, then reload plugins or restart Cursor. Cursor starts `wiremock mcp` for you.
+
+**Smoke test.** Ask *"List my WireMock Cloud mock APIs"*. This is a read-only call, so it creates nothing. Then ask *"How do I add a delay to a WireMock stub?"*, which the docs skill should answer from the WireMock Cloud documentation. You should see your mock APIs and a grounded answer.
+
+[MCP installation docs](https://docs.wiremock.io/ai-mcp/installation) · [Support](https://www.wiremock.io/contact-now) · [Report an issue](https://github.com/wiremock-inc/skills/issues) · [Privacy policy](https://www.wiremock.io/privacy-policy) · [Terms](https://www.wiremock.io/terms-and-conditions)
+
 ### Codex CLI
 
 ```
@@ -59,6 +78,8 @@ codex plugin marketplace add wiremock-inc/skills
 ```
 
 then install `wiremock-cloud` (or `wiremock-cloud-local`) from the `/plugins` picker, or your Codex CLI version's equivalent install command.
+
+`codex/` is also the package submitted to OpenAI's plugin directory for ChatGPT and Codex.
 
 ### GitHub Copilot
 
@@ -86,3 +107,15 @@ Skill content is authored once in `common/skills/` and built into all plugins by
 | Codex CLI | `codex/` | `codex-local/` | `.agents/plugins/marketplace.json` |
 | GitHub Copilot | `copilot/` | `copilot-local/` | `.github/plugin/marketplace.json` |
 | Other tools (manual copy) | `skills/` (+ `.mcp.json`) | `local-skills/` | _none — not plugin-packaged_ |
+
+`codex/` has two layouts. The legacy `.codex-plugin/plugin.json` and `.mcp.json` serve existing Codex installs. The portable Agent Plugins 1.0.0 `plugin.json`, `mcp.json` and `assets/` are what the OpenAI plugin directory reads. The build generates the portable files from `variants/codex/openai.json` (listing text, links and review cases) and `variants/codex/assets/` (listing images). Both MCP files come from the same endpoint source. `npm run validate:openai` checks the package against the vendored schemas in `scripts/schemas/`, and `npm run package:openai` produces the upload ZIP in `dist/`.
+
+Each Claude plugin folder is self-contained, as Anthropic's plugin directory requires: the build writes its `.claude-plugin/plugin.json`, copies its `README.md` from `variants/<variant>/README.md`, and copies the shared root `LICENSE` and the shared logo (`assets/wiremock-logo.png`) as its `icon.png`. The build owns every plugin output folder entirely and clears it on each run, so put hand-written content in `common/` or `variants/`, never in the generated folders.
+
+The Claude plugin version comes from `version` in `package.json`. Claude Code keeps users on an installed version until it changes, so bump it whenever the Claude plugins change. `npm run check-version` (run in CI on pull requests) fails if `claude/`, `claude-local/` or `.claude-plugin/` changed without a version increase.
+
+Docs synced by `scripts/sync-wiremock-cloud-docs.js` have credential-like example values (PEM bodies, API keys, passwords, tokens, and recognisable formats such as JWTs and AWS/GitHub keys) rewritten to placeholders such as `<YOUR_API_KEY>` by `scripts/utils/example-secrets.js`. The build fails if any value matching those rules remains in `common/skills/`. `npm test` checks the rules against known examples; add a case there when you change them.
+
+## License
+
+This repository and the plugins built from it are licensed under the [Apache License 2.0](LICENSE).

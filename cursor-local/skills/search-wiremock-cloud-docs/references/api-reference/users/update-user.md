@@ -138,7 +138,7 @@ paths:
                       id: 9gd5l
                       aclObject: 4kg32
                       username: docs@example.com
-                      apiKey: 3b35fdee8ff9cf5055d062c28675ee22
+                      apiKey: <YOUR_API_KEY>
                       avatarUrl: >-
                         https://s.gravatar.com/avatar/0dc7361faa5dcde8ee7789f06074bb30?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fdo.png
                       emailAddress: docs@example.com

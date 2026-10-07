@@ -7,7 +7,7 @@ allowed-tools:
   - Read(../references/*)
   - Bash(curl:*)
   - Bash(head:*)
-  - Bash(npx swagger2openapi:*)
+  - Bash(npx swagger2openapi@7.0.8:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_stub_mappings.py:*)
@@ -31,7 +31,7 @@ allowed-tools:
   - "{{WIREMOCK_TOOL_PREFIX}}list_data_sources"
   - "{{WIREMOCK_TOOL_PREFIX}}get_data_source"
   - "{{WIREMOCK_TOOL_PREFIX}}get_data_source_data"
-  - Bash(npx @wiremock/arazzo-runner:*)
+  - Bash(npx @wiremock/arazzo-runner@1.4.0:*)
 ---
 
 ## Prerequisites
@@ -62,7 +62,7 @@ These references supersede the `look_up_documentation` MCP tool - do not call `l
 Whenever this skill says to "run the Arazzo workflows", invoke the CLI directly:
 
 ```
-npx @wiremock/arazzo-runner run <arazzo-path> -b <source-name>=<base-url> [-a <auth-config-file>]... -r <report-path> --no-interactive
+npx @wiremock/arazzo-runner@1.4.0 run <arazzo-path> -b <source-name>=<base-url> [-a <auth-config-file>]... -r <report-path> --no-interactive
 ```
 
 - `<source-name>` must match a name in the Arazzo document's `sourceDescriptions`. Pass `-b` once per source if there are multiple.
@@ -183,7 +183,7 @@ Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so 
    If it has a top-level `swagger:` key (Swagger 2.0), continue to step 2. If it has a top-level `openapi:` key (already OpenAPI 3.x), skip straight to Step 5 — do not run `swagger2openapi` on a document that's already OpenAPI.
 2. Convert the Swagger 2.0 document to OpenAPI 3.0.3 with `swagger2openapi`, patching minor errors, writing the result back over the same file:
    ```
-   npx swagger2openapi <openapi-path> --patch --targetVersion 3.0.3 --outfile <openapi-path>
+   npx swagger2openapi@7.0.8 <openapi-path> --patch --targetVersion 3.0.3 --outfile <openapi-path>
    ```
 3. If the command reports fatal/non-patchable errors, treat them as genuine defects in the source spec — report them to the user rather than hand-editing the file.
 4. From this point on, treat the resulting file as authoritative. All subsequent analysis (see [Exploring the OpenAPI Document](#exploring-the-openapi-document)), validation, and Arazzo generation must be based on this converted version, not the original Swagger document.
