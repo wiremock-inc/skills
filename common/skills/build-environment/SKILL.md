@@ -1,0 +1,108 @@
+---
+name: build-environment
+description: Set up mock APIs for all of a project's API dependencies at once, using existing API templates wherever one fits and building a simulation only where none does. Use when the user wants to build, create or set up a mock, test or local environment for a project, app or service in WireMock Cloud or locally.
+user-invocable: true
+argument-hint: "[cloud|local]"
+allowed-tools:
+  - Read(../references/*)
+  - Bash(wiremock --version)
+  - Bash(wiremock templates search:*)
+  - Bash(wiremock mock-apis pull:*)
+  - "{{WIREMOCK_TOOL_PREFIX}}who_am_i"
+  - "{{WIREMOCK_TOOL_PREFIX}}search_api_templates"
+  - "{{WIREMOCK_TOOL_PREFIX}}search_my_mock_apis"
+  - "{{WIREMOCK_TOOL_PREFIX}}create_mock_api"
+---
+
+## Prerequisites
+
+This skill requires the **WireMock Cloud MCP** server to be configured and running. If it is unavailable, stop and inform the user before proceeding.
+
+Setting mock APIs up **locally** also requires the WireMock CLI (`wiremock`). This is checked in Step 5, only if the user chooses local.
+
+## What this skill does
+
+It gives a project a working set of mock APIs — one for each external or in-house API the project calls — and tells the user where to point the project at them. API templates are used wherever one exists, because a template is faster and more complete than a simulation built from scratch.
+
+An API template is referred to by its catalogue and slug: `public/<slug>` for the public catalogue (e.g. `public/stripe`), or `org/<slug>` for the user's own organisation's catalogue (e.g. `org/orders-service`). Always use references exactly as `search_api_templates` returns them.
+
+## Step 1: Check access
+
+Call `who_am_i`. If it fails, tell the user they need to log in to WireMock Cloud and stop.
+
+## Step 2: Find the project's API dependencies
+
+The target is: **$ARGUMENTS** — `cloud` or `local` if the user has already said where they want the mock APIs. It may be empty.
+
+Inspect the project for APIs it calls over HTTP:
+
+- SDK and API client packages in the dependency manifest (`package.json`, `pom.xml`, `build.gradle*`, `requirements.txt`, `go.mod`, `Gemfile` and so on).
+- Base URLs and hostnames in configuration and environment files (`.env*`, `application*.yml`, `appsettings*.json`, Helm values and so on).
+- Generated API clients, and OpenAPI or protobuf files describing other services.
+
+Produce a list. For each dependency record:
+
+- a name;
+- whether it is a third-party API or one of the user's own in-house services;
+- where in the project its base URL is configured.
+
+Leave out things that are not HTTP APIs the project calls (databases, message brokers, the project's own API).
+
+If you find none, say so and ask the user to name the APIs they want mocked.
+
+## Step 3: Search for API templates
+
+For each dependency, call `search_api_templates` with its provider or product name, one dependency per call. For in-house services, search with `catalogue` set to `org` first.
+
+If any dependency has no match, call `search_api_templates` **once** with no query and check the full list before concluding there is no template for it — it may be listed under a different name.
+
+## Step 4: Present the plan and confirm
+
+Show the user a table with one row per dependency: the dependency, the matching template reference (or "none"), and what will happen (create from the template, or build a simulation).
+
+If the user has not already said so, use `AskUserQuestion` to ask whether they want the mock APIs:
+
+- **in WireMock Cloud** — hosted, each with its own URL; or
+- **running locally** — on `localhost`, using the WireMock CLI.
+
+Do not proceed until this is clear and the user has confirmed the plan.
+
+## Step 5: Create the mock APIs that have a template
+
+### In WireMock Cloud
+
+For each matched dependency, call `create_mock_api` with:
+
+- `fromTemplate`: the template's reference;
+- `name`: a name that identifies the project as well as the API, e.g. `<project> - Stripe`, so it doesn't clash with an existing mock API.
+
+Do not set `type`. Each mock API is created fully populated; note its base URL.
+
+If creation fails because the name is already in use, choose another name and try again. Do not create a `wiremock.yaml` file.
+
+### Locally
+
+1. Run `wiremock --version`. If the CLI is not installed, tell the user to install it with `npm install -g @wiremock/cli` and to run `wiremock login`, then stop.
+2. In the project directory, run a single command with one `--from-template` option per matched dependency:
+
+   ```shell
+   wiremock mock-apis pull --from-template=public/stripe --from-template=org/orders-service
+   ```
+
+   Each template becomes a service in `.wiremock/wiremock.yaml`, on its own port. The command prints the port of each.
+3. If the command reports that a service already exists, tell the user and ask before re-running with `--force`, which overwrites it.
+
+## Step 6: Handle dependencies with no template
+
+For each dependency with no matching template, offer to build a simulation using the `build-api-simulation` skill. Do them one at a time, and accept that the user may decline some or all of them.
+
+## Step 7: Report
+
+Tell the user, for each dependency:
+
+- where its mock came from: the template reference, a newly built simulation, or skipped;
+- its base URL — the mock API's base URL for WireMock Cloud, or `http://localhost:<port>` for local.
+
+For a local setup, remind the user to start the mock APIs with `wiremock run`.
+
+Then list the configuration values in the project that need to change to point at the mock APIs, using the locations found in Step 2. Offer to make those changes, but do not make them unless the user asks.

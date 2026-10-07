@@ -7,16 +7,18 @@ This repository contains a collection of [agent skills](https://agentskills.io/h
 | Skill | Description |
 |-------|-------------|
 | `/build-api-simulation` | Generate a complete mock API for any REST API — OpenAPI spec, Arazzo test workflows, and WireMock stubs, optionally recorded from a live sandbox |
+| `/build-environment` | Set up mock APIs for all of a project's API dependencies at once, using existing API templates wherever one fits |
 | Create Stubs | Create and import WireMock stubs for a mock API |
 | Convert to Stateful | Convert existing stubs to be stateful using the key-value state store |
 | Convert to Data-Driven | Convert existing stubs to use CSV or database data sources |
 | Validate and Fix Stubs | Validate stubs against the OpenAPI schema and fix any errors |
 | Author Response Templates | Author and debug Handlebars response templates for WireMock stubs |
+| Review API Simulation | Review a mock API simulation against its source documentation, OpenAPI spec, and Arazzo workflows |
 | Search WireMock Cloud Docs | Search cached WireMock Cloud documentation for accurate answers about stubs, request matching, response templating, CLI, Runner, and more |
 
-`/build-api-simulation` is a user-invocable slash command. The remaining skills are triggered automatically by context when relevant.
+`/build-api-simulation` and `/build-environment` are user-invocable slash commands. The remaining skills are triggered automatically by context when relevant.
 
-Each supported tool ships the same 8 skills as two plugins, differing only in which WireMock Cloud MCP server they talk to:
+Each supported tool ships the same 9 skills as two plugins, differing only in which WireMock Cloud MCP server they talk to:
 
 | Plugin | MCP server |
 |--------|------------|
