@@ -2,7 +2,7 @@
   "name": "wiremock-cloud",
   "displayName": "WireMock Cloud",
   "description": "Build, validate, and manage realistic API simulations in WireMock Cloud.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "WireMock Inc",
     "email": "info@wiremock.io"

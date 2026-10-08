@@ -17,6 +17,7 @@ const {
   listSubdirectories
 } = require('./utils/docs-utils');
 const { redactExampleSecrets } = require('./utils/example-secrets');
+const { makeDocsScannerSafe } = require('./utils/scanner-safe-docs');
 
 // ============================================================================
 // CONFIGURATION
@@ -103,6 +104,7 @@ async function downloadDoc(url, destPath) {
     let content = await fetchUrl(url);
     content = content.replace(/\nBuilt with \[Mintlify\]\(https:\/\/mintlify\.com\)\.\s*$/m, '');
     content = redactExampleSecrets(content);
+    content = makeDocsScannerSafe(content);
     ensureDir(path.dirname(destPath));
     fs.writeFileSync(destPath, content, 'utf8');
     return { success: true, size: Buffer.byteLength(content, 'utf8') };

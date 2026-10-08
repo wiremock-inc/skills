@@ -5,10 +5,6 @@ description: Create and import WireMock stubs for a mock API. Use when the user 
 argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
-  # @variant:remote
-  - Bash(curl:*)
-  # @variant:local
-  # @endvariant
   - "{{WIREMOCK_TOOL_PREFIX}}who_am_i"
   - "{{WIREMOCK_TOOL_PREFIX}}search_my_mock_apis"
   - "{{WIREMOCK_TOOL_PREFIX}}search_stub_mappings"

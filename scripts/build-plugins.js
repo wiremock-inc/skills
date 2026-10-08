@@ -27,6 +27,7 @@ const path = require('path');
 
 const { ensureDir } = require('./utils/docs-utils');
 const { findExampleSecrets } = require('./utils/example-secrets');
+const { findScannerTriggers } = require('./utils/scanner-safe-docs');
 
 // ============================================================================
 // CONFIGURATION
@@ -492,7 +493,8 @@ function writeClaudeRootFiles(variant) {
 
 /**
  * Fail before any output is touched if a source file still carries a credential-like example
- * value (normally redacted at docs-sync time — see scripts/utils/example-secrets.js).
+ * value or a passage plugin-directory scanners misread (both normally rewritten at docs-sync
+ * time — see scripts/utils/example-secrets.js and scripts/utils/scanner-safe-docs.js).
  */
 function assertNoExampleSecrets(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -503,6 +505,10 @@ function assertNoExampleSecrets(dir) {
       const secrets = findExampleSecrets(fs.readFileSync(srcPath, 'utf8'));
       if (secrets.length > 0) {
         throw new BuildError(srcPath, null, `credential-like example value(s) must be placeholders: ${secrets.join(' | ')}`);
+      }
+      const triggers = findScannerTriggers(fs.readFileSync(srcPath, 'utf8'));
+      if (triggers.length > 0) {
+        throw new BuildError(srcPath, null, `passage(s) must be made scanner-safe (scripts/utils/scanner-safe-docs.js): ${triggers.join(' | ')}`);
       }
     }
   }
