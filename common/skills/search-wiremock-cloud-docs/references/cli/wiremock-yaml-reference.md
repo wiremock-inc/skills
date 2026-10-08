@@ -227,14 +227,10 @@ The path can be absolute or relative to the `wiremock.yaml` file.
 
 ```
 -----BEGIN PRIVATE KEY-----
-MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHIpsyRDeM1lFQ
-... (base64-encoded content)
-GhxuZ3ceXiqwvhH8Yt5gNs0=
+<YOUR_PRIVATE_KEY_BASE64>
 -----END PRIVATE KEY-----
 -----BEGIN CERTIFICATE-----
-MIIDrzCCApegAwIBAgIUR24W6NZN7xPwSqc59usFQ37HPYswDQYJKoZIhvcNAQEL
-... (base64-encoded content)
-dHhXPaefkEhrsUbnXGYRfwQhf4SzdYCMCJno7KKsNn6RLIo=
+<YOUR_CERTIFICATE_BASE64>
 -----END CERTIFICATE-----
 ```
 
@@ -245,7 +241,7 @@ A keystore file (PKCS12 or JKS format) containing the private key and certificat
 ```yaml theme={null}
 certificate:
   keystore: /path/to/keystore.p12
-  password: very_secret
+  password: <YOUR_PASSWORD>
   alias: my_cert  # optional
 ```
 
@@ -264,7 +260,7 @@ global:
   https:
     certificate:
       keystore: /path/to/keystore.p12
-      password: very_secret
+      password: <YOUR_PASSWORD>
 
 services:
   service-one:
@@ -302,7 +298,7 @@ global:
   https:
     certificate:
       keystore: /etc/wiremock/certs/global-keystore.p12
-      password: global_password
+      password: <YOUR_PASSWORD>
       alias: default_cert
 
 services:

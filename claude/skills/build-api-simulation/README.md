@@ -27,7 +27,7 @@ No manual setup is needed beyond installing this plugin — a `.mcp.json` bundle
 
 ### Arazzo Runner CLI
 
-[Arazzo](https://spec.openapis.org/arazzo/latest.html) workflows are executed via the `@wiremock/arazzo-runner` CLI (run with `npx @wiremock/arazzo-runner run ...`), not an MCP tool. No separate installation step is required — `npx` fetches it on first use.
+[Arazzo](https://spec.openapis.org/arazzo/latest.html) workflows are executed via the `@wiremock/arazzo-runner` CLI (run with `npx @wiremock/arazzo-runner@1.4.0 run ...`), not an MCP tool. No separate installation step is required — `npx` fetches it on first use.
 
 ### Node.js
 

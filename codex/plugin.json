@@ -1,0 +1,63 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "wiremock-cloud",
+  "version": "1.1.0",
+  "description": "Build, validate, and manage WireMock Cloud API simulations with reusable agent skills and the hosted MCP server.",
+  "author": {
+    "name": "WireMock Inc.",
+    "email": "info@wiremock.io",
+    "url": "https://www.wiremock.io"
+  },
+  "homepage": "https://www.wiremock.io",
+  "repository": "https://github.com/wiremock-inc/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "wiremock",
+    "api-mocking",
+    "api-simulation",
+    "testing",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "WireMock Cloud",
+        "shortDescription": "Build API simulations",
+        "longDescription": "Build, inspect, validate, and manage realistic API simulations in WireMock Cloud. The plugin combines reusable API-simulation skills with WireMock Cloud's hosted MCP server. It is intended for software developers and testers working with mock APIs, OpenAPI specifications, stub mappings, stateful behavior, response templating, and test data. It operates on resources available to the connected WireMock Cloud account and does not modify production APIs.",
+        "developerName": "WireMock Inc.",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Create and manage WireMock Cloud mock APIs",
+          "Build stubs from API behavior requirements",
+          "Generate simulations from OpenAPI specifications",
+          "Validate and repair WireMock stub mappings",
+          "Create stateful and data-driven simulations",
+          "Search WireMock Cloud documentation"
+        ],
+        "websiteURL": "https://www.wiremock.io",
+        "supportURL": "https://www.wiremock.io/contact-now",
+        "privacyPolicyURL": "https://www.wiremock.io/privacy-policy",
+        "termsOfServiceURL": "https://www.wiremock.io/terms-and-conditions",
+        "defaultPrompt": [
+          "Build a WireMock Cloud simulation from this OpenAPI specification.",
+          "Create realistic stubs for the API behavior I describe.",
+          "Review this WireMock simulation and fix validation issues."
+        ],
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/composer-icon.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [],
+          "negative": []
+        },
+        "demo_recording_url": "https://www.youtube.com/watch?v=usBZNA4Zc7c",
+        "commerce": false,
+        "commerce_description": "This plugin does not sell products or process payments."
+      },
+      "publication": {
+        "release_notes": "Initial OpenAI directory release combining WireMock Cloud Agent Skills with the hosted MCP server."
+      }
+    }
+  }
+}

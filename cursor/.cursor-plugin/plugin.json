@@ -1,5 +1,25 @@
 {
   "name": "wiremock-cloud",
-  "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
-  "version": "1.0.0"
+  "displayName": "WireMock Cloud",
+  "description": "Build, validate, and manage realistic API simulations in WireMock Cloud.",
+  "version": "1.1.0",
+  "author": {
+    "name": "WireMock Inc",
+    "email": "info@wiremock.io"
+  },
+  "publisher": "WireMock Inc",
+  "homepage": "https://www.wiremock.io",
+  "repository": "https://github.com/wiremock-inc/skills",
+  "license": "Apache-2.0",
+  "logo": "assets/logo.png",
+  "keywords": [
+    "wiremock",
+    "api-mocking",
+    "api-simulation",
+    "testing",
+    "mcp"
+  ],
+  "category": "developer-tools",
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json"
 }

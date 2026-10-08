@@ -1,0 +1,48 @@
+name: Plugins
+
+on:
+  pull_request:
+    paths:
+      - 'common/**'
+      - 'variants/**'
+      - 'scripts/**'
+      - 'claude/**'
+      - 'claude-local/**'
+      - '.claude-plugin/**'
+      - 'codex/**'
+      - 'codex-local/**'
+      - '.agents/**'
+      - 'cursor/**'
+      - 'cursor-local/**'
+      - '.cursor-plugin/**'
+      - 'copilot/**'
+      - 'copilot-local/**'
+      - '.github/plugin/**'
+      - 'assets/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'LICENSE'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - name: Tests (secret redaction, OpenAI validator)
+        run: npm test
+      - name: Build is up to date
+        run: |
+          npm run build
+          git diff --exit-code || { echo "::error::Generated output is stale. Run npm run build and commit the result."; exit 1; }
+      # OpenAI structure, Cursor (official schema) and Copilot checks. `npm run package:openai`
+      # (validate --release) needs owner inputs such as live review cases, so it runs at release time.
+      - name: Plugin packages are valid
+        run: npm run validate
+      - name: Version bumped when plugins change
+        run: npm run check-version -- origin/${{ github.base_ref }}

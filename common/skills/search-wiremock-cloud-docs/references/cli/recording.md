@@ -115,14 +115,10 @@ A PEM encoded file should look something like this:
 
 ```
 -----BEGIN PRIVATE KEY-----
-MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHIpsyRDeM1lFQ
-<multiple lines of base64 encoded data>
-GhxuZ3ceXiqwvhH8Yt5gNs0=
+<YOUR_PRIVATE_KEY_BASE64>
 -----END PRIVATE KEY-----
 -----BEGIN CERTIFICATE-----
-MIIDrzCCApegAwIBAgIUR24W6NZN7xPwSqc59usFQ37HPYswDQYJKoZIhvcNAQEL
-<multiple lines of base64 encoded data>
-dHhXPaefkEhrsUbnXGYRfwQhf4SzdYCMCJno7KKsNn6RLIo=
+<YOUR_CERTIFICATE_BASE64>
 -----END CERTIFICATE-----
 ```
 

@@ -18,7 +18,7 @@ execute a `POST` request to the stub import URL e.g.:
   ```bash theme={null}
   curl -v \
     --data-binary @my-swagger-spec.yaml \
-    -H 'Authorization:Token my-api-token' \
+    -H 'Authorization:Token <YOUR_TOKEN>' \
     https://my-api.wiremockapi.cloud/__admin/ext/imports
   ```
 
@@ -35,7 +35,7 @@ execute a `POST` request to the stub import URL e.g.:
 
   const options = {
     method: 'POST',
-    headers: { 'Authorization': 'Token my-api-token' },
+    headers: { 'Authorization': 'Token <YOUR_TOKEN>' },
     body: fs.readFileSync('my-swagger-spec.yaml', 'utf8')
   };
 
@@ -49,7 +49,7 @@ execute a `POST` request to the stub import URL e.g.:
   with open('my-swagger-spec.yaml', 'rb') as spec:
       response = requests.post(
           'https://my-api.wiremockapi.cloud/__admin/ext/imports',
-          headers={'Authorization': 'Token my-api-token'},
+          headers={'Authorization': 'Token <YOUR_TOKEN>'},
           data=spec
       )
   ```
@@ -79,7 +79,7 @@ execute a `POST` request to the stub import URL e.g.:
       CURLOPT_POST => true,
       CURLOPT_POSTFIELDS => file_get_contents('my-swagger-spec.yaml'),
       CURLOPT_HTTPHEADER => [
-          'Authorization: Token my-api-token',
+          'Authorization: Token <YOUR_TOKEN>',
       ],
   ]);
 
@@ -116,7 +116,7 @@ To export an API's stubs, execute a `GET` request to the stub mappings admin URL
 <CodeGroup dropdown>
   ```bash theme={null}
   curl --output my-stubs.json \
-    -H 'Authorization:Token my-api-token' \
+    -H 'Authorization:Token <YOUR_TOKEN>' \
     https://my-api.wiremockapi.cloud/__admin/mappings
   ```
 
@@ -133,7 +133,7 @@ To export an API's stubs, execute a `GET` request to the stub mappings admin URL
   const fs = require('fs');
 
   const options = {
-    headers: { 'Authorization': 'Token my-api-token' }
+    headers: { 'Authorization': 'Token <YOUR_TOKEN>' }
   };
 
   fetch('https://my-api.wiremockapi.cloud/__admin/mappings', options)
@@ -146,7 +146,7 @@ To export an API's stubs, execute a `GET` request to the stub mappings admin URL
 
   response = requests.get(
       'https://my-api.wiremockapi.cloud/__admin/mappings',
-      headers={'Authorization': 'Token my-api-token'}
+      headers={'Authorization': 'Token <YOUR_TOKEN>'}
   )
 
   with open('my-stubs.json', 'w') as stubs:
@@ -177,7 +177,7 @@ To export an API's stubs, execute a `GET` request to the stub mappings admin URL
   curl_setopt_array($curl, [
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_HTTPHEADER => [
-          'Authorization: Token my-api-token',
+          'Authorization: Token <YOUR_TOKEN>',
       ],
   ]);
 
