@@ -54,6 +54,14 @@ Produce a list. For each dependency record:
 
 Leave out things that are not HTTP APIs the project calls (databases, message brokers, the project's own API).
 
+Also note whether the project signs users in with **OAuth2 or OpenID Connect**. Signs of this are:
+
+- a login library in the dependency manifest (`next-auth`, `passport` and its strategies, `openid-client`, `oidc-client-ts`, `spring-boot-starter-oauth2-client`, `authlib`, `omniauth` and so on);
+- configuration for an issuer, an authorisation, token or JWKS URL, or a client ID and secret;
+- a login provider's SDK, or its hostname in configuration (Google, Auth0, Okta, Microsoft Entra and so on).
+
+If it does, record which provider it uses, if you can tell, and where its issuer or endpoint URLs are configured. Do not add the login provider to the list of dependencies yet: Step 4 asks the user about it.
+
 If you find none, say so and ask the user to name the APIs they want mocked.
 
 ## Step 3: Search for API templates
@@ -61,6 +69,8 @@ If you find none, say so and ask the user to name the APIs they want mocked.
 For each dependency, call `search_api_templates` with its provider or product name, one dependency per call. For in-house services, search with `catalogue` set to `org` first.
 
 If any dependency has no match, call `search_api_templates` **once** with no query and check the full list before concluding there is no template for it — it may be listed under a different name.
+
+If the project signs users in with OAuth2 or OpenID Connect, also call `search_api_templates` once with `tag` set to `auth`. This lists the login mocks that are available, such as Google and Auth0.
 
 ## Step 4: Present the plan and confirm
 
@@ -71,7 +81,16 @@ If the user has not already said so, use `AskUserQuestion` to ask whether they w
 - **in WireMock Cloud** — hosted, each with its own URL; or
 - **running locally** — on `localhost`, using the WireMock CLI.
 
-Do not proceed until this is clear and the user has confirmed the plan.
+If the project signs users in with OAuth2 or OpenID Connect, tell the user that WireMock Cloud has ready-made mocks of several OAuth2 and OpenID Connect login providers, and name the ones the `auth` search returned (for example Google and Auth0). Then use `AskUserQuestion` to ask whether one of them should be used, or none:
+
+- offer each login mock that was found as an option, up to the number of options the question allows. Put the one that matches the project's own provider first and mark it as recommended. If there are more than fit, offer the closest matches and say that the others can be named;
+- always offer **None** — the project keeps signing in against its real provider.
+
+Ask this even if the project's provider has no matching mock: any of them can stand in for login during testing, though the project's configuration will then differ more from production. Do not choose for the user.
+
+If the user picks one, add it to the plan as a dependency with that template. If they pick none, leave login out of the plan.
+
+Do not proceed until all of this is clear and the user has confirmed the plan.
 
 ## Step 5: Create the mock APIs that have a template
 
@@ -131,3 +150,5 @@ If an environment was created, also tell the user:
 - that a member cannot be deleted or shared on its own: access is granted on the environment, and applies to every member.
 
 Then list the configuration values in the project that need to change to point at the mock APIs, using the locations found in Step 2. Offer to make those changes, but do not make them unless the user asks.
+
+If a login mock was set up, the values to change are the project's issuer or its authorisation, token, user info and JWKS URLs, which now point at the login mock's base URL. Say so, and say that the client ID, client secret and redirect URLs may also need to match what the mock expects.
