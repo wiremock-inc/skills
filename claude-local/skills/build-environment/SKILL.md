@@ -12,6 +12,10 @@ allowed-tools:
   - "mcp__plugin_wiremock-cloud-local_wiremock__search_api_templates"
   - "mcp__plugin_wiremock-cloud-local_wiremock__search_my_mock_apis"
   - "mcp__plugin_wiremock-cloud-local_wiremock__create_mock_api"
+  - "mcp__plugin_wiremock-cloud-local_wiremock__create_environment"
+  - "mcp__plugin_wiremock-cloud-local_wiremock__get_environment"
+  - "mcp__plugin_wiremock-cloud-local_wiremock__list_environments"
+  - "mcp__plugin_wiremock-cloud-local_wiremock__delete_environment"
 ---
 
 <!-- AUTO-GENERATED from common/skills/... — do not edit directly; edit the source and run `npm run build`. -->
@@ -25,6 +29,8 @@ Setting mock APIs up **locally** also requires the WireMock CLI (`wiremock`). Th
 ## What this skill does
 
 It gives a project a working set of mock APIs — one for each external or in-house API the project calls — and tells the user where to point the project at them. API templates are used wherever one exists, because a template is faster and more complete than a simulation built from scratch.
+
+In WireMock Cloud the mock APIs are created together as an **environment**: a named set of mock APIs that is created with one call and later deleted with one call. Each member of an environment becomes a mock API named `<member name> [<environment name>]`.
 
 An API template is referred to by its catalogue and slug: `public/<slug>` for the public catalogue (e.g. `public/stripe`), or `org/<slug>` for the user's own organisation's catalogue (e.g. `org/orders-service`). Always use references exactly as `search_api_templates` returns them.
 
@@ -73,14 +79,25 @@ Do not proceed until this is clear and the user has confirmed the plan.
 
 ### In WireMock Cloud
 
-For each matched dependency, call `create_mock_api` with:
+If two or more dependencies have a template, create them as one environment. Call `create_environment` **once** with:
+
+- `name`: a name that identifies the project and its purpose, e.g. `<project>-dev`. It must be unique within the organisation.
+- `members`: one per matched dependency, each with a `name` (e.g. `stripe`) and `fromTemplate` set to the template's reference. Do not set `type` on a member that has `fromTemplate`.
+
+The call waits until every mock API has been created. From the result, note the environment ID and, for each member, its mock API ID and base URL. Each mock API is created fully populated. Call `get_environment` with the environment ID if you need to read them again.
+
+Do not create a `wiremock.yaml` file.
+
+**If the request is rejected as invalid**, nothing was created. Correct what the error names and call `create_environment` again. If the environment name is already in use, choose another name. `list_environments` shows the environment that has it; do not delete an environment you did not create in this session without asking the user.
+
+**If creation fails**, the mock APIs already created are rolled back, but the environment itself remains with status `FAILED` and keeps its name. Tell the user which member failed and why, call `delete_environment` with the environment ID given in the error, and only then try again with the same name.
+
+**Fall back to one mock API at a time** if the `create_environment` tool is not available, or it reports that environments are not enabled for the account or that the server doesn't support environments yet. Also do this when only one dependency has a template. For each matched dependency, call `create_mock_api` with:
 
 - `fromTemplate`: the template's reference;
 - `name`: a name that identifies the project as well as the API, e.g. `<project> - Stripe`, so it doesn't clash with an existing mock API.
 
-Do not set `type`. Each mock API is created fully populated; note its base URL.
-
-If creation fails because the name is already in use, choose another name and try again. Do not create a `wiremock.yaml` file.
+Do not set `type`. Note each mock API's base URL. If creation fails because the name is already in use, choose another name and try again.
 
 ### Locally
 
@@ -98,6 +115,8 @@ If creation fails because the name is already in use, choose another name and tr
 
 For each dependency with no matching template, offer to build a simulation using the `build-api-simulation` skill. Do them one at a time, and accept that the user may decline some or all of them.
 
+The members of an environment cannot be changed after it has been created, so a simulation built here is a standalone mock API, not a member of the environment.
+
 ## Step 7: Report
 
 Tell the user, for each dependency:
@@ -106,5 +125,11 @@ Tell the user, for each dependency:
 - its base URL — the mock API's base URL for WireMock Cloud, or `http://localhost:<port>` for local.
 
 For a local setup, remind the user to start the mock APIs with `wiremock run`.
+
+If an environment was created, also tell the user:
+
+- its name and ID, and which mock APIs are members of it;
+- that the whole environment can be removed with `delete_environment`, which permanently deletes every member mock API. Only call it when the user asks;
+- that a member cannot be deleted or shared on its own: access is granted on the environment, and applies to every member.
 
 Then list the configuration values in the project that need to change to point at the mock APIs, using the locations found in Step 2. Offer to make those changes, but do not make them unless the user asks.
