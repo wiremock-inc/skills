@@ -61,7 +61,11 @@ Use `AskUserQuestion` to collect any additional configuration:
    ```
    wiremock environments create -p verify
    ```
-   This will create a new instance of the API in Cloud and a profile YAML file containing the new `cloud_id`. Use this new instance for the remainder of the verification process.
+   This will create a new instance of the API in Cloud, as an environment named `verify`, and a profile YAML file containing the new `cloud_id`. Use this new instance for the remainder of the verification process.
+
+   If the command reports that the environment for profile `verify` still exists, a copy is left over from an earlier review. Use the `cloud_id` in `wiremock-verify.yaml` instead of creating another.
+
+   When the review is finished, tell the user that the temporary copy can be removed with `wiremock environments delete -p verify`. Do not delete it yourself unless the user asks.
 4. **Enable hard request validation** against the OpenAPI schema using `update_mock_api_settings` with `settingsType: "openapi"` and `validationMode: "hard"`. This ensures all responses are validated against the spec during review.
 5. **Authentication:** if the mock API has authentication enabled, disable it before proceeding so the Arazzo run isn't blocked by auth failures.
    There is no MCP tool to disable authentication on a mock API. Either ask the user to disable it via the WireMock Cloud dashboard, or supply working credentials via the CLI's `-a` authenticator config flag (see [Running Arazzo Workflows](#running-arazzo-workflows)).
