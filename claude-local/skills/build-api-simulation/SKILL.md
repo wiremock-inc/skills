@@ -5,8 +5,6 @@ user-invocable: true
 argument-hint: "<api-name>"
 allowed-tools:
   - Read(../references/*)
-  - Bash(curl:*)
-  - Bash(head:*)
   - Bash(npx swagger2openapi@7.0.8:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_openapi.py:*)
   - Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/validate_arazzo.py:*)
@@ -175,11 +173,7 @@ Update `cloud_id` with the actual mock API ID once it has been created. All subs
 
 Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so this must happen locally, before anything is uploaded or analyzed.
 
-1. Detect the document's format by checking its top-level key:
-   ```
-   head -n 5 <openapi-path>
-   ```
-   If it has a top-level `swagger:` key (Swagger 2.0), continue to step 2. If it has a top-level `openapi:` key (already OpenAPI 3.x), skip straight to Step 5 — do not run `swagger2openapi` on a document that's already OpenAPI.
+1. Detect the document's format by reading the first few lines of `<openapi-path>` and checking its top-level key. If it has a top-level `swagger:` key (Swagger 2.0), continue to step 2. If it has a top-level `openapi:` key (already OpenAPI 3.x), skip straight to Step 5 — do not run `swagger2openapi` on a document that's already OpenAPI.
 2. Convert the Swagger 2.0 document to OpenAPI 3.0.3 with `swagger2openapi`, patching minor errors, writing the result back over the same file:
    ```
    npx swagger2openapi@7.0.8 <openapi-path> --patch --targetVersion 3.0.3 --outfile <openapi-path>

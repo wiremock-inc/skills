@@ -6,7 +6,6 @@ argument-hint: "<path-to-project-folder>"
 allowed-tools:
   - Read(../references/*)
   # @variant:remote
-  - Bash(curl:*)
   # @variant:local
   - "{{WIREMOCK_TOOL_PREFIX}}update_mock_api_auth_settings"
   # @endvariant

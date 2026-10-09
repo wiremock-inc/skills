@@ -6,7 +6,6 @@ argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
   # @variant:remote
-  - Bash(curl:*)
   # @variant:local
   - "{{WIREMOCK_TOOL_PREFIX}}make_http_request"
   # @endvariant

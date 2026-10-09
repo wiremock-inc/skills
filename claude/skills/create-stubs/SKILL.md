@@ -5,7 +5,6 @@ description: Create and import WireMock stubs for a mock API. Use when the user 
 argument-hint: "<mock-api-name-or-id>"
 allowed-tools:
   - Read(../references/*)
-  - Bash(curl:*)
   - "mcp__plugin_wiremock-cloud_wiremock__who_am_i"
   - "mcp__plugin_wiremock-cloud_wiremock__search_my_mock_apis"
   - "mcp__plugin_wiremock-cloud_wiremock__search_stub_mappings"

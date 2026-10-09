@@ -1,6 +1,6 @@
 {
   "name": "wiremock-cloud",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Build, validate, and manage WireMock Cloud API simulations with reusable agent skills and the hosted MCP server.",
   "skills": "./skills",
   "mcpServers": "./.mcp.json",

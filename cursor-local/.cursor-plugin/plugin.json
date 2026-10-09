@@ -2,7 +2,7 @@
   "name": "wiremock-cloud-local",
   "displayName": "WireMock Cloud (Local)",
   "description": "Build and manage API simulations through a local WireMock CLI MCP server.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "WireMock Inc",
     "email": "info@wiremock.io"

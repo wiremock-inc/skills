@@ -151,7 +151,7 @@ Here is a typical example on Linux or macOs when running two Mock APIs:
 ```shell theme={null}
 docker run \
   -v ~/.config/wiremock-cli:/etc/wiremock-cli \
-  -v $(pwd):/work \
+  -v /absolute/path/to/your/project:/work \
   -p 8080:8080 \
   -p 8081:8081 \
   wiremock/wiremock-cli:latest
