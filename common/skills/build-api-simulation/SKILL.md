@@ -104,6 +104,8 @@ Before anything else, check whether a ready-made API template already covers thi
    - **Locally:** run `wiremock mock-apis pull --from-template=<reference>` in the project directory, then `wiremock run`.
 
    Report the mock API's base URL and **stop** — do not continue to Step 2.
+
+   If you were given the ID of an existing blank mock API to build into, skip this check: the caller has already looked for a template.
 4. **If nothing matches, or the user wants a custom build anyway**, carry on below.
 
 Only skip asking if the name unambiguously denotes a well-known public API with real, findable documentation (e.g. "Stripe", "GitHub", "Twilio") — proceed on that basis without asking. For everything else, ask the user directly whether an API by this name already exists, even if the name sounds plausible or internal (e.g. "internal invoicing service", "orders-api") — it may be an existing internal microservice within the user's own systems rather than something to invent, and that isn't something to guess at from the name alone.
@@ -205,6 +207,8 @@ Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so 
 ## Step 5: Create and Configure the Mock API
 
 1. **Create the mock API** using `create_mock_api` with an appropriate name derived from the API being mocked.
+
+   If you were given the ID of an existing blank mock API to build into — for example a member of an environment created by the `build-environment` skill — use that mock API and do not create another one.
 
 2. **Create `.wiremock/wiremock.yaml`** inside the project folder with the mock API's ID as `cloud_id` (see Project Folder Layout above).
 
