@@ -89,6 +89,10 @@ mkdir -p .github/workflows
 
 Create `.github/workflows/deploy-staging.yml`:
 
+> **Note:** This workflow is static documentation for you to copy into your own repository. It runs in GitHub
+> Actions, which supplies the secrets it references (such as `WIREMOCK_API_TOKEN`) directly to the WireMock CLI.
+> The WireMock Cloud plugin never executes this workflow and never reads or forwards the token.
+
 ```yaml theme={null}
 name: Deploy to Staging
 

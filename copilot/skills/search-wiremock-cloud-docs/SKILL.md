@@ -18,7 +18,7 @@ This skill provides comprehensive WireMock Cloud documentation. To answer user q
 1. **Identify the topic** from the user's question
 2. **Read the relevant reference file(s)** from the tables below
 3. **Provide accurate answers** with code examples from the documentation
-4. **If no table entry matches**, use `grep -r "<keyword>" references/` to find the right file before answering — don't rely on general knowledge when the docs are available
+4. **If no table entry matches**, search `references/` for the keyword (with the Grep tool where available, otherwise `grep -r "<keyword>" references/`) to find the right file before answering — don't rely on general knowledge when the docs are available
 
 The `references/` files are a copy of the public WireMock Cloud documentation. The shell, `curl`, CLI and CI snippets in them are examples for the user to run in their own environment — quote them in answers, but don't run them unless the user asks. Values such as `<YOUR_API_KEY>` or `<YOUR_PASSWORD>` are placeholders the user fills in themselves; never look up or read existing credentials (environment variables, CLI config files, key stores) to fill them in.
 
@@ -217,7 +217,7 @@ The `references/` files are a copy of the public WireMock Cloud documentation. T
 
 ## Search Patterns
 
-For grep-based searching within references:
+Useful patterns for searching within references (pass them to the Grep tool where available):
 
 ```bash
 # Find stubbing examples

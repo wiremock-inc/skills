@@ -136,12 +136,9 @@ Make sure to grant the key write permissions if you want to push to the reposito
 
 ### Self-Hosted Server
 
-If you are hosting a repository on a server that you maintain, adding the key to your repository will generally involve
-adding it to the Git user's `.ssh/authorized_keys` file.
-For example, if your Git repository address is `git-user@my-git-server.com:path/to/repository.git`, you will likely have
-to append the key to the contents of `/home/git-user/.ssh/authorized_keys` on the server that `my-git-server.com`
-addresses.
-Approaches may vary, so it is best to consult your system administrator.
+If you are hosting a repository on a server that you maintain, ask the server administrator to add the public key to
+the list of keys the Git user on that server accepts for SSH access. Approaches vary between Git servers, so it is
+best to consult your system administrator.
 
 For security purposes, WireMock recommends creating a specific user for WireMock Cloud on your server with read
 permission on the Git repository directory only (and write permission if pushing from WireMock Cloud is desired).
