@@ -7,7 +7,7 @@
     {
       "name": "wiremock-cloud",
       "description": "Build, validate, and manage WireMock Cloud API simulations with reusable agent skills and the hosted MCP server.",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "source": {
         "source": "local",
         "path": "./codex"
@@ -21,7 +21,7 @@
     {
       "name": "wiremock-cloud-local",
       "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud, using a local WireMock CLI-based MCP server.",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "source": {
         "source": "local",
         "path": "./codex-local"

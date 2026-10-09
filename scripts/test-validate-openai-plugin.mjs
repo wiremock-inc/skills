@@ -59,7 +59,7 @@ function fillOwnerInputs(dir) {
 const CASES = [
   { name: 'built package passes', expect: 'pass' },
   { name: 'all owner inputs present passes --release', release: true, expect: 'pass', setup: fillOwnerInputs },
-  { name: 'missing owner inputs block --release', release: true, expect: 'blocked on owner inputs' },
+  { name: 'missing owner inputs block --release', release: true, expect: 'blocked on owner inputs', setup: d => editOpenAI(d, o => { o.review.test_cases = { positive: [], negative: [] }; }) },
   { name: 'non-WireMock / non-https listing URL', expect: 'public https WireMock URL', setup: d => editOpenAI(d, o => { o.interface.supportURL = 'http://example.com/help'; }) },
   { name: 'placeholder in manifest', expect: 'unresolved placeholder', setup: d => editOpenAI(d, o => { o.publication.release_notes = 'OWNER_INPUT_RELEASE_NOTES'; }) },
   { name: 'field limit', expect: 'max 30', setup: d => editOpenAI(d, o => { o.interface.shortDescription = 'x'.repeat(31); }) },
