@@ -1,6 +1,6 @@
 ---
 name: build-environment
-description: Set up mock APIs for all of a project's API dependencies at once, using existing API templates wherever one fits and building a simulation only where none does. Use when the user wants to build, create or set up a mock, test or local environment for a project, app or service in WireMock Cloud or locally.
+description: Set up mock APIs for all of a project's API dependencies at once, using existing API templates wherever one fits and building a simulation only where none does, then run the project's integration tests against them and fix the mocks until they pass. Use when the user wants to build, create or set up a mock, test or local environment for a project, app or service in WireMock Cloud or locally.
 user-invocable: true
 argument-hint: "[cloud|local]"
 allowed-tools:
@@ -15,6 +15,17 @@ allowed-tools:
   - "{{WIREMOCK_TOOL_PREFIX}}get_environment"
   - "{{WIREMOCK_TOOL_PREFIX}}list_environments"
   - "{{WIREMOCK_TOOL_PREFIX}}delete_environment"
+  - "{{WIREMOCK_TOOL_PREFIX}}search_stub_mappings"
+  - "{{WIREMOCK_TOOL_PREFIX}}import_stubs_to_mock_api"
+  - "{{WIREMOCK_TOOL_PREFIX}}update_stub_mapping"
+  - "{{WIREMOCK_TOOL_PREFIX}}search_request_journal"
+  - "{{WIREMOCK_TOOL_PREFIX}}reset_request_journal"
+  - "{{WIREMOCK_TOOL_PREFIX}}reset_state"
+  - "{{WIREMOCK_TOOL_PREFIX}}get_mock_api_settings"
+  - "{{WIREMOCK_TOOL_PREFIX}}update_mock_api_settings"
+  - "{{WIREMOCK_TOOL_PREFIX}}list_data_sources"
+  - "{{WIREMOCK_TOOL_PREFIX}}get_data_source_data"
+  - "{{WIREMOCK_TOOL_PREFIX}}update_data_source_data"
 ---
 
 ## Prerequisites
@@ -25,7 +36,7 @@ Setting mock APIs up **locally** also requires the WireMock CLI (`wiremock`). Th
 
 ## What this skill does
 
-It gives a project a working set of mock APIs — one for each external or in-house API the project calls — and tells the user where to point the project at them. API templates are used wherever one exists, because a template is faster and more complete than a simulation built from scratch.
+It gives a project a working set of mock APIs — one for each external or in-house API the project calls — and tells the user where to point the project at them. It then runs the project's own integration tests against the mock APIs and adjusts the mocks until the tests pass. API templates are used wherever one exists, because a template is faster and more complete than a simulation built from scratch.
 
 In WireMock Cloud the mock APIs are always created together as an **environment**: a named set of mock APIs that is created with one call and later deleted with one call. Every mock API this skill creates is a member of it, whether it comes from a template or is built as a simulation, and however many there are. This skill never creates a standalone mock API in WireMock Cloud, and never offers to. Each member of an environment becomes a mock API named `<member name> [<environment name>]`.
 
@@ -134,7 +145,49 @@ In WireMock Cloud, the mock API for each simulation already exists as a blank me
 
 If the user decides against a simulation at this point, its blank member stays in the environment. Say so in the report.
 
-## Step 7: Report
+## Step 7: Run the project's tests against the mock APIs
+
+Look in the project for tests that exercise it together with the APIs it calls:
+
+- integration, end-to-end, contract or API test suites, and the scripts, build tasks or CI steps that run them;
+- equivalents that are not code, such as Postman collections (run with `newman`), Bruno or Insomnia collections, `.http` request files, and k6 or similar scripts.
+
+Leave out unit tests that replace the APIs with in-process fakes: they never call the mock APIs, so they show nothing here.
+
+If you find none, say so in the report and go on to Step 8. If it is not clear which tests are meant to run this way, or how to run them, ask the user.
+
+### Point the tests at the mock APIs
+
+The tests have to call the mock APIs and not the real ones. Do this for the test run only, without changing files in the project where you can: set environment variables, pass options on the command line, or use a Postman environment file kept outside the project. If the only way is to change a file in the project, ask the user first.
+
+Before running, check that nothing still points at a real API. Do not run tests that would write to a real, live service.
+
+For a local setup, start the mock APIs with `wiremock run` in the background first, and stop them when you have finished.
+
+### Run them and fix the mocks
+
+Run the tests. For each failure, work out whether the cause is the mock APIs or something else. In WireMock Cloud, call `search_request_journal` on the mock API concerned to see the requests it received and which of them matched no stub. Call `reset_request_journal` before a run to keep the results easy to read.
+
+When a failure is caused by a mock API — a stub is missing or does not match the request, a response lacks a field or holds data the test does not expect, state is not carried from one request to the next, or a setting such as request validation rejects a valid request — change the mock API so that the test passes:
+
+- in WireMock Cloud, add or correct stubs with `import_stubs_to_mock_api` and `update_stub_mapping`, correct data with `update_data_source_data`, and correct settings with `update_mock_api_settings`. Follow the [Stub Creation Guidelines](../references/stub-creation.md) and [Validating and Fixing Stubs](../references/validating-and-fixing.md);
+- locally, edit the files of the service under `.wiremock/`, then restart `wiremock run`.
+
+Make the mock API behave as the real API does, as far as you can tell from its documentation and from what the test expects. Do not add a stub that answers anything at all just to turn a test green. Change only what the failing test needs, and leave stubs that other tests rely on working.
+
+Run the tests again after each round of changes, and repeat until they pass or you stop making progress. Stop and tell the user if the same failures remain after a few rounds.
+
+### Do not change the tests
+
+Do not modify the tests, their fixtures or their expected results, and do not skip or disable a test, to make the run pass. The same goes for the project's own code.
+
+If you believe a test cannot pass without being changed — for example it depends on something only the real API can do, it asserts on a value fixed in the real service's data, or it looks wrong in itself — stop and discuss it with the user. Explain what the test expects, why the mock APIs cannot meet it, and what change you would propose. Change it only if the user agrees.
+
+A failure that has nothing to do with the mock APIs, such as a test that also fails against the real services or a missing database, is not yours to fix here. Report it.
+
+## Step 8: Report
+
+If tests were run in Step 7, start with the result: which tests were run and how, how many passed and failed, every change made to a mock API and why, and any failure that remains with its cause.
 
 Tell the user, for each dependency:
 
