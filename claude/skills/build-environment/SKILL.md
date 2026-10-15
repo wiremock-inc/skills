@@ -145,6 +145,8 @@ For each dependency in the plan that has no template, build a simulation using t
 
 In WireMock Cloud, the mock API for each simulation already exists as a blank member of the environment. Tell `build-api-simulation` to build into that mock API, giving it the member's mock API ID, so that it does not create another one. Never create a standalone mock API for a simulation.
 
+Ask the user everything `build-api-simulation` would ask if they had run it directly, for each simulation: whether the API already exists, and then the project folder, sandbox, authenticators, info locations, statefulness and other directives, or the description of the API, as that skill sets out. Do not skip a question, answer it yourself, or assume a default because the skill is being run from here. The only things carried over are the ones this skill has already settled: the name of the API, that no template is to be used, and the mock API to build into.
+
 If the user decides against a simulation at this point, its blank member stays in the environment. Say so in the report.
 
 ## Step 7: Run the project's tests against the mock APIs
