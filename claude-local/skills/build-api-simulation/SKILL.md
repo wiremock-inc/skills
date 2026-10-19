@@ -135,30 +135,18 @@ Do not ask about a sandbox, authenticators, or info locations in this case — t
 
 ## Project Folder Layout
 
-All generated files must follow the WireMock Runner layout inside the chosen project folder:
+All generated files go in a `.wiremock/` folder inside the chosen project folder:
 
 ```
 <project-folder>/
 └── .wiremock/
-    ├── wiremock.yaml              # Runner config with cloud_id
     └── <service-name>/            # Lower-kebab-case, derived from the API name
         ├── stub-mappings.yaml     # All stub mappings (can be JSON format)
         ├── openapi.yaml           # OpenAPI description
         └── arazzo.yaml            # Arazzo test workflows (when generated)
 ```
 
-Create the `.wiremock/wiremock.yaml` file early (in Step 5 after creating the mock API) with this structure:
-
-```yaml
-services:
-  <service-name>:
-    type: REST
-    name: "<Human-readable API name>"
-    port: 8080
-    cloud_id: <mock-api-id>
-```
-
-Update `cloud_id` with the actual mock API ID once it has been created. All subsequent file paths in the skill (OpenAPI, Arazzo, stubs) refer to this layout.
+Do not create a `.wiremock/wiremock.yaml` file. The mock API lives in WireMock Cloud and is identified by its ID, which is given in the report at the end. All subsequent file paths in the skill (OpenAPI, Arazzo, stubs) refer to this layout.
 
 ## Step 3: Find or Generate the OpenAPI Description
 
@@ -203,9 +191,7 @@ Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so 
 
    If you were given the ID of an existing blank mock API to build into — for example a member of an environment created by the `build-environment` skill — use that mock API and do not create another one.
 
-2. **Create `.wiremock/wiremock.yaml`** inside the project folder with the mock API's ID as `cloud_id` (see Project Folder Layout above).
-
-3. **Disable OpenAPI generation in both directions** using `update_mock_api_settings` with `settingsType: "openapi"`. This must be done BEFORE uploading the OpenAPI spec or importing any stubs:
+2. **Disable OpenAPI generation in both directions** using `update_mock_api_settings` with `settingsType: "openapi"`. This must be done BEFORE uploading the OpenAPI spec or importing any stubs:
    - Set `generateStubsFromOpenApi: false` (automatic stub generation from the OpenAPI spec is enabled by default on new mock APIs).
    - Set `generateOpenApiFromStubs: false` (automatic OpenAPI generation from stubs).
    - Set `validationMode: "hard"` to enable hard request validation against the OpenAPI schema.
@@ -305,7 +291,7 @@ Do **not** proceed to Completion until all three criteria pass.
 ## Completion
 
 When all steps and the acceptance check are complete, report to the user:
-- The mock API name and its base URL
+- The mock API name, its ID and its base URL
 - A summary of what was created (number of endpoints, workflows, stubs)
 - Whether stateful mode was enabled
 - The project folder path and its `.wiremock/` layout

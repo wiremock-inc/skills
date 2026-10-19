@@ -55,7 +55,11 @@ The project folder path is: **$ARGUMENTS**
 If `$ARGUMENTS` is empty, ask the user for the path to the project folder.
 
 1. Verify the project folder exists and contains a `.wiremock/` directory. If it does not, stop and inform the user.
-2. Read `.wiremock/wiremock.yaml` to identify the service name and `cloud_id`.
+2. Identify the service name and the mock API's ID. `build-api-simulation` does not create a `.wiremock/wiremock.yaml` file, so:
+   - the service name is the name of the folder under `.wiremock/` that holds the simulation's files. If there is more than one, ask the user which to review;
+   - ask the user for the mock API's ID, or find it with `search_my_mock_apis` by the API's name and confirm it with the user.
+
+   If the project does have a `.wiremock/wiremock.yaml` file, from an older simulation or one the user created, read the service name and its `cloud_id` from it instead.
 3. Locate the Arazzo file at `.wiremock/<service-name>/arazzo.yaml`. If it does not exist, stop and inform the user.
 4. Locate the OpenAPI file at `.wiremock/<service-name>/openapi.yaml`.
 
@@ -67,9 +71,9 @@ Use `AskUserQuestion` to collect any additional configuration:
 
 ## Step 3: Access the Cloud Mock API
 
-1. Attempt to access the mock API in WireMock Cloud using the `cloud_id` from `wiremock.yaml` via `search_my_mock_apis`.
+1. Attempt to access the mock API in WireMock Cloud using the ID found in Step 1 via `search_my_mock_apis`.
 2. **If the mock API is accessible**, use it for the remainder of the review.
-3. **If the mock API cannot be accessed** (e.g. it belongs to another user or has been deleted), create a temporary copy using the WireMock CLI's profiles feature:
+3. **If the mock API cannot be accessed** (e.g. it belongs to another user or has been deleted) and the project has no `.wiremock/wiremock.yaml`, stop and tell the user: there is nothing to copy it from. If the project has a `.wiremock/wiremock.yaml`, create a temporary copy using the WireMock CLI's profiles feature:
    ```
    wiremock environments create -p verify
    ```
