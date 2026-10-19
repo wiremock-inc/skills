@@ -44,6 +44,8 @@ npx @wiremock/arazzo-runner@1.4.0 run <arazzo-path> -b <source-name>=<base-url> 
 - Always pass `--no-interactive` so the run never blocks waiting for input.
 - Always pass `-r <report-path>` (e.g. `.wiremock/<service-name>/arazzo-report.yaml`) and read that report afterwards to check for step failures or response validation errors.
 
+The runner sends every parameter that has a `default` in the OpenAPI description, with its default value, even when the step does not set it. For example, a `pageSize` query parameter with `default: 10` is sent as `pageSize=10`. A real client may leave the same parameter out. See [8B.1](#8b1-generate-stubs) for how stubs handle this.
+
 ## Exploring the OpenAPI Document
 
 Whenever you need to understand the API's shape — its title/version/servers, overall size, which tags exist, or which endpoints belong to a tag — use the bundled script instead of writing ad-hoc analysis code:
@@ -220,6 +222,8 @@ If the user asked for a stateful mock API, the stubs are made stateful **before*
 
 Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.md) to set up authentication, record stubs via the Arazzo workflows, and verify them against the mock API.
 
+Recorded stubs match the parameter values the runner sent, including defaults it sent explicitly. Once recording has stopped, change those matchers to accept the parameter left out too, as described in [8B.1](#8b1-generate-stubs).
+
 If the user asked for a stateful mock API, stop after recording and skip the reference's "Verify Against the Mock API" section: recorded stubs are static, so go on to [Step 9](#step-9-stateful-conversion), which converts them and then verifies them.
 
 ---
@@ -233,6 +237,19 @@ Read the [Stub Creation Guidelines](../references/stub-creation.md) before proce
 Generate stubs covering ALL operations in the OpenAPI spec and save them to `.wiremock/<service-name>/stub-mappings.yaml` (root key `mappings`).
 
 If the user asked for a stateful mock API, generate stateful stubs directly instead of static ones. Read [Stateful Stubbing](../references/stateful-stubbing.md) first, and use its "Converting stubs by HTTP method" section as the pattern for each operation's stubs. Do not generate a static set to convert later, and skip Step 9.
+
+For every parameter with a `default` in the OpenAPI description, the stubs must accept both the default value sent explicitly and the parameter left out, since the Arazzo runner always sends defaults (see [Running Arazzo Workflows](#running-arazzo-workflows)) and other clients may not. Don't match such a parameter at all unless the response depends on its value. Where it does, match the default value and absence together:
+
+```json
+"queryParameters": {
+  "pageSize": {
+    "or": [
+      { "equalTo": "10" },
+      { "absent": true }
+    ]
+  }
+}
+```
 
 Cross-reference every response body against its schema's `required` fields. Ensure ALL required fields are present in the response. Fields that aren't typically sent by the client but are required in the response (e.g. `currency` on a refund) must be included with sensible defaults.
 
