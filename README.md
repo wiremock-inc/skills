@@ -6,7 +6,7 @@ This repository contains a collection of [agent skills](https://agentskills.io/h
 
 | Skill | Description |
 |-------|-------------|
-| `/build-api-simulation` | Generate a complete mock API for any REST API — OpenAPI spec, Arazzo test workflows, and WireMock stubs, optionally recorded from a live sandbox |
+| `/build-api-simulation` | Generate a complete mock API for any REST, SOAP, GraphQL or gRPC API — for REST an OpenAPI spec, Arazzo test workflows, and WireMock stubs, optionally recorded from a live sandbox |
 | `/build-environment` | Set up mock APIs for all of a project's API dependencies at once, using existing API templates wherever one fits |
 | Create Stubs | Create and import WireMock stubs for a mock API |
 | Convert to Stateful | Convert existing stubs to be stateful using the key-value state store |

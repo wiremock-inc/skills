@@ -1,6 +1,6 @@
 ---
 name: build-api-simulation
-description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
+description: Generate a complete mock API in WireMock Cloud for any REST, SOAP, GraphQL or gRPC API. For REST it creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox; for the others it works from the WSDL, GraphQL schema or proto files with a test script. Use when the user wants to create, mock, or simulate an API in WireMock Cloud.
 user-invocable: true
 argument-hint: "<api-name>"
 ---
@@ -27,6 +27,7 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 - [Response Template Authoring](../references/response-templating.md) - guidelines for Handlebars response templates, brace collision avoidance, and pagination metadata
 - [Recording from a Sandbox](../references/recording-from-sandbox.md) - recording stubs from a live sandbox environment
 - [Transferring Files To and From a Mock API](../references/file-transfer.md) - the upload/download flow used by `push` and `pull`
+- [Simulating SOAP, GraphQL, gRPC and Other HTTP APIs](../references/simulating-non-rest-apis.md) - the process followed instead of Steps 3 to 9 for an API that is not REST
 
 These references supersede the `look_up_documentation` MCP tool - do not call `look_up_documentation`.
 
@@ -82,7 +83,11 @@ Before anything else, check whether a ready-made API template already covers thi
 
 Only skip asking if the name unambiguously denotes a well-known public API with real, findable documentation (e.g. "Stripe", "GitHub", "Twilio") — proceed on that basis without asking. For everything else, ask the user directly whether an API by this name already exists, even if the name sounds plausible or internal (e.g. "internal invoicing service", "orders-api") — it may be an existing internal microservice within the user's own systems rather than something to invent, and that isn't something to guess at from the name alone.
 
-This determines how Step 2 and Step 3 proceed:
+### Determine the API's kind
+
+Establish whether the API is **REST**, **SOAP**, **GraphQL**, **gRPC**, or **other HTTP** (anything that fits none of these). If the caller has already said, as `build-environment` does, or you were given a blank mock API to build into, use its kind (a blank `unstructured` mock API is SOAP or other HTTP). Otherwise work it out from the API's documentation or the user's description, and ask the user if it is not clear.
+
+Whether the API exists determines how Step 2 and Step 3 proceed:
 - **API exists** — Step 2 gathers sandbox/spec-location inputs, and Step 3 searches for real documentation or a real spec.
 - **API does not exist** — Step 2 gathers a description of the API instead, and Step 3 generates the OpenAPI description directly from that description. No attempt is made to locate documentation or specs, and no recording from a sandbox happens at any later step — the description is the sole source of truth.
 
@@ -95,7 +100,7 @@ Use `AskUserQuestion` to collect the remaining configuration.
 1. **Project folder**: Where should the project files be placed? Default: `./<api-name-in-lower-kebab-case>` (e.g. `./stripe-payments`).
 2. **Sandbox**: Is a sandbox/test environment available for this API? If yes, what is its base URL?
 3. **Authenticators**: Paths to any existing authenticator files enabling authentication against the sandbox from the previous step.
-4. **Info locations**: URLs or file paths for any existing OpenAPI/Swagger specs, API documentation pages, or other reference material about the API.
+4. **Info locations**: URLs or file paths for any existing OpenAPI/Swagger specs (or, for other kinds of API, WSDL, GraphQL schema or `.proto` files), API documentation pages, or other reference material about the API.
 5. **Stateful**: Should the mock API be stateful (maintaining state across requests so that e.g. a created resource can be subsequently retrieved)?
 6. **Other directives**: Any other guidance e.g. only include specific endpoints within the API, create stubs for specific data scenarios.
 
@@ -107,6 +112,10 @@ Use `AskUserQuestion` to collect the remaining configuration.
 4. **Other directives**: Any other guidance e.g. specific data scenarios to cover.
 
 Do not ask about a sandbox, authenticators, or info locations in this case — there is no real API to find documentation for or record from.
+
+## APIs That Are Not REST
+
+Steps 3 to 9 and the Final Acceptance Check below apply to REST APIs only: they rely on an OpenAPI description, Arazzo workflows and OpenAPI request validation, none of which describes a SOAP, GraphQL, gRPC or other HTTP API. For any of those, follow [Simulating SOAP, GraphQL, gRPC and Other HTTP APIs](../references/simulating-non-rest-apis.md) instead, using the answers gathered in Step 2, then report as described in [Completion](#completion).
 
 ## Project Folder Layout
 
@@ -120,6 +129,8 @@ All generated files go in a `.wiremock/` folder inside the chosen project folder
         ├── openapi.yaml           # OpenAPI description
         └── arazzo.yaml            # Arazzo test workflows (when generated)
 ```
+
+For an API that is not REST, the folder holds the files described in [Simulating SOAP, GraphQL, gRPC and Other HTTP APIs](../references/simulating-non-rest-apis.md) instead of `openapi.yaml` and `arazzo.yaml`.
 
 Do not create a `.wiremock/wiremock.yaml` file. The mock API lives in WireMock Cloud and is identified by its ID, which is given in the report at the end. All subsequent file paths in the skill (OpenAPI, Arazzo, stubs) refer to this layout.
 
@@ -162,7 +173,7 @@ Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so 
 
 ## Step 5: Create and Configure the Mock API
 
-1. **Create the mock API** using `create_mock_api` with an appropriate name derived from the API being mocked.
+1. **Create the mock API** using `create_mock_api` with `type: "openapi"` and an appropriate name derived from the API being mocked.
 
    If you were given the ID of an existing blank mock API to build into — for example a member of an environment created by the `build-environment` skill — use that mock API and do not create another one.
 
@@ -267,7 +278,8 @@ Do **not** proceed to Completion until all three criteria pass.
 
 When all steps and the acceptance check are complete, report to the user:
 - The mock API name, its ID and its base URL
-- A summary of what was created (number of endpoints, workflows, stubs)
+- The API's kind (REST, SOAP, GraphQL, gRPC or other HTTP)
+- A summary of what was created (number of endpoints or operations, workflows or test functions, stubs)
 - Whether stateful mode was enabled
 - The project folder path and its `.wiremock/` layout
-- A link to the mock API's documentation portal
+- For a REST API, a link to the mock API's documentation portal
