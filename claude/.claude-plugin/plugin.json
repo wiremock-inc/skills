@@ -1,7 +1,7 @@
 {
   "name": "wiremock-cloud",
   "displayName": "WireMock Cloud",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A comprehensive set of skills for creating, configuring, and managing mock APIs in WireMock Cloud.",
   "author": {
     "name": "WireMock Inc",
