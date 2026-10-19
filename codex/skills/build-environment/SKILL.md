@@ -33,12 +33,13 @@ Inspect the project for APIs it calls over HTTP:
 
 - SDK and API client packages in the dependency manifest (`package.json`, `pom.xml`, `build.gradle*`, `requirements.txt`, `go.mod`, `Gemfile` and so on).
 - Base URLs and hostnames in configuration and environment files (`.env*`, `application*.yml`, `appsettings*.json`, Helm values and so on).
-- Generated API clients, and OpenAPI or protobuf files describing other services.
+- Generated API clients, and OpenAPI, WSDL, GraphQL schema or protobuf files describing other services.
 
 Produce a list. For each dependency record:
 
 - a name;
 - whether it is a third-party API or one of the user's own in-house services;
+- its kind: **REST**, **SOAP**, **GraphQL**, **gRPC**, or **other HTTP** for anything that fits none of these. Signs of the kind are a WSDL file or a SOAP client library (JAX-WS, Apache CXF, `zeep`, the `soap` npm package and so on) for SOAP; a GraphQL client (Apollo, `graphql-request`, `urql` and so on) or `.graphql` files for GraphQL; and `.proto` files or gRPC packages for gRPC;
 - where in the project its base URL is configured.
 
 Leave out things that are not HTTP APIs the project calls (databases, message brokers, the project's own API).
@@ -63,7 +64,7 @@ If the project signs users in with OAuth2 or OpenID Connect, also call `search_a
 
 ## Step 4: Present the plan and confirm
 
-Show the user a table with one row per dependency: the dependency, the matching template reference (or "none"), and what will happen (create from the template, or build a simulation).
+Show the user a table with one row per dependency: the dependency, its kind, the matching template reference (or "none"), and what will happen (create from the template, or build a simulation).
 
 If any dependency has no template, ask the user which of those should have a simulation built. Settle this now: the members of an environment cannot be changed after it has been created, so every mock API has to be part of it from the start. Leave a dependency the user does not want mocked out of the plan.
 
@@ -92,7 +93,17 @@ Always create one environment that holds every mock API in the plan. Do this whe
 - `name`: a name that identifies the project and its purpose, e.g. `<project>-dev`. It must be unique within the organisation.
 - `members`: one per dependency in the plan, each with a `name` (e.g. `stripe`) and:
   - for a dependency that has a template, `fromTemplate` set to the template's reference. Do not set `type` on a member that has `fromTemplate`;
-  - for a dependency that will have a simulation built, `type` set to `openapi`. This creates a blank mock API, which Step 6 fills in.
+  - for a dependency that will have a simulation built, `type` set according to its kind. This creates a blank mock API of that type, which Step 6 fills in:
+
+    | Kind | `type` |
+    |------|--------|
+    | REST | `openapi` |
+    | GraphQL | `graphql` |
+    | gRPC | `grpc` |
+    | SOAP | `unstructured` |
+    | Other HTTP | `unstructured` |
+
+    There is no SOAP type: a SOAP API is simulated as an unstructured mock API, with stubs that match the `SOAPAction` header and the XML request body.
 
 The call waits until every mock API has been created. From the result, note the environment ID and, for each member, its mock API ID and base URL. A member created from a template is fully populated; a member created with `type` is blank. Call `get_environment` with the environment ID if you need to read them again.
 
