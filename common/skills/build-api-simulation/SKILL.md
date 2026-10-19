@@ -225,6 +225,7 @@ Generate an Arazzo 1.0.1+ document covering the API's functionality. Use [Explor
 - Reference the final OpenAPI document (from Step 6) via `sourceDescriptions`, with the workflow base URL targeting the mock API.
 - Extract outputs from responses and pass them as inputs to subsequent steps (e.g., capture an ID from a create response and use it in subsequent get/update/delete steps).
 - Include `successCriteria` on every step to validate status codes and key response fields.
+- Write a check on a single response field as a simple condition using a JSON Pointer, e.g. `$response.body#/status == 'CONFIRMED'`. Use a `type: jsonpath` criterion (with `context: $response.body`) only where JSONPath is needed, such as finding an item in an array, and write it as a **filter expression**, e.g. `$.items[?(@.id == 'B-1001')]`, or `$[?(@.status == 'CONFIRMED')]` for a field at the top level. The runner passes a JSONPath criterion when the expression returns a non-empty result: a comparison written as `$.status == 'CONFIRMED'` is not valid JSONPath and always fails, and a plain path such as `$.status` only checks that the field is present.
 - Where a step involves fetching data that was created in a previous step, the `successCriteria` should include checks that
 specific items of data created were returned.
 - Use realistic example data in request bodies that is consistent with the OpenAPI schemas.
