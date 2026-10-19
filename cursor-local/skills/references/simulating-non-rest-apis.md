@@ -94,15 +94,25 @@ Run the script with `bash .wiremock/<service-name>/test-requests.sh <base-url>`.
 
 ## 4. Populate the mock API
 
+If the user asked for a stateful mock API, the stubs must be stateful before they are first verified,
+because a test script that creates, changes or deletes data cannot pass against static stubs.
+
 **If a sandbox is available** (SOAP, GraphQL and other HTTP), follow
 [Recording from a Sandbox](recording-from-sandbox.md), running the test script against the recorder
-(`http://localhost:<recorder-port>`) wherever it says to run the Arazzo workflows. Recording gRPC APIs
-is not covered here: generate their stubs instead.
+(`http://localhost:<recorder-port>`) wherever it says to run the Arazzo workflows, and skip its "Verify
+Against the Mock API" section: step 5 below does that. For a stateful mock API, convert the recorded
+stubs following [Stateful Stubbing](stateful-stubbing.md) first. Recording gRPC APIs is not covered
+here: generate their stubs instead.
 
 **Otherwise**, generate stubs covering every operation, following the
 [Stub Creation Guidelines](stub-creation.md) except where this section says otherwise, and save them to
 `.wiremock/<service-name>/stub-mappings.yaml` (root key `mappings`). Import them with `push`
-(`type: "stub_mappings"`), as the REST flow does.
+(`type: "stub_mappings"`), as the REST flow does. If the user asked for a stateful mock API, generate
+stateful stubs directly, following [Stateful Stubbing](stateful-stubbing.md), rather than static ones
+to convert later.
+
+In stateful stubs, read values from XML request bodies with the `xPath` helper and from JSON ones
+with `jsonPath`.
 
 ### SOAP stubs
 
@@ -179,10 +189,6 @@ documents.
    errors.
 4. If anything fails, fix **stubs only**. Do not change the test script or the describing document.
 5. Repeat until the script passes and the journal is clean.
-
-If the user asked for a stateful mock API, follow [Stateful Stubbing](stateful-stubbing.md) as for
-REST. Read values from XML request bodies with the `xPath` helper and from JSON ones with
-`jsonPath`.
 
 ## 6. Final acceptance check
 

@@ -236,11 +236,15 @@ Sanity-check the saved file by running `python3 ${CLAUDE_SKILL_DIR}/scripts/vali
 
 If the API does not exist (per Step 1), always follow **Path B** — there is no real sandbox to record from. Otherwise follow **Path A** if a sandbox is available, or **Path B** if not.
 
+If the user asked for a stateful mock API, the stubs are made stateful **before** they are first verified against the Arazzo workflows. Workflows that create, change or delete resources depend on state — for example a resource that is gone after it has been deleted, or that a different user cannot see — so a static stub set can never pass them, and fixing static stubs to pass them is wasted work.
+
 ---
 
 ### Path A: Sandbox Available
 
 Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.md) to set up authentication, record stubs via the Arazzo workflows, and verify them against the mock API.
+
+If the user asked for a stateful mock API, stop after recording and skip the reference's "Verify Against the Mock API" section: recorded stubs are static, so go on to [Step 9](#step-9-stateful-conversion), which converts them and then verifies them.
 
 ---
 
@@ -251,6 +255,8 @@ Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.
 Read the [Stub Creation Guidelines](../references/stub-creation.md) before proceeding.
 
 Generate stubs covering ALL operations in the OpenAPI spec and save them to `.wiremock/<service-name>/stub-mappings.yaml` (root key `mappings`).
+
+If the user asked for a stateful mock API, generate stateful stubs directly instead of static ones. Read [Stateful Stubbing](../references/stateful-stubbing.md) first, and use its "Converting stubs by HTTP method" section as the pattern for each operation's stubs. Do not generate a static set to convert later, and skip Step 9.
 
 Cross-reference every response body against its schema's `required` fields. Ensure ALL required fields are present in the response. Fields that aren't typically sent by the client but are required in the response (e.g. `currency` on a refund) must be included with sensible defaults.
 
@@ -269,7 +275,7 @@ Import the stubs using `push` (`type: "stub_mappings"`) as described in [Transfe
 
 ## Step 9: Stateful Conversion
 
-**Only perform this step if the user requested stateful mode.**
+**Only perform this step if the user requested stateful mode and the stubs were recorded from a sandbox (Path A).** Stubs generated in Path B are already stateful.
 
 Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `search_stub_mappings` and convert them following the patterns in the reference.
 
