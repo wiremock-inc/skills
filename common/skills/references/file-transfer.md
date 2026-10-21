@@ -2,8 +2,8 @@
 
 # @variant:remote
 The WireMock Cloud MCP server is remote — it cannot read or write files on your machine directly.
-Whenever a whole document (an OpenAPI description, a stub mappings JSON file, a GraphQL schema, or
-a gRPC descriptor) needs to move between a local file and a mock API, it goes through a signed
+Whenever a whole document (an OpenAPI description, a stub mappings JSON file, or a GraphQL schema)
+needs to move between a local file and a mock API, it goes through a signed
 upload/download URL instead of a file path. This requires running a `curl` command via `Bash` as
 part of the flow.
 
@@ -13,8 +13,9 @@ part of the flow.
    `application/octet-stream`) and, if known, `totalSizeBytes`.
 2. The tool returns an `uploadId` and one or more `curl` commands. Run the returned command(s)
    via `Bash` exactly as given to upload the local file's bytes.
-3. Call `push` with `type` (one of `stub_mappings`, `openapi_description`, `graphql_schema`,
-   `grpc_descriptor`), `mockApiId`, and the `uploadId` from step 1.
+3. Call `push` with `type` (one of `stub_mappings`, `openapi_description`, `graphql_schema`),
+   `mockApiId`, and the `uploadId` from step 1. The remote server cannot push or pull a gRPC
+   descriptor set.
 
 ## Pulling a mock API's data to a local file
 

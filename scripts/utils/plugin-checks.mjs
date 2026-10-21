@@ -16,7 +16,7 @@ export const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..'
 export const PACKAGE = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 
 const ENDPOINT = 'https://mcp.wiremock.cloud/mcp';
-const EXPECTED_SKILLS = 8;
+const EXPECTED_SKILLS = 9;
 // skills/references holds reference docs shared by several skills; it isn't a skill itself.
 const NON_SKILL_DIRS = new Set(['references']);
 

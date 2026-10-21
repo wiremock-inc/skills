@@ -1,8 +1,8 @@
 # Build API Simulation - Claude Code Skill
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that generates complete API simulations in [WireMock Cloud](https://www.wiremock.io/) for any REST API.
+A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that generates complete API simulations in [WireMock Cloud](https://www.wiremock.io/) for any REST, SOAP, GraphQL or gRPC API.
 
-Given an API name and optional sandbox URL, the skill will:
+Given an API name and optional sandbox URL, for a REST API the skill will:
 
 1. Find or generate an OpenAPI description for the API
 2. Generate Arazzo test workflows covering the API's functionality
@@ -10,6 +10,8 @@ Given an API name and optional sandbox URL, the skill will:
 4. Populate the mock with stubs — either recorded from a live sandbox or generated from the OpenAPI spec
 5. Verify the mock by running the Arazzo workflows against it and fixing issues iteratively
 6. Optionally convert the mock to be stateful, so that created resources can be subsequently retrieved, updated, and deleted
+
+For a SOAP, GraphQL, gRPC or other HTTP API, it works from the WSDL, GraphQL schema or `.proto` files instead of an OpenAPI description, and verifies the mock with a test script (using `curl` or `grpcurl`) instead of Arazzo workflows. SOAP APIs are simulated as unstructured mock APIs.
 
 ## Prerequisites
 

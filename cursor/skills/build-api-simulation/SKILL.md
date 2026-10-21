@@ -1,6 +1,6 @@
 ---
 name: build-api-simulation
-description: Generate a complete mock API in WireMock Cloud for any REST API. Creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox. Use when the user wants to create, mock, or simulate a REST API in WireMock Cloud.
+description: Generate a complete mock API in WireMock Cloud for any REST, SOAP, GraphQL or gRPC API. For REST it creates an OpenAPI description, Arazzo test workflows, and WireMock stubs - optionally recorded from a live sandbox; for the others it works from the WSDL, GraphQL schema or proto files with a test script. Use when the user wants to create, mock, or simulate an API in WireMock Cloud.
 user-invocable: true
 argument-hint: "<api-name>"
 ---
@@ -27,6 +27,7 @@ The following WireMock guidelines are bundled as reference files. Read the relev
 - [Response Template Authoring](../references/response-templating.md) - guidelines for Handlebars response templates, brace collision avoidance, and pagination metadata
 - [Recording from a Sandbox](../references/recording-from-sandbox.md) - recording stubs from a live sandbox environment
 - [Transferring Files To and From a Mock API](../references/file-transfer.md) - the upload/download flow used by `push` and `pull`
+- [Simulating SOAP, GraphQL, gRPC and Other HTTP APIs](../references/simulating-non-rest-apis.md) - the process followed instead of Steps 3 to 9 for an API that is not REST
 
 These references supersede the `look_up_documentation` MCP tool - do not call `look_up_documentation`.
 
@@ -42,6 +43,8 @@ npx @wiremock/arazzo-runner@1.4.0 run <arazzo-path> -b <source-name>=<base-url> 
 - Pass `-a` once per authenticator config file needed (omit if the API is unauthenticated).
 - Always pass `--no-interactive` so the run never blocks waiting for input.
 - Always pass `-r <report-path>` (e.g. `.wiremock/<service-name>/arazzo-report.yaml`) and read that report afterwards to check for step failures or response validation errors.
+
+The runner sends every parameter that has a `default` in the OpenAPI description, with its default value, even when the step does not set it. For example, a `pageSize` query parameter with `default: 10` is sent as `pageSize=10`. A real client may leave the same parameter out. See [8B.1](#8b1-generate-stubs) for how stubs handle this.
 
 ## Exploring the OpenAPI Document
 
@@ -65,9 +68,28 @@ The API name is: **$ARGUMENTS**
 
 If `$ARGUMENTS` is empty, ask the user for the API name first.
 
+### Check for an existing API template first
+
+Before anything else, check whether a ready-made API template already covers this API. A template is faster and more complete than building a simulation from scratch.
+
+1. Call `search_api_templates` with the API's provider or product name (e.g. "stripe", "plaid transactions"). The search covers the public catalogue and the user's own organisation's catalogue.
+2. If that returns nothing, call `search_api_templates` once more with no query and look through the full list — the API may be listed under a different name.
+3. **If a template matches**, tell the user which template it is (its reference, e.g. `public/stripe`, and what it covers) and use `AskUserQuestion` to offer it instead of a custom build. If they accept:
+   - **In WireMock Cloud:** call `create_mock_api` with `fromTemplate` set to the template's reference and a suitable `name`. The mock API is created fully populated.
+   - **Locally:** run `wiremock mock-apis pull --from-template=<reference>` in the project directory, then `wiremock run`.
+
+   Report the mock API's base URL and **stop** — do not continue to Step 2.
+
+   If you were given the ID of an existing blank mock API to build into, skip this check: the caller has already looked for a template.
+4. **If nothing matches, or the user wants a custom build anyway**, carry on below.
+
 Only skip asking if the name unambiguously denotes a well-known public API with real, findable documentation (e.g. "Stripe", "GitHub", "Twilio") — proceed on that basis without asking. For everything else, ask the user directly whether an API by this name already exists, even if the name sounds plausible or internal (e.g. "internal invoicing service", "orders-api") — it may be an existing internal microservice within the user's own systems rather than something to invent, and that isn't something to guess at from the name alone.
 
-This determines how Step 2 and Step 3 proceed:
+### Determine the API's kind
+
+Establish whether the API is **REST**, **SOAP**, **GraphQL**, **gRPC**, or **other HTTP** (anything that fits none of these). If the caller has already said, as `build-environment` does, or you were given a blank mock API to build into, use its kind (a blank `unstructured` mock API is SOAP or other HTTP). Otherwise work it out from the API's documentation or the user's description, and ask the user if it is not clear.
+
+Whether the API exists determines how Step 2 and Step 3 proceed:
 - **API exists** — Step 2 gathers sandbox/spec-location inputs, and Step 3 searches for real documentation or a real spec.
 - **API does not exist** — Step 2 gathers a description of the API instead, and Step 3 generates the OpenAPI description directly from that description. No attempt is made to locate documentation or specs, and no recording from a sandbox happens at any later step — the description is the sole source of truth.
 
@@ -80,7 +102,7 @@ Use `AskUserQuestion` to collect the remaining configuration.
 1. **Project folder**: Where should the project files be placed? Default: `./<api-name-in-lower-kebab-case>` (e.g. `./stripe-payments`).
 2. **Sandbox**: Is a sandbox/test environment available for this API? If yes, what is its base URL?
 3. **Authenticators**: Paths to any existing authenticator files enabling authentication against the sandbox from the previous step.
-4. **Info locations**: URLs or file paths for any existing OpenAPI/Swagger specs, API documentation pages, or other reference material about the API.
+4. **Info locations**: URLs or file paths for any existing OpenAPI/Swagger specs (or, for other kinds of API, WSDL, GraphQL schema or `.proto` files), API documentation pages, or other reference material about the API.
 5. **Stateful**: Should the mock API be stateful (maintaining state across requests so that e.g. a created resource can be subsequently retrieved)?
 6. **Other directives**: Any other guidance e.g. only include specific endpoints within the API, create stubs for specific data scenarios.
 
@@ -93,32 +115,26 @@ Use `AskUserQuestion` to collect the remaining configuration.
 
 Do not ask about a sandbox, authenticators, or info locations in this case — there is no real API to find documentation for or record from.
 
+## APIs That Are Not REST
+
+Steps 3 to 9 and the Final Acceptance Check below apply to REST APIs only: they rely on an OpenAPI description, Arazzo workflows and OpenAPI request validation, none of which describes a SOAP, GraphQL, gRPC or other HTTP API. For any of those, follow [Simulating SOAP, GraphQL, gRPC and Other HTTP APIs](../references/simulating-non-rest-apis.md) instead, using the answers gathered in Step 2, then report as described in [Completion](#completion).
+
 ## Project Folder Layout
 
-All generated files must follow the WireMock Runner layout inside the chosen project folder:
+All generated files go in a `.wiremock/` folder inside the chosen project folder:
 
 ```
 <project-folder>/
 └── .wiremock/
-    ├── wiremock.yaml              # Runner config with cloud_id
     └── <service-name>/            # Lower-kebab-case, derived from the API name
         ├── stub-mappings.yaml     # All stub mappings (can be JSON format)
         ├── openapi.yaml           # OpenAPI description
         └── arazzo.yaml            # Arazzo test workflows (when generated)
 ```
 
-Create the `.wiremock/wiremock.yaml` file early (in Step 5 after creating the mock API) with this structure:
+For an API that is not REST, the folder holds the files described in [Simulating SOAP, GraphQL, gRPC and Other HTTP APIs](../references/simulating-non-rest-apis.md) instead of `openapi.yaml` and `arazzo.yaml`.
 
-```yaml
-services:
-  <service-name>:
-    type: REST
-    name: "<Human-readable API name>"
-    port: 8080
-    cloud_id: <mock-api-id>
-```
-
-Update `cloud_id` with the actual mock API ID once it has been created. All subsequent file paths in the skill (OpenAPI, Arazzo, stubs) refer to this layout.
+Do not create a `.wiremock/wiremock.yaml` file. The mock API lives in WireMock Cloud and is identified by its ID, which is given in the report at the end. All subsequent file paths in the skill (OpenAPI, Arazzo, stubs) refer to this layout.
 
 ## Step 3: Find or Generate the OpenAPI Description
 
@@ -159,11 +175,11 @@ Pushing an OpenAPI/Swagger document to a mock API does **not** normalize it, so 
 
 ## Step 5: Create and Configure the Mock API
 
-1. **Create the mock API** using `create_mock_api` with an appropriate name derived from the API being mocked.
+1. **Create the mock API** using `create_mock_api` with `type: "openapi"` and an appropriate name derived from the API being mocked.
 
-2. **Create `.wiremock/wiremock.yaml`** inside the project folder with the mock API's ID as `cloud_id` (see Project Folder Layout above).
+   If you were given the ID of an existing blank mock API to build into — for example a member of an environment created by the `build-environment` skill — use that mock API and do not create another one.
 
-3. **Disable OpenAPI generation in both directions** using `update_mock_api_settings` with `settingsType: "openapi"`. This must be done BEFORE uploading the OpenAPI spec or importing any stubs:
+2. **Disable OpenAPI generation in both directions** using `update_mock_api_settings` with `settingsType: "openapi"`. This must be done BEFORE uploading the OpenAPI spec or importing any stubs:
    - Set `generateStubsFromOpenApi: false` (automatic stub generation from the OpenAPI spec is enabled by default on new mock APIs).
    - Set `generateOpenApiFromStubs: false` (automatic OpenAPI generation from stubs).
    - Set `validationMode: "hard"` to enable hard request validation against the OpenAPI schema.
@@ -185,6 +201,7 @@ Generate an Arazzo 1.0.1+ document covering the API's functionality. Use [Explor
 - Reference the final OpenAPI document (from Step 6) via `sourceDescriptions`, with the workflow base URL targeting the mock API.
 - Extract outputs from responses and pass them as inputs to subsequent steps (e.g., capture an ID from a create response and use it in subsequent get/update/delete steps).
 - Include `successCriteria` on every step to validate status codes and key response fields.
+- Write a check on a single response field as a simple condition using a JSON Pointer, e.g. `$response.body#/status == 'CONFIRMED'`. Use a `type: jsonpath` criterion (with `context: $response.body`) only where JSONPath is needed, such as finding an item in an array, and write it as a **filter expression**, e.g. `$.items[?(@.id == 'B-1001')]`, or `$[?(@.status == 'CONFIRMED')]` for a field at the top level. The runner passes a JSONPath criterion when the expression returns a non-empty result: a comparison written as `$.status == 'CONFIRMED'` is not valid JSONPath and always fails, and a plain path such as `$.status` only checks that the field is present.
 - Where a step involves fetching data that was created in a previous step, the `successCriteria` should include checks that
 specific items of data created were returned.
 - Use realistic example data in request bodies that is consistent with the OpenAPI schemas.
@@ -197,11 +214,17 @@ Sanity-check the saved file by running `python3 scripts/validate_arazzo.py <path
 
 If the API does not exist (per Step 1), always follow **Path B** — there is no real sandbox to record from. Otherwise follow **Path A** if a sandbox is available, or **Path B** if not.
 
+If the user asked for a stateful mock API, the stubs are made stateful **before** they are first verified against the Arazzo workflows. Workflows that create, change or delete resources depend on state — for example a resource that is gone after it has been deleted, or that a different user cannot see — so a static stub set can never pass them, and fixing static stubs to pass them is wasted work.
+
 ---
 
 ### Path A: Sandbox Available
 
 Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.md) to set up authentication, record stubs via the Arazzo workflows, and verify them against the mock API.
+
+Recorded stubs match the parameter values the runner sent, including defaults it sent explicitly. Once recording has stopped, change those matchers to accept the parameter left out too, as described in [8B.1](#8b1-generate-stubs).
+
+If the user asked for a stateful mock API, stop after recording and skip the reference's "Verify Against the Mock API" section: recorded stubs are static, so go on to [Step 9](#step-9-stateful-conversion), which converts them and then verifies them.
 
 ---
 
@@ -212,6 +235,21 @@ Read and follow [Recording from a Sandbox](../references/recording-from-sandbox.
 Read the [Stub Creation Guidelines](../references/stub-creation.md) before proceeding.
 
 Generate stubs covering ALL operations in the OpenAPI spec and save them to `.wiremock/<service-name>/stub-mappings.yaml` (root key `mappings`).
+
+If the user asked for a stateful mock API, generate stateful stubs directly instead of static ones. Read [Stateful Stubbing](../references/stateful-stubbing.md) first, and use its "Converting stubs by HTTP method" section as the pattern for each operation's stubs. Do not generate a static set to convert later, and skip Step 9.
+
+For every parameter with a `default` in the OpenAPI description, the stubs must accept both the default value sent explicitly and the parameter left out, since the Arazzo runner always sends defaults (see [Running Arazzo Workflows](#running-arazzo-workflows)) and other clients may not. Don't match such a parameter at all unless the response depends on its value. Where it does, match the default value and absence together:
+
+```json
+"queryParameters": {
+  "pageSize": {
+    "or": [
+      { "equalTo": "10" },
+      { "absent": true }
+    ]
+  }
+}
+```
 
 Cross-reference every response body against its schema's `required` fields. Ensure ALL required fields are present in the response. Fields that aren't typically sent by the client but are required in the response (e.g. `currency` on a refund) must be included with sensible defaults.
 
@@ -230,7 +268,7 @@ Import the stubs using `push` (`type: "stub_mappings"`) as described in [Transfe
 
 ## Step 9: Stateful Conversion
 
-**Only perform this step if the user requested stateful mode.**
+**Only perform this step if the user requested stateful mode and the stubs were recorded from a sandbox (Path A).** Stubs generated in Path B are already stateful.
 
 Read the [Stateful Stubbing](../references/stateful-stubbing.md) reference (including the "Converting stubs by HTTP method" section), then retrieve all stubs with `search_stub_mappings` and convert them following the patterns in the reference.
 
@@ -263,8 +301,9 @@ Do **not** proceed to Completion until all three criteria pass.
 ## Completion
 
 When all steps and the acceptance check are complete, report to the user:
-- The mock API name and its base URL
-- A summary of what was created (number of endpoints, workflows, stubs)
+- The mock API name, its ID and its base URL
+- The API's kind (REST, SOAP, GraphQL, gRPC or other HTTP)
+- A summary of what was created (number of endpoints or operations, workflows or test functions, stubs)
 - Whether stateful mode was enabled
 - The project folder path and its `.wiremock/` layout
-- A link to the mock API's documentation portal
+- For a REST API, a link to the mock API's documentation portal
